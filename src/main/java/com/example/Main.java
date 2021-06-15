@@ -26,6 +26,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -49,7 +52,9 @@ public class Main {
   }
 
   @RequestMapping("/")
-  String index() {
+  String index(Map<String, Object> model) {
+    String name = "Bobby";
+    model.put("name", name);
     return "index";
   }
 
