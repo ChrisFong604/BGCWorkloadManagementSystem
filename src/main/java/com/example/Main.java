@@ -53,10 +53,31 @@ public class Main {
 
   @RequestMapping("/")
   String index(Map<String, Object> model) {
-    String name = "Bobby";
-    model.put("name", name);
     return "index";
   }
+
+  //Change to PostMapping or whatever for login page later
+  @GetMapping("/login") 
+  String loginPageHandler () {
+    return "login";
+  }
+
+  @GetMapping("/employee") 
+  String returnEmployeeHomepage () {
+    return "employees/employee";
+  }
+
+  @GetMapping("/employee/metrics") 
+  String returnEmployeeMetrics () {
+    return "employees/employeemetrics";
+  }
+
+  @GetMapping("/employee/create") 
+  String returnEmployeeCreate () {
+    return "employees/employeecreate";
+  }
+  
+
 
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
