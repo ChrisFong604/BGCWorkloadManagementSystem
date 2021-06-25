@@ -58,6 +58,15 @@ public class Main {
     return "index";
   }
 
+  @GetMapping(path = "/person")
+  public String getPersonForm(Map<String, Object> model) {
+    Person person = new Person();
+    model.put("person", person);
+    return "person";
+  }
+
+  @PostMapping(path = "/person", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
