@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="google-signin-client_id" content="857298202446-ueki5o9kei1p78hbsumsb06n5l9rhcbc.apps.googleusercontent.com">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Login</title>
 </head>
 
@@ -23,6 +25,14 @@
             </div>
         </form>
     </section>
+    <span><div class="g-signin2"></div> <button onclick="signOut()">Sign out</button> </span>
+    <script>
+        function signOut() {
+            gapi.auth2.getAuthInstance().signOut().then(function() {
+            console.log('user signed out')
+            })
+        }
+    </script>
     
 </body>
 
