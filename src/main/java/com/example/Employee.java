@@ -1,16 +1,22 @@
 package com.example;
 
+import java.util.ArrayList;
+
 /***
- * A Bean class for the Employee database
+ * A Bean class for the Employee database and a method to determine work
+ * capacity ramp-up time for interns
  */
 
 public class Employee {
+
+    // PROPERTIES
     private String name;
-    private String role;
+    private String position;
     private Boolean status; // True -> confirmed, False -> projected
     private Integer capacity;
     private String startdate;
     private String enddate;
+
     /*
      * Name Role Working Capacity (time-based) Start date projected/hired full
      * time/part time/co-op Co-op end date
@@ -23,9 +29,9 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, String role, Boolean status, Integer capacity, String startdate, String enddate) {
+    public Employee(String name, String position, Boolean status, Integer capacity, String startdate, String enddate) {
         this.name = name;
-        this.role = role;
+        this.position = position;
         this.status = status;
         this.capacity = capacity;
         this.startdate = startdate;
@@ -36,8 +42,8 @@ public class Employee {
         this.name = name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public void setStatus(Boolean status) {
@@ -60,8 +66,8 @@ public class Employee {
         return this.name;
     }
 
-    public String getRole() {
-        return this.role;
+    public String getPosition() {
+        return this.position;
     }
 
     public Boolean getStatus() {
@@ -78,5 +84,15 @@ public class Employee {
 
     public String getEndDate() {
         return this.enddate;
+    }
+
+    // Non-bean methods
+    public ArrayList<String> rampPeriodHandler() throws Exception {
+        if (this.position != "intern") {
+            return null;
+        }
+        ArrayList<String> dates = new ArrayList<String>();
+
+        return dates;
     }
 }
