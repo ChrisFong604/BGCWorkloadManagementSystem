@@ -1,5 +1,3 @@
-<h1>This page will display the metrics of the employees (e.g headcount, work capacity, etc.)</h1>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,11 +17,16 @@
         let headcount = document.getElementById('headcount').getContext('2d');
 
         let myChart = new Chart(headcount, {
+            //type of line we want to create
             type: 'line',
+
+             //the data of our dataset
             data: {
                 labels: ["April", "May", "June", "July", "August", "September", "October", "November"],
                 datasets: [{
                     label: 'Headcount',
+                    backgroundColor:'orange',
+
                     data: [
                         0,
                         10,
@@ -32,10 +35,16 @@
                         40,
                         50,
                         60
-                    ]
+                    ],
+                    fill: false
                 }]
             },
-            options: {}
+            options: {
+                title: {
+                    display: true,
+                    text: 'Headcount View'
+                }
+            }
         });
 
 
