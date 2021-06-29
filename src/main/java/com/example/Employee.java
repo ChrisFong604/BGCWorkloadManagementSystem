@@ -6,7 +6,7 @@ package com.example;
 
 public class Employee {
     private String name;
-    private String role;
+    private String position;
     private Boolean status; // True -> confirmed, False -> projected
     private Integer capacity;
     private String startdate;
@@ -23,9 +23,9 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, String role, Boolean status, Integer capacity, String startdate, String enddate) {
+    public Employee(String name, String position, Boolean status, Integer capacity, String startdate, String enddate) {
         this.name = name;
-        this.role = role;
+        this.position = position;
         this.status = status;
         this.capacity = capacity;
         this.startdate = startdate;
@@ -36,8 +36,8 @@ public class Employee {
         this.name = name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public void setStatus(Boolean status) {
@@ -60,8 +60,8 @@ public class Employee {
         return this.name;
     }
 
-    public String getRole() {
-        return this.role;
+    public String getPosition() {
+        return this.position;
     }
 
     public Boolean getStatus() {
