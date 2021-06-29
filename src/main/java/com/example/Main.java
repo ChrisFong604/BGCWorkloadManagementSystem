@@ -62,19 +62,19 @@ public class Main {
     return "login";
   }
 
-  @GetMapping("/employee")
+  @GetMapping("/employees")
   String returnEmployeeHomepage() {
-    return "employees/employee";
+    return "employees/allEmployees";
   }
 
-  @GetMapping("/employee/metrics")
+  @GetMapping("/employees/metrics")
   String returnEmployeeMetrics() {
     return "employees/employeemetrics";
   }
 
-  @GetMapping("/employee/create")
+  @GetMapping("/employees/create")
   String returnEmployeeCreate() {
-    return "employees/employeecreate";
+    return "employees/createEmployee";
   }
 
   @RequestMapping("/db")
