@@ -73,8 +73,24 @@ public class Main {
   }
 
   @GetMapping("/employees/create")
-  String returnEmployeeCreate() {
+  public String returnEmployeeCreate(Map<String, Object> model) throws Exception {
+    Employee employee = new Employee();
+    model.put("employee", employee);
     return "employees/createEmployee";
+  }
+
+  @PostMapping(path = "/employees/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String handleEmployeeProfileSubmit(Map<String, Object> model, Employee employee) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ______ ()");
+      String sql = "INSERT INTO _____ VALUES";
+      stmt.executeUpdate(sql);
+      return "redirect:/employees";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
   }
 
   @RequestMapping("/db")
