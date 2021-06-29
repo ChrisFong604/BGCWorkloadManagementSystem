@@ -12,15 +12,15 @@
 </header>
 
 <body>
-    <form action="#">
+    <form action="#" method="post" th:action="@{/employee/create}" th:object="${Employee}">
         <label for="name">Name</label> <br>
-        <input type="text" id="name"> <br>
+        <input type="text" th:field=*{name} id="name"> <br>
 
-        <label for="role">Role</label> <br>
-        <input type="text" id="Role"> <br>
+        <label for="role">Position</label> <br>
+        <input type="text" th:field=*{position} id="Position"> <br>
 
         <label for="sDate">Start Date</label> <br>
-        <input type="date" id="sDate"> <br>
+        <input type="date" th:field=*{startdate} id="sDate"> <br>
 
         <section class="status">
             <input type="checkbox" id="p">
@@ -30,16 +30,13 @@
             <label for="h">Hired</label> <br>
         </section>
 
-        <section class="type">
-            <input type="checkbox" id="ft">
-            <label for="ft">Full-Time</label> 
-
-            <input type="checkbox" id="pt">
-            <label for="pt">Part-Time</label> 
-
-            <input type="checkbox" id="coop">
-            <label for="coop">Co-op</label> <br>
-        </section>
+        <label for="type"> Select employee type</label>
+        <select name="type" id="type">
+            <optgroup label="type">
+                <option value="permanent">Permanent Hire</option>
+                <option value="intern">Co-op/Intern</option>
+            </optgroup>
+        </select>
 
         <section class="rampUp">
             <table>
@@ -59,7 +56,7 @@
         </section>
 
         <label for="eDate">Co-op End Date</label> <br>
-        <input type="date" id="eDate"> <br>
+        <input type="date" th:field=*{enddate} id="eDate"> <br>
 
         <input type="submit" value="Save">
     </form>
