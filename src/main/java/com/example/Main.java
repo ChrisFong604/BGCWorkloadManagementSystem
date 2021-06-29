@@ -87,7 +87,7 @@ public class Main {
           + "status boolean, capacity float, startdate date, enddate date)");
       String sql = "INSERT INTO employees VALUES ()";
       stmt.executeUpdate(sql);
-      return "redirect:/employees";
+      return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
