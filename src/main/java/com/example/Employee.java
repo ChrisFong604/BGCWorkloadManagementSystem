@@ -1,16 +1,22 @@
 package com.example;
 
+import java.util.ArrayList;
+
 /***
- * A Bean class for the Employee database
+ * A Bean class for the Employee database and a method to determine work
+ * capacity ramp-up time for interns
  */
 
 public class Employee {
+
+    // PROPERTIES
     private String name;
     private String position;
     private Boolean status; // True -> confirmed, False -> projected
     private Integer capacity;
     private String startdate;
     private String enddate;
+
     /*
      * Name Role Working Capacity (time-based) Start date projected/hired full
      * time/part time/co-op Co-op end date
@@ -78,5 +84,15 @@ public class Employee {
 
     public String getEndDate() {
         return this.enddate;
+    }
+
+    // Non-bean methods
+    public ArrayList<String> rampPeriodHandler() throws Exception {
+        if (this.position != "intern") {
+            return null;
+        }
+        ArrayList<String> dates = new ArrayList<String>();
+
+        return dates;
     }
 }
