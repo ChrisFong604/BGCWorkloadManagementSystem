@@ -14,13 +14,13 @@
 <body>
     <form action="#" method="post" th:action="@{/employee/create}" th:object="${Employee}">
         <label for="name">Name</label> <br>
-        <input type="text" th:field=*{name} id="name"> <br>
+        <input type="text" id="name"> <br>
 
         <label for="role">Position</label> <br>
-        <input type="text" th:field=*{position} id="Position"> <br>
+        <input type="text" id="Position"> <br>
 
         <label for="sDate">Start Date</label> <br>
-        <input type="date" th:field=*{startdate} id="sDate"> <br>
+        <input type="date" id="sDate"> <br>
 
         <section class="status">
             <input type="checkbox" id="p">
