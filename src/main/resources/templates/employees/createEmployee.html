@@ -14,13 +14,13 @@
 <body>
     <form action="#" method="post" th:action="@{/employee/create}" th:object="${Employee}">
         <label for="name">Name</label> <br>
-        <input type="text" th:field=*{name} id="name"> <br>
+        <input type="text" id="name"> <br>
 
         <label for="role">Position</label> <br>
-        <input type="text" th:field=*{position} id="Position"> <br>
+        <input type="text" id="Position"> <br>
 
         <label for="sDate">Start Date</label> <br>
-        <input type="date" th:field=*{startdate} id="sDate"> <br>
+        <input type="date" id="sDate"> <br>
 
         <section class="status">
             <input type="checkbox" id="p">
@@ -38,25 +38,8 @@
             </optgroup>
         </select>
 
-        <section class="rampUp">
-            <table>
-                <tr>
-                    <th><label for="w1">Week 1</label></th>
-                    <th><label for="w2">Week 2</label></th>
-                    <th><label for="w3">Week 3</label></th>
-                    <th><label for="w4">Week 4</label></th>
-                </tr>
-                <tr>
-                    <td><input type="number" id="w1" max="1" min="0"> </td>
-                    <td><input type="number" id="w2" max="1" min="0"> </td>
-                    <td><input type="number" id="w3" max="1" min="0"> </td>
-                    <td><input type="number" id="w4" max="1" min="0"> </td>
-                </tr>
-            </table> 
-        </section>
-
         <label for="eDate">Co-op End Date</label> <br>
-        <input type="date" th:field=*{enddate} id="eDate"> <br>
+        <input type="date" id="eDate"> <br>
 
         <input type="submit" value="Save">
     </form>
