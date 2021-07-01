@@ -16,17 +16,6 @@
         <label for="name">Name</label> <br>
         <input type="text" th:field=*{name} id="name"> <br>
 
-        <label for="position">Position</label> <br>
-        <input type="text" th:field=*{position} id="Position"> <br>
-
-        <label for="status">Employee status</label>
-        <select name="status" id="status">
-            <optgroup th:field=*{status} label="status">
-                <option value="TRUE">Hired</option>
-                <option value="FALSE">Projected</option>
-            </optgroup>
-        </select>
-
         <label for="position">Select employee type</label>
         <select name="position" id="position">
             <optgroup th:field=*{position} label="position">
@@ -35,10 +24,26 @@
             </optgroup>
         </select>
 
-        <label for="sDate">Start Date</label> <br>
+        <label for="role">Role</label> <br>
+        <input type="text" th:field=*{role} id="Role"> <br>
+
+        <label for="team">Team</label> <br>
+        <input type="text" th:field=*{team} id="Team"> <br>
+
+        <label for="status">Employee status</label>
+        <select name="status" id="status">
+            <optgroup th:field=*{status} label="status">
+                <option value="TRUE">Hired</option>
+                <option value="FALSE">Projected</option>
+            </optgroup>
+        </select>
+        
+        <br>
+        <label for="sDate">Start Date</label>
         <input type="text" id="sDate" placeholder="yyyy-mm-dd"> <br>
 
-        <br><label for="eDate">Co-op End Date</label> <br>
+        <br>
+        <label for="eDate">Co-op End Date</label>
         <input type="text" id="eDate" placeholder="yyyy-mm-dd"> <br>
 
         <input type="submit" value="Save">

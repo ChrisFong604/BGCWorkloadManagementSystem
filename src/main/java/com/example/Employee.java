@@ -17,11 +17,11 @@ public class Employee {
     private String team;
     private Boolean status; // True -> confirmed, False -> projected
     private Float capacity;
-    private Date startdate;
-    private Date enddate;
+    private String startdate;
+    private String enddate;
 
     /*
-     * Name Role Working Capacity (time-based) Start date projected/hired full
+     * Name Role Working Capacity (time-based) Start String projected/hired full
      * time/part time/co-op Co-op end date
      * 
      * METHODS
@@ -32,9 +32,12 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, String position, Boolean status, Float capacity, Date startdate, Date enddate) {
+    public Employee(String name, String position, String role, String team, Boolean status, Float capacity,
+            String startdate, String enddate) {
         this.name = name;
         this.position = position;
+        this.role = role;
+        this.team = team;
         this.status = status;
         this.capacity = capacity;
         this.startdate = startdate;
@@ -65,11 +68,11 @@ public class Employee {
         this.capacity = capacity;
     }
 
-    public void setStartdate(Date startdate) {
+    public void setStartdate(String startdate) {
         this.startdate = startdate;
     }
 
-    public void setEnddate(Date enddate) {
+    public void setEnddate(String enddate) {
         this.enddate = enddate;
     }
 
@@ -97,11 +100,11 @@ public class Employee {
         return this.capacity;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return this.startdate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return this.enddate;
     }
 }

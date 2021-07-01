@@ -37,6 +37,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
 @Controller
 @SpringBootApplication
 public class Main {
@@ -83,11 +86,12 @@ public class Main {
   public String handleEmployeeProfileSubmit(Map<String, Object> model, Employee employee) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS employees (name varchar(40), position varchar(20),"
-          + "status boolean, capacity float, startdate date, enddate date)");
-      String sql = "INSERT INTO employees VALUES ('" + employee.getName() + "','" + employee.getPosition() + "',"
-          + employee.getStatus() + "," + employee.getCapacity() + ",'" + employee.getStartDate() + "','"
-          + employee.getEndDate() + "')";
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS employees (name varchar(40), position varchar(10), role varchar(40),"
+              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+      String sql = "INSERT INTO employees VALUES ('" + employee.getName() + "','" + employee.getPosition() + "','"
+          + employee.getRole() + "','" + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'"
+          + "2010-07-21" + "','" + "2012-12-15" + "')";
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
