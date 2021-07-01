@@ -32,7 +32,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, String position, Boolean status, Integer capacity, Date startdate, Date enddate) {
+    public Employee(String name, String position, Boolean status, Float capacity, Date startdate, Date enddate) {
         this.name = name;
         this.position = position;
         this.status = status;
