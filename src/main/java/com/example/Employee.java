@@ -1,7 +1,6 @@
 package com.example;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 /***
  * A Bean class for the Employee database and a method to determine work
@@ -17,8 +16,8 @@ public class Employee {
     private String team;
     private Boolean status; // True -> confirmed, False -> projected
     private Float capacity;
-    private String startdate;
-    private String enddate;
+    private Date start;
+    private Date end;
 
     /*
      * Name Role Working Capacity (time-based) Start String projected/hired full
@@ -32,16 +31,16 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, String position, String role, String team, Boolean status, Float capacity,
-            String startdate, String enddate) {
+    public Employee(String name, String position, String role, String team, Boolean status, Float capacity, Date start,
+            Date end) {
         this.name = name;
         this.position = position;
         this.role = role;
         this.team = team;
         this.status = status;
         this.capacity = capacity;
-        this.startdate = startdate;
-        this.enddate = enddate;
+        this.start = start;
+        this.end = end;
     }
 
     public void setName(String name) {
@@ -68,12 +67,12 @@ public class Employee {
         this.capacity = capacity;
     }
 
-    public void setStartdate(String startdate) {
-        this.startdate = startdate;
+    public void setStart(Date start) {
+        this.start = start;
     }
 
-    public void setEnddate(String enddate) {
-        this.enddate = enddate;
+    public void setEnd(Date end) {
+        this.end = end;
     }
 
     public String getName() {
@@ -100,11 +99,11 @@ public class Employee {
         return this.capacity;
     }
 
-    public String getStartDate() {
-        return this.startdate;
+    public Date getStart() {
+        return this.start;
     }
 
-    public String getEndDate() {
-        return this.enddate;
+    public Date getEnd() {
+        return this.end;
     }
 }

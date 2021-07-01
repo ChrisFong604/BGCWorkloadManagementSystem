@@ -37,9 +37,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
 
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
-
 @Controller
 @SpringBootApplication
 public class Main {
@@ -91,7 +88,7 @@ public class Main {
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
       String sql = "INSERT INTO employees VALUES ('" + employee.getName() + "','" + employee.getPosition() + "','"
           + employee.getRole() + "','" + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'"
-          + "2010-07-21" + "','" + "2012-12-15" + "')";
+          + employee.getStart() + "','" + employee.getEnd() + "')";
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {

@@ -16,15 +16,15 @@
         <label for="name">Name</label> <br>
         <input type="text" th:field=*{name} id="name"> <br>
 
-        <label for="position">Select employee type</label>
+        <label>Select employee type</label>
         <select name="position" id="position">
-            <optgroup th:field=*{position} label="position">
+            <optgroup th:field=*{position}>
                 <option value="permanent">Permanent Hire</option>
                 <option value="intern">Co-op/Intern</option>
             </optgroup>
         </select>
 
-        <label for="role">Role</label> <br>
+        <br><label for="role">Role</label> 
         <input type="text" th:field=*{role} id="Role"> <br>
 
         <label for="team">Team</label> <br>
@@ -37,25 +37,19 @@
                 <option value="FALSE">Projected</option>
             </optgroup>
         </select>
-        
-        <br>
-        <label for="sDate">Start Date</label>
-        <input type="text" id="sDate" placeholder="yyyy-mm-dd"> <br>
 
         <br>
-        <label for="eDate">Co-op End Date</label>
-        <input type="text" id="eDate" placeholder="yyyy-mm-dd"> <br>
+        <label>Start Date</label>
+        <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd"> <br>
+       
+        <br>
+        <label>End Date (Co-op/Intern)</label>
+        <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd"> <br>
 
         <input type="submit" value="Save">
     </form>
 
     <a th:href="@{/employees}">Back to Homepage</a>
 </body>
-
-<script>
-    function myFunc(param) {
-        console.log(param.value);
-    }
-</script>
 
 </html>
