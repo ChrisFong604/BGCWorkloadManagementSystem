@@ -12,54 +12,44 @@
 </header>
 
 <body>
-    <form action="#" method="post" th:action="@{/employee/create}" th:object="${Employee}">
+    <form action="#" method="post" th:action="@{/employees/create}" th:object="${employee}">
         <label for="name">Name</label> <br>
-        <input type="text" id="name"> <br>
+        <input type="text" th:field=*{name} id="name"> <br>
 
-        <label for="role">Position</label> <br>
-        <input type="text" id="Position"> <br>
-
-        <label for="sDate">Start Date</label> <br>
-        <input type="date" id="sDate"> <br>
-
-        <section class="status">
-            <input type="checkbox" id="p">
-            <label for="p">Projected</label> 
-
-            <input type="checkbox" id="hp">
-            <label for="h">Hired</label> <br>
-        </section>
-
-        <label for="type"> Select employee type</label>
-        <select name="type" id="type">
-            <optgroup label="type">
+        <label>Select employee type</label>
+        <select name="position" id="position">
+            <optgroup th:field=*{position}>
                 <option value="permanent">Permanent Hire</option>
                 <option value="intern">Co-op/Intern</option>
             </optgroup>
         </select>
 
-        <section class="rampUp">
-            <table>
-                <tr>
-                    <th><label for="w1">Week 1</label></th>
-                    <th><label for="w2">Week 2</label></th>
-                    <th><label for="w3">Week 3</label></th>
-                    <th><label for="w4">Week 4</label></th>
-                </tr>
-                <tr>
-                    <td><input type="number" id="w1" max="1" min="0"> </td>
-                    <td><input type="number" id="w2" max="1" min="0"> </td>
-                    <td><input type="number" id="w3" max="1" min="0"> </td>
-                    <td><input type="number" id="w4" max="1" min="0"> </td>
-                </tr>
-            </table> 
-        </section>
+        <br><label for="role">Role</label> 
+        <input type="text" th:field=*{role} id="Role"> <br>
 
-        <label for="eDate">Co-op End Date</label> <br>
-        <input type="date" id="eDate"> <br>
+        <label for="team">Team</label> <br>
+        <input type="text" th:field=*{team} id="Team"> <br>
+
+        <label for="status">Employee status</label>
+        <select name="status" id="status">
+            <optgroup th:field=*{status} label="status">
+                <option value="TRUE">Hired</option>
+                <option value="FALSE">Projected</option>
+            </optgroup>
+        </select>
+
+        <br>
+        <label>Start Date</label>
+        <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd"> <br>
+       
+        <br>
+        <label>End Date (Co-op/Intern)</label>
+        <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd"> <br>
 
         <input type="submit" value="Save">
     </form>
+
+    <a th:href="@{/employees}">Back to Homepage</a>
 </body>
 
 </html>
