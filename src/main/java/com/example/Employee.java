@@ -1,6 +1,7 @@
 package com.example;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /***
  * A Bean class for the Employee database and a method to determine work
@@ -11,11 +12,13 @@ public class Employee {
 
     // PROPERTIES
     private String name;
-    private String position;
+    private String position; // Co-op or Intern (e.g QA, SW Dev, etc.)
+    private String role; // eg. QA analyst, SW Dev, etc
+    private String team;
     private Boolean status; // True -> confirmed, False -> projected
-    private Integer capacity;
-    private String startdate;
-    private String enddate;
+    private Float capacity;
+    private Date startdate;
+    private Date enddate;
 
     /*
      * Name Role Working Capacity (time-based) Start date projected/hired full
@@ -29,7 +32,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, String position, Boolean status, Integer capacity, String startdate, String enddate) {
+    public Employee(String name, String position, Boolean status, Integer capacity, Date startdate, Date enddate) {
         this.name = name;
         this.position = position;
         this.status = status;
@@ -46,19 +49,27 @@ public class Employee {
         this.position = position;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
     public void setStatus(Boolean status) {
         this.status = status;
     }
 
-    public void setCapacity(Integer capacity) {
+    public void setCapacity(Float capacity) {
         this.capacity = capacity;
     }
 
-    public void setStartdate(String startdate) {
+    public void setStartdate(Date startdate) {
         this.startdate = startdate;
     }
 
-    public void setEnddate(String enddate) {
+    public void setEnddate(Date enddate) {
         this.enddate = enddate;
     }
 
@@ -70,29 +81,27 @@ public class Employee {
         return this.position;
     }
 
+    public String getRole() {
+        return this.role;
+    }
+
+    public String getTeam() {
+        return this.team;
+    }
+
     public Boolean getStatus() {
         return this.status;
     }
 
-    public Integer getCapacity() {
+    public Float getCapacity() {
         return this.capacity;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return this.startdate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return this.enddate;
-    }
-
-    // Non-bean methods
-    public ArrayList<String> rampPeriodHandler() throws Exception {
-        if (this.position != "intern") {
-            return null;
-        }
-        ArrayList<String> dates = new ArrayList<String>();
-
-        return dates;
     }
 }

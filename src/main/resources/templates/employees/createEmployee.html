@@ -12,37 +12,45 @@
 </header>
 
 <body>
-    <form action="#" method="post" th:action="@{/employee/create}" th:object="${Employee}">
+    <form action="#" method="post" th:action="@{/employees/create}" th:object="${employee}">
         <label for="name">Name</label> <br>
-        <input type="text" id="name"> <br>
+        <input type="text" th:field=*{name} id="name"> <br>
 
-        <label for="role">Position</label> <br>
-        <input type="text" id="Position"> <br>
+        <label for="position">Position</label> <br>
+        <input type="text" th:field=*{position} id="Position"> <br>
 
-        <label for="sDate">Start Date</label> <br>
-        <input type="date" id="sDate"> <br>
+        <label for="status">Employee status</label>
+        <select name="status" id="status">
+            <optgroup th:field=*{status} label="status">
+                <option value="TRUE">Hired</option>
+                <option value="FALSE">Projected</option>
+            </optgroup>
+        </select>
 
-        <section class="status">
-            <input type="checkbox" id="p">
-            <label for="p">Projected</label> 
-
-            <input type="checkbox" id="hp">
-            <label for="h">Hired</label> <br>
-        </section>
-
-        <label for="type"> Select employee type</label>
-        <select name="type" id="type">
-            <optgroup label="type">
+        <label for="position">Select employee type</label>
+        <select name="position" id="position">
+            <optgroup th:field=*{position} label="position">
                 <option value="permanent">Permanent Hire</option>
                 <option value="intern">Co-op/Intern</option>
             </optgroup>
         </select>
 
-        <label for="eDate">Co-op End Date</label> <br>
-        <input type="date" id="eDate"> <br>
+        <label for="sDate">Start Date</label> <br>
+        <input type="date" id="sDate" onchange="myFunc(document.getElementById('sDate'))"> <br>
+
+        <br><label for="eDate">Co-op End Date</label> <br>
+        <input type="date" id="eDate" onchange="myFunc(document.getElementById('eDate'))"> <br>
 
         <input type="submit" value="Save">
     </form>
+
+    <a th:href="@{/employees}">Back to Homepage</a>
 </body>
+
+<script>
+    function myFunc(param) {
+        console.log(param.value);
+    }
+</script>
 
 </html>

@@ -83,9 +83,11 @@ public class Main {
   public String handleEmployeeProfileSubmit(Map<String, Object> model, Employee employee) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS employees (name varchar(40), position varchar(10),"
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS employees (name varchar(40), position varchar(20),"
           + "status boolean, capacity float, startdate date, enddate date)");
-      String sql = "INSERT INTO employees VALUES ()";
+      String sql = "INSERT INTO employees VALUES ('" + employee.getName() + "','" + employee.getPosition() + "',"
+          + employee.getStatus() + "," + employee.getCapacity() + ",'" + employee.getStartDate() + "','"
+          + employee.getEndDate() + "')";
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
