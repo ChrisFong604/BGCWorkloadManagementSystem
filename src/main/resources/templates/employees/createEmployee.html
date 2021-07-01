@@ -6,64 +6,55 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Profile</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/createEmployee.css" />
+    <title>Create New Profile</title> 
 </head>
 
-<header>
-    
-</header>
+<header></header>
 
 <body>
-    <h1 class="heading">Profile</h1>
-    <form action="#">
-        <label for="name">Name</label> <br>
-        <input type="text" id="name"> <br>
+    <div class="main">
+        <h1 class="heading">Profile</h1>
+        <form action="#" method="post" th:action="@{/employee/create}" th:object="${Employee}">
+            <label for="name">Name</label> <br>
+            <input type="text" id="name"> <br>
 
-        <label for="role">Role</label> <br>
-        <input type="text" id="Role"> <br>
+            <label for="team">Team</label> <br>
+            <input type="text" id="team"> <br>
 
-        <label for="sDate">Start Date</label> <br>
-        <input type="date" id="sDate"> <br>
+            <label for="role">Role</label> <br>
+            <input type="text" id="role"> <br>
 
-        <section class="status">
-            <input type="checkbox" id="p">
-            <label for="p">Projected</label> 
+            <label for="sDate">Start Date</label> <br>
+            <input type="date" id="sDate"> <br>
 
-            <input type="checkbox" id="hp">
-            <label for="h">Hired</label> <br>
-        </section>
- 
-        <label for="type"> Select employee type</label>
-        <select name="type" id="type">
-            <optgroup label="type">
-                <option value="Full-Time">Full-time</option>
-                <option value="Part-Time">Part-time</option>
-                <option value="intern">Co-op/Intern</option>
-            </optgroup>
-        </select>
+            <section class="status">
+                <input type="checkbox" id="p">
+                <label for="p">Projected</label> 
 
-        <section class="rampUp">
-            <table>
-                <tr>
-                    <th><label for="w1">Week 1</label></th>
-                    <th><label for="w2">Week 2</label></th>
-                    <th><label for="w3">Week 3</label></th>
-                    <th><label for="w4">Week 4</label></th>
-                </tr>
-                <tr>
-                    <td><input type="number" id="w1" max="1" min="0"> </td>
-                    <td><input type="number" id="w2" max="1" min="0"> </td>
-                    <td><input type="number" id="w3" max="1" min="0"> </td>
-                    <td><input type="number" id="w4" max="1" min="0"> </td>
-                </tr>
-            </table> 
-        </section>
+                <input type="checkbox" id="h">
+                <label for="h">Hired</label> <br>
+            </section>
+    
+            <label for="type"> Select Employee Type</label>
+            <select name="type" id="type">
+                <optgroup label="Type">
+                    <option value="permanent">Permanent Hire</option>
+                    <option value="temp">Co-op/Intern</option>
+                </optgroup>
+            </select>
 
-        <label for="eDate">Co-op End Date</label> <br>
-        <input type="date" id="eDate"> <br>
+            <div class="endDate">
+                <label for="eDate">Co-op End Date</label> <br>
+                <input type="date" id="eDate"> <br>
+            </div>
 
-        <input type="submit" value="Save">
-    </form>
+            <div class="buttons">
+                <input type="submit" value="Save">
+                <button class="cancel"><a th:href="@{/employees}">Cancel</a></button>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>

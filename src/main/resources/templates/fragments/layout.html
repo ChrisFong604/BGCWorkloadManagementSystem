@@ -1,27 +1,24 @@
 <!doctype html>
 <html th:fragment="layout (template)">
 <head>
-    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/navBar.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/navBar.css" /> 
 </head>
 
 <body>
-    <nav class="navbar navbar-default navbar-static-top">
+    <h1 class="logo">BGC</h1>
+    <nav class="navbar">
+        <div class="dropdown">
+            <button class="dropbtn">Employees
+                <i class="bi bi-caret-down-fill"></i>
+            </button>
         
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Employees <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a th:href="@{/employees/create}">Add New Profile</a></li>
-                        <li><a th:href="@{/employees}">View Profiles</a></li>
-                    </ul>
-                </li>
-            </ul>
-        
+            <div class="dropdown-content">
+                <a th:href="@{/employees/create}">Add New Profile</a>
+                <a th:href="@{/employees}">View Profiles</a>
+            </div>
+        </div>
     </nav>
     <div th:replace="${template}"/>
 
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-</body>
+</body> 
