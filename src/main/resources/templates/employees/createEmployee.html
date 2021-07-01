@@ -13,51 +13,43 @@
 <header></header>
 
 <body>
-    <div class="main">
+    <div class="container">
         <h1 class="heading">Profile</h1>
-        <form action="#" method="post" th:action="@{/employee/create}" th:object="${Employee}">
+        <form action="#" method="post" th:action="@{/employees/create}" th:object="${employee}">
             <label for="name">Name</label> <br>
-            <input type="text" id="name"> <br>
+            <input type="text" th:field=*{name} id="name"> <br>
+
+            <label>Select employee type</label>
+            <select name="position" id="position">
+                <optgroup th:field=*{position}>
+                    <option value="">Select...</option>
+                    <option value="permanent">Permanent Hire</option>
+                    <option value="intern">Co-op/Intern</option>
+                </optgroup>
+            </select>
+
+            <br><label for="role">Role</label> 
+            <input type="text" th:field=*{role} id="Role"> <br>
 
             <label for="team">Team</label> <br>
-            <input type="text" id="team"> <br>
+            <input type="text" th:field=*{team} id="Team"> <br>
 
-            <label for="role">Role</label> <br>
-            <input type="text" id="role"> <br>
-
-            <!-- <section class="status">
-                <input type="radio" id="p" name="status">
-                <label for="p">Projected</label> 
-
-                <input type="radio" id="h" name="status">
-                <label for="h">Hired</label> <br>
-            </section> -->
-
-            <label for="status">Employee Status</label>
-            <select name="status" id="status" placeholder="Choose...">
-                <optgroup  label="Status">
-                    <option value="" disabled selected hidden>Select...</option>
+            <label for="status">Employee status</label>
+            <select name="status" id="status">
+                <optgroup th:field=*{status} label="status">
+                    <option value="">Select...</option>
                     <option value="TRUE">Hired</option>
                     <option value="FALSE">Projected</option>
                 </optgroup>
-            </select> <br>
-                    
-            <label for="type">Employee Type</label>
-            <select name="type" id="type">
-                <optgroup label="Type">
-                    <option value="" disabled selected hidden>Select...</option>
-                    <option value="permanent">Permanent Hire</option>
-                    <option value="temp">Co-op/Intern</option>
-                </optgroup>
-            </select> <br>
-            
-            <label for="sDate">Start Date</label> <br>
-            <input type="date" id="sDate"> <br>
+            </select>
 
-            <div class="endDate">
-                <label for="eDate">Co-op End Date</label> <br>
-                <input type="date" id="eDate"> <br>
-            </div>
+            <br>
+            <label>Start Date</label>
+            <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd"> <br>
+        
+            <br>
+            <label>End Date (Co-op/Intern)</label>
+            <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd"> <br>
 
             <div class="buttons">
                 <input type="submit" value="Save">
@@ -65,6 +57,8 @@
             </div>
         </form>
     </div>
+
+    <a th:href="@{/employees}">Back to Homepage</a>
 </body>
 
 </html>

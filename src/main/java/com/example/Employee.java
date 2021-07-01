@@ -1,6 +1,6 @@
 package com.example;
 
-import java.util.ArrayList;
+import java.sql.Date;
 
 /***
  * A Bean class for the Employee database and a method to determine work
@@ -11,14 +11,16 @@ public class Employee {
 
     // PROPERTIES
     private String name;
-    private String position;
+    private String position; // Co-op or Intern (e.g QA, SW Dev, etc.)
+    private String role; // eg. QA analyst, SW Dev, etc
+    private String team;
     private Boolean status; // True -> confirmed, False -> projected
-    private Integer capacity;
-    private String startdate;
-    private String enddate;
+    private Float capacity;
+    private Date start;
+    private Date end;
 
     /*
-     * Name Role Working Capacity (time-based) Start date projected/hired full
+     * Name Role Working Capacity (time-based) Start String projected/hired full
      * time/part time/co-op Co-op end date
      * 
      * METHODS
@@ -29,13 +31,16 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, String position, Boolean status, Integer capacity, String startdate, String enddate) {
+    public Employee(String name, String position, String role, String team, Boolean status, Float capacity, Date start,
+            Date end) {
         this.name = name;
         this.position = position;
+        this.role = role;
+        this.team = team;
         this.status = status;
         this.capacity = capacity;
-        this.startdate = startdate;
-        this.enddate = enddate;
+        this.start = start;
+        this.end = end;
     }
 
     public void setName(String name) {
@@ -46,20 +51,28 @@ public class Employee {
         this.position = position;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
     public void setStatus(Boolean status) {
         this.status = status;
     }
 
-    public void setCapacity(Integer capacity) {
+    public void setCapacity(Float capacity) {
         this.capacity = capacity;
     }
 
-    public void setStartdate(String startdate) {
-        this.startdate = startdate;
+    public void setStart(Date start) {
+        this.start = start;
     }
 
-    public void setEnddate(String enddate) {
-        this.enddate = enddate;
+    public void setEnd(Date end) {
+        this.end = end;
     }
 
     public String getName() {
@@ -70,29 +83,27 @@ public class Employee {
         return this.position;
     }
 
+    public String getRole() {
+        return this.role;
+    }
+
+    public String getTeam() {
+        return this.team;
+    }
+
     public Boolean getStatus() {
         return this.status;
     }
 
-    public Integer getCapacity() {
+    public Float getCapacity() {
         return this.capacity;
     }
 
-    public String getStartDate() {
-        return this.startdate;
+    public Date getStart() {
+        return this.start;
     }
 
-    public String getEndDate() {
-        return this.enddate;
-    }
-
-    // Non-bean methods
-    public ArrayList<String> rampPeriodHandler() throws Exception {
-        if (this.position != "intern") {
-            return null;
-        }
-        ArrayList<String> dates = new ArrayList<String>();
-
-        return dates;
+    public Date getEnd() {
+        return this.end;
     }
 }
