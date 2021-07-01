@@ -63,8 +63,39 @@ public class Main {
   }
 
   @GetMapping("/employees")
-  String returnEmployeeHomepage() {
-    return "employees/allEmployees";
+  String returnEmployeeHomepage(Map<String, Object> model) {
+    Employee employee = new Employee();
+
+    model.put("employee", employee);
+
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS employees (name varchar(40), position varchar(10), role varchar(40),"
+              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
+
+      ArrayList<Employee> output = new ArrayList<Employee>();
+      while (rs.next()) {
+        Employee temp = new Employee();
+        temp.setName(rs.getString("name"));
+        temp.setPosition(rs.getString("position"));
+        temp.setRole(rs.getString("role"));
+        temp.setTeam(rs.getString("team"));
+        temp.setStatus(rs.getBoolean("status"));
+        temp.setCapacity(rs.getFloat("capacity"));
+        temp.setStart(rs.getDate("startdate"));
+        temp.setEnd(rs.getDate("enddate"));
+
+        output.add(temp);
+      }
+      model.put("employees", output);
+
+      return "employees/allEmployees";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
   }
 
   @GetMapping("/employees/metrics")
