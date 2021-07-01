@@ -22,7 +22,7 @@ input[type=text], input[type=date], select {
     box-sizing: border-box;
 }
 
-input[type=text]:hover, input[type=checkbox]:hover, input[type=date]:hover, select:hover {
+input[type=text]:hover, /*input[type=radio]:hover,*/ input[type=date]:hover, select:hover {
     box-shadow: 0 0 5pt 0.5pt #D3D3D3;
 }
 

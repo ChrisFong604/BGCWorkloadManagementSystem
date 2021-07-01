@@ -25,24 +25,34 @@
             <label for="role">Role</label> <br>
             <input type="text" id="role"> <br>
 
-            <label for="sDate">Start Date</label> <br>
-            <input type="date" id="sDate"> <br>
-
-            <section class="status">
-                <input type="checkbox" id="p">
+            <!-- <section class="status">
+                <input type="radio" id="p" name="status">
                 <label for="p">Projected</label> 
 
-                <input type="checkbox" id="h">
+                <input type="radio" id="h" name="status">
                 <label for="h">Hired</label> <br>
-            </section>
-    
-            <label for="type"> Select Employee Type</label>
+            </section> -->
+
+            <label for="status">Employee Status</label>
+            <select name="status" id="status" placeholder="Choose...">
+                <optgroup  label="Status">
+                    <option value="" disabled selected hidden>Select...</option>
+                    <option value="TRUE">Hired</option>
+                    <option value="FALSE">Projected</option>
+                </optgroup>
+            </select> <br>
+                    
+            <label for="type">Employee Type</label>
             <select name="type" id="type">
                 <optgroup label="Type">
+                    <option value="" disabled selected hidden>Select...</option>
                     <option value="permanent">Permanent Hire</option>
                     <option value="temp">Co-op/Intern</option>
                 </optgroup>
-            </select>
+            </select> <br>
+            
+            <label for="sDate">Start Date</label> <br>
+            <input type="date" id="sDate"> <br>
 
             <div class="endDate">
                 <label for="eDate">Co-op End Date</label> <br>
