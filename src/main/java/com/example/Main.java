@@ -95,9 +95,16 @@ public class Main {
     return "index";
   }
 
+  @GetMapping("/manager/create")
+  public String createManager(Map<String, Object> model) {
+    UserLogin user = new UserLogin();
+    model.put("user", user);
+    return "manager";
+  }
+
   // adding users
- /* @PostMapping(path = "/login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String login(Map<String, Object> model, UserLogin user) throws Exception {
+  @PostMapping(path = "/manager/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
     // save the user into the database
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
@@ -115,7 +122,7 @@ public class Main {
       model.put("message", e.getMessage());
       return "error";
     }
-  }*/
+  }
 
   @GetMapping("/employees")
   String returnEmployeeHomepage() {
