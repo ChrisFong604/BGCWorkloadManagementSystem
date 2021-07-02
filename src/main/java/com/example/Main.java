@@ -69,7 +69,6 @@ public class Main {
 
   @PostMapping(path = "/login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String login(Map<String, Object> model, UserLogin user) throws Exception {
-    // save the user into the database
     String username = user.getUsername();
     String pw = user.getPassword();
 
@@ -102,7 +101,6 @@ public class Main {
     else {
       return "userNotFound";
     }
-    
   }
 
   @GetMapping("/manager/create")
