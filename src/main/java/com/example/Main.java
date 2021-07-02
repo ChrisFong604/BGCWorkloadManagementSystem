@@ -41,6 +41,8 @@ import java.util.Map;
 @SpringBootApplication
 public class Main {
 
+  boolean flag = false;
+
   @Value("${spring.datasource.url}")
   private String dbUrl;
 
@@ -59,6 +61,7 @@ public class Main {
   // Change to PostMapping or whatever for login page later
   @GetMapping("/login")
   String loginPageHandler(Map<String, Object> model) {
+    flag = false;
     UserLogin user = new UserLogin();
     model.put("user", user);
     return "login";
@@ -80,6 +83,7 @@ public class Main {
         String compareToPW = rs.getString("password");
         if (username.equals(compareToUserName) && pw.equals(compareToPW)) {
           System.out.println("user exists");
+          flag = true;
           return "redirect:/dashboard";
         }
       }
@@ -92,18 +96,26 @@ public class Main {
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
-    return "index";
+    if (flag) {
+      return "index";
+    }
+    else {
+      return "userNotFound";
+    }
+    
   }
 
   @GetMapping("/manager/create")
-  String createManager(Map<String, Object> model) {
+  public String createManager(Map<String, Object> model) {
     UserLogin user = new UserLogin();
     model.put("user", user);
     return "manager";
   }
 
-  @PostMapping("/manager/create")
-  String addManagerToDatabase(Map<String, Object> model, UserLogin user){
+  // adding users
+  @PostMapping(path = "/manager/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
+    // save the user into the database
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
@@ -120,9 +132,7 @@ public class Main {
       model.put("message", e.getMessage());
       return "error";
     }
-
   }
-
 
   @GetMapping("/employees")
   String returnEmployeeHomepage() {

@@ -1,13 +1,17 @@
 <!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>New Managers</title>
 </head>
+
+<header></header>
+
 <body>
-    <p>HEY GUYS</p>
 
     <form action="#" method="post" th:action="@{/manager/create}" th:object="${user}">
         <label for="uName">Create Username</label> <br>
@@ -17,6 +21,7 @@
         <input type="password" id="pwd" required th:field="*{password}"> <br>
 
         <input type="submit" value="Submit">
+        <button><a th:href="@{/dashboard}">Cancel</a></button>
     </form>
 
 </body>

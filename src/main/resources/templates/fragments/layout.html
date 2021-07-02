@@ -8,6 +8,11 @@
 <body>
     <h1 class="logo">BGC</h1>
     <nav class="navbar">
+
+        <div>
+            <a th:href="@{/dashboard}">Dashboard</a>
+        </div>
+
         <div class="dropdown">
             <button class="dropbtn">Employees
                 <i class="bi bi-caret-down-fill"></i>
@@ -18,8 +23,13 @@
                 <a th:href="@{/employees}">View Profiles</a>
             </div>
         </div>
+
         <div>
             <a th:href="@{/manager/create}">Add New Manager</a>
+        </div>
+
+        <div class="logout">
+            <a th:href="@{/login}">Log Out</a>
         </div>
     </nav>
     <div th:replace="${template}"/>
