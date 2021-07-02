@@ -53,15 +53,48 @@ public class Main {
 
   @RequestMapping("/")
   String index(Map<String, Object> model) {
-    return "index";
+    return "redirect:/login";
   }
 
   // Change to PostMapping or whatever for login page later
   @GetMapping("/login")
-  String loginPageHandler() {
+  String loginPageHandler(Map<String, Object> model) {
+    
+    UserLogin login = new UserLogin();
+    model.put("user", login);
     return "login";
   }
 
+
+
+
+  @PostMapping("/login")
+  public String login(Map<String, Object> model, UserLogin user){
+    
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM login");
+      
+
+      
+      while (rs.next()) {
+        System.out.println("rs.username" + (rs.getString("username")));
+        System.out.println("user.username" + (user.getUsername()));
+        if ((rs.getString("username") == user.getUsername()) || (rs.getString("password") == user.getPassword())){
+          return "index";
+        }
+
+      }
+      
+      
+      return "employees/allEmployees";
+    }
+    catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+  
   @GetMapping("/employees")
   String returnEmployeeHomepage() {
     return "employees/allEmployees";
