@@ -21,11 +21,11 @@
         <form action="#" method="post" th:action="@{/login}" th:object="${user}">
             <div class="cred">
                 <label for="uName">Username</label> <br>
-                <input type="text" id="uName" th:field=*{username} required> <br>
-
+                <input type="text" id="uName" required th:field="*{username}"> <br>
+    
                 <label for="pwd">Password</label> <br>
-                <input type="password" id="pwd" th:field=*{password} required> <br>
-
+                <input type="password" id="pwd" required th:field="*{password}"> <br>
+    
                 <input type="submit" value="Login">
             </div>
         </form>
@@ -38,7 +38,11 @@
             })
         }
     </script> -->
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 65037ef79a3c46ba0f7a141c18517443b9bb8d9e
 </body>
 
 </html>

@@ -59,6 +59,7 @@ public class Main {
   // Change to PostMapping or whatever for login page later
   @GetMapping("/login")
   String loginPageHandler(Map<String, Object> model) {
+<<<<<<< HEAD
     
     UserLogin login = new UserLogin();
     model.put("user", login);
@@ -90,11 +91,70 @@ public class Main {
       return "employees/allEmployees";
     }
     catch (Exception e) {
+=======
+    UserLogin user = new UserLogin();
+    model.put("user", user);
+    return "login";
+  }
+
+  @PostMapping(path = "/login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String login(Map<String, Object> model, UserLogin user) throws Exception {
+    // save the user into the database
+    String username = user.getUsername();
+    String pw = user.getPassword();
+
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT * FROM users";
+      ResultSet rs = stmt.executeQuery(sql);
+
+      while (rs.next()) {
+        String compareToUserName = rs.getString("username");
+        String compareToPW = rs.getString("password");
+        if (username.equals(compareToUserName) && pw.equals(compareToPW)) {
+          System.out.println("user exists");
+          return "redirect:/dashboard";
+        }
+      }
+      return "userNotFound";
+    } catch (Exception e) {
+>>>>>>> 65037ef79a3c46ba0f7a141c18517443b9bb8d9e
       model.put("message", e.getMessage());
       return "error";
     }
   }
+<<<<<<< HEAD
   
+=======
+
+  @GetMapping("/dashboard")
+  String dashboard(Map<String, Object> model) {
+    return "index";
+  }
+
+  // adding users
+ /* @PostMapping(path = "/login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String login(Map<String, Object> model, UserLogin user) throws Exception {
+    // save the user into the database
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (id serial, username varchar(20), password varchar(20))");
+      String sql = "INSERT INTO users (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
+      stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+
+      ResultSet rs = stmt.getGeneratedKeys();
+      if (rs.next()) {
+        int id = rs.getInt(1);
+        user.setID(id);
+      }
+      return "index";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }*/
+
+>>>>>>> 65037ef79a3c46ba0f7a141c18517443b9bb8d9e
   @GetMapping("/employees")
   String returnEmployeeHomepage() {
     return "employees/allEmployees";
@@ -117,9 +177,9 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (name varchar(40), position varchar(10), role varchar(40),"
+          "CREATE TABLE IF NOT EXISTS employees (id serial, name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
-      String sql = "INSERT INTO employees VALUES ('" + employee.getName() + "','" + employee.getPosition() + "','"
+      String sql = "INSERT INTO employees (name, position, role, team, status, capacity, startdate, enddate) VALUES ('" + employee.getName() + "','" + employee.getPosition() + "','"
           + employee.getRole() + "','" + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'"
           + employee.getStart() + "','" + employee.getEnd() + "')";
       stmt.executeUpdate(sql);
