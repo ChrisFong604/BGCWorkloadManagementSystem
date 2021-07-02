@@ -41,6 +41,8 @@ import java.util.Map;
 @SpringBootApplication
 public class Main {
 
+  boolean flag = false;
+
   @Value("${spring.datasource.url}")
   private String dbUrl;
 
@@ -59,6 +61,7 @@ public class Main {
   // Change to PostMapping or whatever for login page later
   @GetMapping("/login")
   String loginPageHandler(Map<String, Object> model) {
+    flag = false;
     UserLogin user = new UserLogin();
     model.put("user", user);
     return "login";
@@ -72,7 +75,7 @@ public class Main {
 
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      String sql = "SELECT * FROM users";
+      String sql = "SELECT * FROM login";
       ResultSet rs = stmt.executeQuery(sql);
 
       while (rs.next()) {
@@ -80,6 +83,7 @@ public class Main {
         String compareToPW = rs.getString("password");
         if (username.equals(compareToUserName) && pw.equals(compareToPW)) {
           System.out.println("user exists");
+          flag = true;
           return "redirect:/dashboard";
         }
       }
@@ -92,7 +96,13 @@ public class Main {
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
-    return "index";
+    if (flag) {
+      return "index";
+    }
+    else {
+      return "userNotFound";
+    }
+    
   }
 
   @GetMapping("/manager/create")
@@ -108,8 +118,8 @@ public class Main {
     // save the user into the database
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (id serial, username varchar(20), password varchar(20))");
-      String sql = "INSERT INTO users (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
+      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
       stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 
       ResultSet rs = stmt.getGeneratedKeys();
