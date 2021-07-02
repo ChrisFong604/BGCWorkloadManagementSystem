@@ -12,9 +12,21 @@
 <header></header>
 
 <body>
-    <h1 class="heading">Employees</h1>
     <a th:href="@{/employees/metrics}">View metrics</a>
     <a th:href="@{/employees/create}">Add Employee Profile</a>
+
+    <table class="data-table">
+
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+
+        <tr th:each="employee : ${employees}">
+            <td th:text="${employee.getName()}"></td>
+        </tr>
+    </table>
     
 </body>
 
