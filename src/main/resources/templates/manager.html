@@ -16,7 +16,10 @@
             <label for="pwd">New Password</label> <br>
             <input type="password" id="pwd" th:field="*{password}" required> <br>
 
-            <input type="submit" value="Authenicate">
+            <div class="buttons">
+                <input type="submit" value="Authenicate">
+                <button class="cancel"><a th:href="@{/dashboard}">Cancel</a></button>
+            </div>
         </div>
     </form>
     
