@@ -72,7 +72,7 @@ public class Main {
 
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      String sql = "SELECT * FROM users";
+      String sql = "SELECT * FROM login";
       ResultSet rs = stmt.executeQuery(sql);
 
       while (rs.next()) {
@@ -95,14 +95,19 @@ public class Main {
     return "index";
   }
 
-  // adding users
- /* @PostMapping(path = "/login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String login(Map<String, Object> model, UserLogin user) throws Exception {
-    // save the user into the database
+  @GetMapping("/manager/create")
+  String createManager(Map<String, Object> model) {
+    UserLogin user = new UserLogin();
+    model.put("user", user);
+    return "manager";
+  }
+
+  @PostMapping("/manager/create")
+  String addManagerToDatabase(Map<String, Object> model, UserLogin user){
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (id serial, username varchar(20), password varchar(20))");
-      String sql = "INSERT INTO users (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
+      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
       stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 
       ResultSet rs = stmt.getGeneratedKeys();
@@ -115,7 +120,9 @@ public class Main {
       model.put("message", e.getMessage());
       return "error";
     }
-  }*/
+
+  }
+
 
   @GetMapping("/employees")
   String returnEmployeeHomepage() {
