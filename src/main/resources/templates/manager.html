@@ -10,11 +10,11 @@
 
     <form action="#" method="post" th:action="@{/manager/create}" th:object="${user}">
         <div class="cred">
-            <label for="uName">Username</label> <br>
-            <input type="text" id="uName" required th:field="*{username}"> <br>
+            <label for="uName">New Username</label> <br>
+            <input type="text" id="uName" th:field="*{username}" required> <br>
 
-            <label for="pwd">Password</label> <br>
-            <input type="password" id="pwd" required th:field="*{password}"> <br>
+            <label for="pwd">New Password</label> <br>
+            <input type="password" id="pwd" th:field="*{password}" required> <br>
 
             <input type="submit" value="Authenicate">
         </div>
