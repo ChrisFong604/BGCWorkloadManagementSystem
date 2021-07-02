@@ -59,39 +59,6 @@ public class Main {
   // Change to PostMapping or whatever for login page later
   @GetMapping("/login")
   String loginPageHandler(Map<String, Object> model) {
-<<<<<<< HEAD
-    
-    UserLogin login = new UserLogin();
-    model.put("user", login);
-    return "login";
-  }
-
-
-
-
-  @PostMapping("/login")
-  public String login(Map<String, Object> model, UserLogin user){
-    
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM login");
-      
-
-      
-      while (rs.next()) {
-        System.out.println("rs.username" + (rs.getString("username")));
-        System.out.println("user.username" + (user.getUsername()));
-        if ((rs.getString("username") == user.getUsername()) || (rs.getString("password") == user.getPassword())){
-          return "index";
-        }
-
-      }
-      
-      
-      return "employees/allEmployees";
-    }
-    catch (Exception e) {
-=======
     UserLogin user = new UserLogin();
     model.put("user", user);
     return "login";
@@ -105,7 +72,7 @@ public class Main {
 
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      String sql = "SELECT * FROM users";
+      String sql = "SELECT * FROM login";
       ResultSet rs = stmt.executeQuery(sql);
 
       while (rs.next()) {
@@ -118,28 +85,29 @@ public class Main {
       }
       return "userNotFound";
     } catch (Exception e) {
->>>>>>> 65037ef79a3c46ba0f7a141c18517443b9bb8d9e
       model.put("message", e.getMessage());
       return "error";
     }
   }
-<<<<<<< HEAD
-  
-=======
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
     return "index";
   }
 
-  // adding users
- /* @PostMapping(path = "/login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String login(Map<String, Object> model, UserLogin user) throws Exception {
-    // save the user into the database
+  @GetMapping("/manager/create")
+  String createManager(Map<String, Object> model) {
+    UserLogin user = new UserLogin();
+    model.put("user", user);
+    return "manager";
+  }
+
+  @PostMapping("/manager/create")
+  String addManagerToDatabase(Map<String, Object> model, UserLogin user){
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (id serial, username varchar(20), password varchar(20))");
-      String sql = "INSERT INTO users (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
+      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
       stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 
       ResultSet rs = stmt.getGeneratedKeys();
@@ -152,9 +120,10 @@ public class Main {
       model.put("message", e.getMessage());
       return "error";
     }
-  }*/
 
->>>>>>> 65037ef79a3c46ba0f7a141c18517443b9bb8d9e
+  }
+
+
   @GetMapping("/employees")
   String returnEmployeeHomepage() {
     return "employees/allEmployees";
