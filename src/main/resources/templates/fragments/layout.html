@@ -12,16 +12,22 @@
             <button class="dropbtn">Employees
                 <i class="bi bi-caret-down-fill"></i>
             </button>
-        
+
             <div class="dropdown-content">
                 <a th:href="@{/employees/create}">Add New Profile</a>
                 <a th:href="@{/employees}">View Profiles</a>
             </div>
         </div>
+
         <div>
             <a th:href="@{/manager/create}">Add New Manager</a>
+        </div>
+
+        <div class="logout">
+            <a th:href="@{/login}">Log Out</a>
         </div>
     </nav>
     <div th:replace="${template}"/>
 
-</body> 
+</body>
+

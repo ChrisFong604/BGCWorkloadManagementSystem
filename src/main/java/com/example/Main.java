@@ -41,6 +41,8 @@ import java.util.Map;
 @SpringBootApplication
 public class Main {
 
+  boolean flag = false;
+
   @Value("${spring.datasource.url}")
   private String dbUrl;
 
@@ -59,10 +61,13 @@ public class Main {
   // Change to PostMapping or whatever for login page later
   @GetMapping("/login")
   String loginPageHandler(Map<String, Object> model) {
+    flag = false;
     UserLogin user = new UserLogin();
     model.put("user", user);
     return "login";
   }
+
+  
 
   @PostMapping(path = "/login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String login(Map<String, Object> model, UserLogin user) throws Exception {
@@ -80,6 +85,7 @@ public class Main {
         String compareToPW = rs.getString("password");
         if (username.equals(compareToUserName) && pw.equals(compareToPW)) {
           System.out.println("user exists");
+          flag = true;
           return "redirect:/dashboard";
         }
       }
@@ -92,7 +98,13 @@ public class Main {
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
-    return "index";
+    if (flag){
+      return "index";
+    }
+    else{
+      return "userNotFound";
+    }
+    
   }
 
   @GetMapping("/manager/create")
