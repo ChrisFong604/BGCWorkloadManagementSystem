@@ -98,24 +98,33 @@ public class Main {
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
+<<<<<<< HEAD
     if (flag){
       return "index";
     }
     else{
+=======
+    if (flag) {
+      return "index";
+    }
+    else {
+>>>>>>> c0cf839fb601ed990d32caa71921dc45a9c0312f
       return "userNotFound";
     }
     
   }
 
   @GetMapping("/manager/create")
-  String createManager(Map<String, Object> model) {
+  public String createManager(Map<String, Object> model) {
     UserLogin user = new UserLogin();
     model.put("user", user);
     return "manager";
   }
 
-  @PostMapping("/manager/create")
-  String addManagerToDatabase(Map<String, Object> model, UserLogin user){
+  // adding users
+  @PostMapping(path = "/manager/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
+    // save the user into the database
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
@@ -132,9 +141,7 @@ public class Main {
       model.put("message", e.getMessage());
       return "error";
     }
-
   }
-
 
   @GetMapping("/employees")
   String returnEmployeeHomepage() {

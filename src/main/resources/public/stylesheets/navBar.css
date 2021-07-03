@@ -65,3 +65,7 @@ body {
   display: block;
 }
 
+.logout {
+  float: right;
+}
+
