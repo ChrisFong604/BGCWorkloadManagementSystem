@@ -67,8 +67,6 @@ public class Main {
     return "login";
   }
 
-  
-
   @PostMapping(path = "/login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String login(Map<String, Object> model, UserLogin user) throws Exception {
     // save the user into the database
@@ -98,17 +96,10 @@ public class Main {
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
-<<<<<<< HEAD
-    if (flag){
-      return "index";
-    }
-    else{
-=======
     if (flag) {
       return "index";
     }
     else {
->>>>>>> c0cf839fb601ed990d32caa71921dc45a9c0312f
       return "userNotFound";
     }
     
