@@ -3,7 +3,12 @@ Section: D100
 Professor: Bobby Chan
 Date: 25/06/21
 
-Group: <h4>Kevin Shi</h4>, <h4>Samantha Tse</h4>, <h4>David Lowe</h4>, <h2>Ryan Wu</h2>, Christopher Fong
+<h2>Group members</h2>
+<h4>Kevin Shi</h4>,
+<h4>Samantha Tse</h4>
+<h4>David Lowe</h4>
+<h4>Ryan Wu</h4>
+<h4>Christopher Fong</h4>
 
 <h3>What is the name of your web application?</h3>
 BGC Workload Management System
