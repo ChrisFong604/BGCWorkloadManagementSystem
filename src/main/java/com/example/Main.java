@@ -41,6 +41,8 @@ import java.util.Map;
 @SpringBootApplication
 public class Main {
 
+  boolean flag = false;
+
   @Value("${spring.datasource.url}")
   private String dbUrl;
 
@@ -53,13 +55,83 @@ public class Main {
 
   @RequestMapping("/")
   String index(Map<String, Object> model) {
-    return "index";
+    return "redirect:/login";
   }
 
   // Change to PostMapping or whatever for login page later
   @GetMapping("/login")
-  String loginPageHandler() {
+  String loginPageHandler(Map<String, Object> model) {
+    flag = false;
+    UserLogin user = new UserLogin();
+    model.put("user", user);
     return "login";
+  }
+
+  @PostMapping(path = "/login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String login(Map<String, Object> model, UserLogin user) throws Exception {
+    // save the user into the database
+    String username = user.getUsername();
+    String pw = user.getPassword();
+
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT * FROM login";
+      ResultSet rs = stmt.executeQuery(sql);
+
+      while (rs.next()) {
+        String compareToUserName = rs.getString("username");
+        String compareToPW = rs.getString("password");
+        if (username.equals(compareToUserName) && pw.equals(compareToPW)) {
+          System.out.println("user exists");
+          flag = true;
+          return "redirect:/dashboard";
+        }
+      }
+      return "userNotFound";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+  @GetMapping("/dashboard")
+  String dashboard(Map<String, Object> model) {
+    if (flag) {
+      return "index";
+    }
+    else {
+      return "userNotFound";
+    }
+    
+  }
+
+  @GetMapping("/manager/create")
+  public String createManager(Map<String, Object> model) {
+    UserLogin user = new UserLogin();
+    model.put("user", user);
+    return "manager";
+  }
+
+  // adding users
+  @PostMapping(path = "/manager/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
+    // save the user into the database
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
+      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
+      stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+
+      ResultSet rs = stmt.getGeneratedKeys();
+      if (rs.next()) {
+        int id = rs.getInt(1);
+        user.setID(id);
+      }
+      return "index";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
   }
 
   @GetMapping("/employees")
@@ -115,9 +187,9 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (name varchar(40), position varchar(10), role varchar(40),"
+          "CREATE TABLE IF NOT EXISTS employees (id serial, name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
-      String sql = "INSERT INTO employees VALUES ('" + employee.getName() + "','" + employee.getPosition() + "','"
+      String sql = "INSERT INTO employees (name, position, role, team, status, capacity, startdate, enddate) VALUES ('" + employee.getName() + "','" + employee.getPosition() + "','"
           + employee.getRole() + "','" + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'"
           + employee.getStart() + "','" + employee.getEnd() + "')";
       stmt.executeUpdate(sql);

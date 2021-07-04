@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,8 +9,9 @@
     <title>Current Employees</title>
 </head>
 
-<body>
+<header></header>
 
+<body>
     <a th:href="@{/employees/metrics}">View metrics</a>
     <a th:href="@{/employees/create}">Add Employee Profile</a>
 
