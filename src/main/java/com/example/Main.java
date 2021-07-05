@@ -36,6 +36,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+import java.sql.Date;
 
 @Controller
 @SpringBootApplication
@@ -140,8 +141,44 @@ public class Main {
   }
 
   @GetMapping("/employees/metrics")
-  String returnEmployeeMetrics() {
+  String returnEmployeeMetrics(Map<String, Object> model) {
+
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT * FROM employees";
+      ResultSet rs = stmt.executeQuery(sql);
+
+    Employee emp = new Employee();
+    while (rs.next()) {
+      String name = rs.getString("name");
+      String position = rs.getString("position");
+      String role = rs.getString("role");
+      String team = rs.getString("team");
+      Boolean status = rs.getBoolean("status");
+      Float capacity = rs.getFloat("capacity");
+      Date start = rs.getDate("startdate");
+      Date end = rs.getDate("enddate");
+
+      emp.setName(name);
+      emp.setPosition(position);
+      emp.setRole(role);
+      emp.setStatus(status);
+      emp.setCapacity(capacity);
+      emp.setStart(start);
+      emp.setEnd(end);
+
+    }
+
+    model.put("employees", emp);
     return "employees/employeemetrics";
+  }
+  catch (Exception e) {
+    model.put("message", e.getMessage());
+    return "error";
+  }
+
+
+
   }
 
   @GetMapping("/employees/create")

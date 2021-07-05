@@ -10,6 +10,17 @@
     <title>Headcount View</title>
 </head>
 <body>
+
+    
+    <table>
+        <tr th:each="emp : ${employees}">
+            <td th:text = "${emp.status}"></td>
+            <td th:text = "${emp.name}"></td>
+        </tr>
+    </table>
+
+
+    
     <div class = "container"> 
         <canvas id = "headcount"></canvas>
     </div>
@@ -81,9 +92,26 @@
                 }
             }
         });
+        
+        function addData(chart, label, data) {
+            chart.data.labels.push(label);
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(data);
+            });
+            chart.update();
+        }
+
+        function removeData(chart) {
+            chart.data.labels.pop();
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.pop();
+            });
+            chart.update();
+        }
 
 
     </script>
+
     
 </body>
 </html>
