@@ -19,7 +19,10 @@
 
     <script th:inline="javascript">  
     
-let test = [];
+
+        
+
+        let test = [];
         var theList = [[${employees}]]
         for (i = 0; i < theList.length; i++) {
             test.push(theList[i].name);
@@ -48,7 +51,14 @@ let test = [];
             let abc = y + "/" + x + "/" + z;
             daysOfYear.push(abc);
         }
-   
+
+    
+
+
+    
+
+
+
         let headcount = document.getElementById('headcount').getContext('2d');
 
         let myChart = new Chart(headcount, {
@@ -57,7 +67,7 @@ let test = [];
 
              //the data of our dataset
             data: {
-                labels: daysOfYear,
+                labels: daysOfYear, //[jan 1, jan 7, jan 15, jan 22],
                 datasets: [{
                     label: 'Headcount: Planning',
                     
