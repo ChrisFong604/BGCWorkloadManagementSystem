@@ -148,7 +148,8 @@ public class Main {
       String sql = "SELECT * FROM employees";
       ResultSet rs = stmt.executeQuery(sql);
 
-    Employee emp = new Employee();
+    
+    ArrayList<Employee> output = new ArrayList<Employee>();
     while (rs.next()) {
       String name = rs.getString("name");
       String position = rs.getString("position");
@@ -159,6 +160,8 @@ public class Main {
       Date start = rs.getDate("startdate");
       Date end = rs.getDate("enddate");
 
+      Employee emp = new Employee();
+
       emp.setName(name);
       emp.setPosition(position);
       emp.setRole(role);
@@ -166,10 +169,11 @@ public class Main {
       emp.setCapacity(capacity);
       emp.setStart(start);
       emp.setEnd(end);
+      output.add(emp);
 
     }
 
-    model.put("employees", emp);
+    model.put("employees", output);
     return "employees/employeemetrics";
   }
   catch (Exception e) {
