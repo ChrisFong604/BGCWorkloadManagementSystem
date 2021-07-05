@@ -36,7 +36,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
-import java.sql.Date;
 
 @Controller
 @SpringBootApplication
@@ -99,11 +98,9 @@ public class Main {
   String dashboard(Map<String, Object> model) {
     if (flag) {
       return "index";
-    }
-    else {
+    } else {
       return "userNotFound";
     }
-    
   }
 
   @GetMapping("/manager/create")
@@ -120,7 +117,8 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
-      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
+      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword()
+          + "')";
       stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 
       ResultSet rs = stmt.getGeneratedKeys();
@@ -136,53 +134,44 @@ public class Main {
   }
 
   @GetMapping("/employees")
-  String returnEmployeeHomepage() {
-    return "employees/allEmployees";
-  }
+  String returnEmployeeHomepage(Map<String, Object> model) {
+    Employee employee = new Employee();
 
-  @GetMapping("/employees/metrics")
-  String returnEmployeeMetrics(Map<String, Object> model) {
+    model.put("employee", employee);
 
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      String sql = "SELECT * FROM employees";
-      ResultSet rs = stmt.executeQuery(sql);
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS employees (name varchar(40), position varchar(10), role varchar(40),"
+              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
 
-    
-    ArrayList<Employee> output = new ArrayList<Employee>();
-    while (rs.next()) {
-      String name = rs.getString("name");
-      String position = rs.getString("position");
-      String role = rs.getString("role");
-      String team = rs.getString("team");
-      Boolean status = rs.getBoolean("status");
-      Float capacity = rs.getFloat("capacity");
-      Date start = rs.getDate("startdate");
-      Date end = rs.getDate("enddate");
+      ArrayList<Employee> output = new ArrayList<Employee>();
+      while (rs.next()) {
+        Employee temp = new Employee();
+        temp.setName(rs.getString("name"));
+        temp.setPosition(rs.getString("position"));
+        temp.setRole(rs.getString("role"));
+        temp.setTeam(rs.getString("team"));
+        temp.setStatus(rs.getBoolean("status"));
+        temp.setCapacity(rs.getFloat("capacity"));
+        temp.setStart(rs.getDate("startdate"));
+        temp.setEnd(rs.getDate("enddate"));
 
-      Employee emp = new Employee();
+        output.add(temp);
+      }
+      model.put("employees", output);
 
-      emp.setName(name);
-      emp.setPosition(position);
-      emp.setRole(role);
-      emp.setStatus(status);
-      emp.setCapacity(capacity);
-      emp.setStart(start);
-      emp.setEnd(end);
-      output.add(emp);
-
+      return "employees/allEmployees";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
     }
+  }
 
-    model.put("employees", output);
+  @GetMapping("/employees/metrics")
+  String returnEmployeeMetrics() {
     return "employees/employeemetrics";
-  }
-  catch (Exception e) {
-    model.put("message", e.getMessage());
-    return "error";
-  }
-
-
-
   }
 
   @GetMapping("/employees/create")
@@ -199,9 +188,15 @@ public class Main {
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees (id serial, name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
-      String sql = "INSERT INTO employees (name, position, role, team, status, capacity, startdate, enddate) VALUES ('" + employee.getName() + "','" + employee.getPosition() + "','"
-          + employee.getRole() + "','" + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'"
-          + employee.getStart() + "','" + employee.getEnd() + "')";
+      String sql = "INSERT INTO employees (name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+          + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
+          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'" + employee.getStart() + "','"
+          + employee.getEnd() + "')";
+      if (employee.getPosition() == "intern") {
+        System.out.println(employee.getPosition() == "intern");
+      } else {
+        System.out.println(employee.getPosition() == "intern");
+      }
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
