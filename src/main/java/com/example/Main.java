@@ -28,17 +28,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Map;
+import java.time.*;
 
 @Controller
 @SpringBootApplication
+@EnableScheduling
 public class Main {
 
   boolean flag = false;
@@ -205,8 +211,39 @@ public class Main {
     }
   }
 
+  @Scheduled(cron = "*/10 * * * * *", zone = "Canada/Pacific")
+  public void scheduledRampCheck() {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT id,   FROM employees");
+
+      while (rs.next()) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        java.sql.Date start = rs.getDate("startdate");
+        java.sql.Date current = new java.sql.Date(System.currentTimeMillis());
+
+        int daysWorked; //2021-12-15 - 2019-07-05
+        switch(daysWorked) {
+          case ():
+            stmt.executeUpdate("UPDATE employees SET capacity=’0.1’ WHERE id=" + rs.getInt("id"));
+          case < 14:
+
+          case < 21:
+
+          case > 21:
+        }
+        Employee temp = new Employee();
+        temp.setStart(rs.getDate("startdate"));
+        temp.setEnd(rs.getDate("enddate"));
+      }
+
+    } catch (Exception e) {
+    }
+  }
+
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
+
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
