@@ -6,14 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+   
     <title>Headcount View</title>
 </head>
 <body>
+
+
     <div class = "container"> 
         <canvas id = "headcount"></canvas>
     </div>
 
-    <script>
+
+    <script th:inline="javascript">  
+    
+    let test = [];
+        var theList = [[${employees}]]
+        for (i = 0; i < theList.length; i++) {
+            test.push(theList[i].name);
+        }
+    
+    
+
         let headcount = document.getElementById('headcount').getContext('2d');
 
         let myChart = new Chart(headcount, {
@@ -22,7 +35,7 @@
 
              //the data of our dataset
             data: {
-                labels: ["April", "May", "June", "July", "August", "September", "October", "November"],
+                labels: test,
                 datasets: [{
                     label: 'Headcount: Planning',
                     
@@ -80,9 +93,26 @@
                 }
             }
         });
+        
+        function addData(chart, label, data) {
+            chart.data.labels.push(label);
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(data);
+            });
+            chart.update();
+        }
+
+        function removeData(chart) {
+            chart.data.labels.pop();
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.pop();
+            });
+            chart.update();
+        }
 
 
     </script>
+
     
 </body>
 </html>
