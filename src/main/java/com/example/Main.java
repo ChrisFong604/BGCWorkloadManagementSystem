@@ -132,9 +132,75 @@ public class Main {
     }
   }
 
+  /******* HERE *******/
   @GetMapping("/employees")
-  String returnEmployeeHomepage() {
-    return "employees/allEmployees";
+  String returnEmployeeHomepage(Map<String, Object> model) {
+    Property prop = new Property();
+    model.put("property", prop);
+
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT * FROM employees";
+      ResultSet rs = stmt.executeQuery(sql);
+
+      ArrayList<Employee> output = new ArrayList<Employee>();
+      while (rs.next()) {
+        Employee emp = new Employee();
+        emp.setId(rs.getInt("id"));
+        emp.setName(rs.getString("name"));
+        emp.setPosition(rs.getString("position"));
+        emp.setRole(rs.getString("role"));
+        emp.setTeam(rs.getString("team"));
+        emp.setStatus(rs.getBoolean("status"));
+        emp.setCapacity(rs.getFloat("capacity"));
+        emp.setStart(rs.getDate("startdate"));
+        emp.setEnd(rs.getDate("enddate"));
+
+        output.add(emp);
+      }
+      model.put("employees", output);
+
+      return "employees/allEmployees";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+  @PostMapping(path = "/employees", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String filterByProperty(Map<String, Object> model, Property prop) {
+    String filterBy = prop.getFilterBy();
+    String value = prop.getValue();
+
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT * FROM employees WHERE " + filterBy + " = '" + value + "' ";
+      //System.out.println(sql);
+
+      ResultSet rs = stmt.executeQuery(sql);
+
+      ArrayList<Employee> output = new ArrayList<Employee>();
+      while (rs.next()) {
+        Employee emp = new Employee();
+        emp.setId(rs.getInt("id"));
+        emp.setName(rs.getString("name"));
+        emp.setPosition(rs.getString("position"));
+        emp.setRole(rs.getString("role"));
+        emp.setTeam(rs.getString("team"));
+        emp.setStatus(rs.getBoolean("status"));
+        emp.setCapacity(rs.getFloat("capacity"));
+        emp.setStart(rs.getDate("startdate"));
+        emp.setEnd(rs.getDate("enddate"));
+
+        output.add(emp);
+      }
+      model.put("employees", output);
+
+      return "employees/allEmployees";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
   }
 
   @GetMapping("/employees/metrics")

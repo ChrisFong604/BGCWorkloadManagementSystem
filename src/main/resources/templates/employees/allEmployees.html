@@ -13,20 +13,67 @@
 
 <body>
     <a th:href="@{/employees/metrics}">View metrics</a>
-    <a th:href="@{/employees/create}">Add Employee Profile</a>
 
-    <table class="data-table">
+    <div class="container">
+      <form action="#" method="post" th:action="@{/employees}" th:object="${property}">
+        <label>Search by</label> 
+        <select name="filterBy" id="filterBy">
+            <optgroup th:field=*{filterBy}>
+              <option value="">Select...</option>
+                <option value="name">Name</option>
+                <option value="position">Employee Type</option>
+                <option value="role">Role</option>
+                <option value="team">Team</option>
+                <option value="status">Hired</option>
+                <option value="capacity">Capacity</option>
+                <option value="startdate">Start Date</option>
+                <option value="enddate">End Date</option>
+            </optgroup>
+        </select>
 
-        <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead>
+        <label>Search value</label>
+        <input type="text" th:field="*{value}" id="value">
 
-        <tr th:each="employee : ${employees}">
-            <td th:text="${employee.getName()}"></td>
+        <input type="submit" value="Search">
+        <button class="cancel"><a th:href="@{/employees}">Unfilter</a></button>   
+    </form>
+  </div>
+    
+  <table class="data-table">
+
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Employee Type</th>
+          <th>Role</th>
+          <th>Team</th>
+          <th>Hired</th>
+          <th>Capacity</th>
+          <th>Start Date</th>
+          <th>End Date</th>
         </tr>
-    </table>
+      </thead>
+
+      <tr th:each="employee : ${employees}">
+          <td th:text="${employee.name}"></td>
+          <td th:text="${employee.position}"></td>
+          <td th:text="${employee.role}"></td>
+          <td th:text="${employee.team}"></td>
+          <td th:text="${employee.status}"></td>
+          <td th:text="${employee.capacity}"></td>
+          <td th:text="${employee.start}"></td>
+          <td th:text="${employee.end}"></td>
+
+          <td>
+            <button><a>Edit</a></button>
+          </td>
+
+          <td>
+            <button><a><i class="bi bi-trash"></i>Delete</a></button>
+          </td>
+
+      </tr>
+  </table>
     
 </body>
 
