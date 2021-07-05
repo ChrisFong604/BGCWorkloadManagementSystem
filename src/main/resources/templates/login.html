@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/stylesheets/login.css" />
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <link rel="icon" href="BGC Engineering.png">
     <title>Login</title>
 </head>
 
@@ -22,10 +21,10 @@
         <form action="#" method="post" th:action="@{/login}" th:object="${user}">
             <div class="cred">
                 <label for="uName">Username</label> <br>
-                <input type="text" id="uName" th:field="*{username}" required > <br>
+                <input type="text" id="uName" required th:field="*{username}" required> <br>
     
                 <label for="pwd">Password</label> <br>
-                <input type="password" id="pwd" th:field="*{password}" required > <br>
+                <input type="password" id="pwd" required th:field="*{password}" required> <br>
     
                 <input type="submit" value="Login">
             </div>
@@ -39,7 +38,6 @@
             })
         }
     </script> -->
-    
 </body>
 
 </html>
