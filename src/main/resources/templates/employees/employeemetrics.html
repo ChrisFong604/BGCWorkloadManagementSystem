@@ -19,12 +19,23 @@
 
     <script th:inline="javascript">  
     
-    let test = [];
+        let test = [];
         var theList = [[${employees}]]
         for (i = 0; i < theList.length; i++) {
             test.push(theList[i].name);
         }
-    
+        let currentTime = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = yyyy + "-" + mm + "-" + dd;
+
+        let endtime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate());
+
+        var times = [currentTime, endTime];
+        console.log(currentTime);
+        console.log(endTime);
     
 
         let headcount = document.getElementById('headcount').getContext('2d');
@@ -35,11 +46,7 @@
 
              //the data of our dataset
             data: {
-<<<<<<< HEAD
-                labels: [],
-=======
-                labels: test,
->>>>>>> f2f9b2db1d4bf539c05d6cab3a482f67defeb78b
+                labels: times,
                 datasets: [{
                     label: 'Headcount: Planning',
                     
