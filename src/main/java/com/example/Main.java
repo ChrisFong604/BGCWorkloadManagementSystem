@@ -122,6 +122,7 @@ public class Main {
         manager.setID(rs.getInt("id"));
         manager.setUsername(rs.getString("username"));
         manager.setPassword(rs.getString("password"));
+        manager.setAccess(rs.getString("access"));
         output.add(manager);
       }
       model.put("managers", output);
@@ -138,8 +139,9 @@ public class Main {
   public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
-      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
+      String sql = "INSERT INTO login (username, password, access) VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getAccess() + "')";
+      System.out.println(user.getAccess());
       stmt.executeUpdate(sql);
       return "redirect:/manager/create";
     } catch (Exception e) {

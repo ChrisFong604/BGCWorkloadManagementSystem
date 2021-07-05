@@ -4,6 +4,7 @@ public class UserLogin {
     private String username;
     private String password;
     private int id;
+    private String access;
 
     public void setUsername(String username) {
         this.username = username;
@@ -14,6 +15,9 @@ public class UserLogin {
     public void setID(int id) {
         this.id = id;
     }
+    public void setAccess(String access) {
+        this.access = access;
+    }
     public String getUsername() {
         return this.username;
     }
@@ -22,5 +26,8 @@ public class UserLogin {
     }
     public int getID() {
         return this.id;
+    }
+    public String getAccess() {
+        return this.access;
     }
 }
