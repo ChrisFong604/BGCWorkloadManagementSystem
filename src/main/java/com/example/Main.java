@@ -98,11 +98,9 @@ public class Main {
   String dashboard(Map<String, Object> model) {
     if (flag) {
       return "index";
-    }
-    else {
+    } else {
       return "userNotFound";
     }
-    
   }
 
   @GetMapping("/manager/create")
@@ -119,7 +117,8 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
-      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
+      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword()
+          + "')";
       stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 
       ResultSet rs = stmt.getGeneratedKeys();
@@ -189,9 +188,15 @@ public class Main {
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees (id serial, name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
-      String sql = "INSERT INTO employees (name, position, role, team, status, capacity, startdate, enddate) VALUES ('" + employee.getName() + "','" + employee.getPosition() + "','"
-          + employee.getRole() + "','" + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'"
-          + employee.getStart() + "','" + employee.getEnd() + "')";
+      String sql = "INSERT INTO employees (name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+          + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
+          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'" + employee.getStart() + "','"
+          + employee.getEnd() + "')";
+      if (employee.getPosition() == "intern") {
+        System.out.println(employee.getPosition() == "intern");
+      } else {
+        System.out.println(employee.getPosition() == "intern");
+      }
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
