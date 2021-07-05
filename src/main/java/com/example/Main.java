@@ -31,6 +31,7 @@ import org.springframework.http.MediaType;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -107,7 +108,30 @@ public class Main {
   public String createManager(Map<String, Object> model) {
     UserLogin user = new UserLogin();
     model.put("user", user);
-    return "manager";
+
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT * FROM login";
+      ResultSet rs = stmt.executeQuery(sql);
+
+      ArrayList<UserLogin> output = new ArrayList<UserLogin>();
+      while (rs.next()) {
+        if (rs.getInt("id") == 1) {
+          continue;
+        }
+        UserLogin manager = new UserLogin();
+        manager.setID(rs.getInt("id"));
+        manager.setUsername(rs.getString("username"));
+        manager.setPassword(rs.getString("password"));
+        output.add(manager);
+      }
+      model.put("managers", output);
+
+      return "manager";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
   }
 
   // adding users
@@ -125,14 +149,14 @@ public class Main {
         int id = rs.getInt(1);
         user.setID(id);
       }
-      return "index";
+      return "redirect:/manager/create";
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
     }
   }
 
-  /******* HERE *******/
+  /******* FILTER *******/
   @GetMapping("/employees")
   String returnEmployeeHomepage(Map<String, Object> model) {
     Property prop = new Property();
@@ -202,6 +226,24 @@ public class Main {
       return "error";
     }
   }
+
+  @GetMapping("/employees/deleted")
+  public String deleteEmployee(Map<String, Object> model, @RequestParam String e_id) {
+    // delete the employee from the database
+    try (Connection connection = dataSource.getConnection()) {
+      String sql = "DELETE FROM employees WHERE id =?";
+      PreparedStatement ps = connection.prepareStatement(sql);
+      ps.setInt(1, Integer.parseInt(e_id));
+      ps.executeUpdate();
+
+      return "redirect:/employees";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+
 
   @GetMapping("/employees/metrics")
   String returnEmployeeMetrics() {

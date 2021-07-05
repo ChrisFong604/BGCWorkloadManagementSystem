@@ -24,6 +24,28 @@
         <button><a th:href="@{/dashboard}">Cancel</a></button>
     </form>
 
+    <table class="data-table">
+
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+  
+        <tr th:each="manager : ${managers}">
+            <td th:text="${manager.username}"></td>
+  
+            <td>
+              <button><a>Edit</a></button>
+            </td>
+  
+            <td>
+              <button><a><i class="bi bi-trash"></i>Delete</a></button>
+            </td>
+  
+        </tr>
+    </table>
+
 </body>
 </html>
 
