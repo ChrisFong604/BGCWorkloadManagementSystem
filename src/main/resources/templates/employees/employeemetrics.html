@@ -23,27 +23,12 @@
     <script th:inline="javascript">  
     
 
-        
-
-        let test = [];
+        /*let test = [];
         var theList = [[${employees}]]
         for (i = 0; i < theList.length; i++) {
             test.push(theList[i].name);
-        }
-        /*
-        let currentTime = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
+        }*/
 
-        today = yyyy + "-" + mm + "-" + dd;
-
-        let endtime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate());
-
-        var times = [currentTime, endTime];
-        console.log(currentTime);
-        console.log(endTime);
-        */
         var now = new Date(2021, 7, 21);
         var daysOfYear = [];
         for (var d = new Date(2021, 4, 1); d <= now; d.setDate(d.getDate() + 7)) {
@@ -54,13 +39,6 @@
             let abc = y + "/" + x + "/" + z;
             daysOfYear.push(abc);
         }
-
-    
-
-
-    
-
-
 
         let headcount = document.getElementById('headcount').getContext('2d');
 
@@ -127,79 +105,7 @@
                     }
                 }
             }
-        });*/
-
-        const ctx = document.getElementById('headcount').getContext('2d');
-
-        const startDate = new Date(2021, 6, 05);
-        const labels = [];
-
-        let i = 0;
-        let date = new Date();
-
-        for (i; i < 52; i++) {
-        date = moment(startDate).add(i, 'weeks').format('YYYY/MM/DD');  
-        labels.push(date.toString());
-        }
-
-        const chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Headcount: Planning',
-                data: [10, 50, 25, 70, 40],
-                backgroundColor:'orange',
-                borderColor: 'orange',
-                borderWidth: 1,
-                tension: 0.3,
-                fill: false
-            },
-            {
-                label: 'Headcount: Confirmed',
-                data: [20,35,40,60,50],
-                backgroundColor:'blue',
-                borderColor: 'blue',
-                borderWidth: 1,
-                tension: 0.3,
-                fill: false
-             
-            }]
-        },
-        options: {
-            scales: {   //watch out here - new syntax in v3.xx
-            x: {
-                type: 'timeseries',
-                time: {
-                    unit: 'week',  //this does the trick :-)
-                    isoWeekday: true,
-                        // declare Monday as the first day of the week
-                        // because in some locale, sunday would be first day of week
-                }
-            }
-            }
-        }
         });
-        
-        function addData(chart, label, data) {
-            chart.data.labels.push(label);
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.push(data);
-            });
-            chart.update();
-        }
-
-        function removeData(chart) {
-            chart.data.labels.pop();
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.pop();
-            });
-            chart.update();
-        }
-
-    
-
-
     </script>
 
     
