@@ -137,18 +137,11 @@ public class Main {
   // adding users
   @PostMapping(path = "/manager/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
-    // save the user into the database
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
       String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
-      stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-
-      ResultSet rs = stmt.getGeneratedKeys();
-      if (rs.next()) {
-        int id = rs.getInt(1);
-        user.setID(id);
-      }
+      stmt.executeUpdate(sql);
       return "redirect:/manager/create";
     } catch (Exception e) {
       model.put("message", e.getMessage());
@@ -156,7 +149,7 @@ public class Main {
     }
   }
 
-  /******* FILTER *******/
+  // filter by attributes
   @GetMapping("/employees")
   String returnEmployeeHomepage(Map<String, Object> model) {
     Property prop = new Property();
@@ -191,6 +184,7 @@ public class Main {
     }
   }
 
+  // filtered results
   @PostMapping(path = "/employees", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String filterByProperty(Map<String, Object> model, Property prop) {
     String filterBy = prop.getFilterBy();
@@ -227,9 +221,9 @@ public class Main {
     }
   }
 
+  // deleting employees
   @GetMapping("/employees/deleted")
   public String deleteEmployee(Map<String, Object> model, @RequestParam String e_id) {
-    // delete the employee from the database
     try (Connection connection = dataSource.getConnection()) {
       String sql = "DELETE FROM employees WHERE id =?";
       PreparedStatement ps = connection.prepareStatement(sql);
@@ -242,8 +236,6 @@ public class Main {
       return "error";
     }
   }
-
-
 
   @GetMapping("/employees/metrics")
   String returnEmployeeMetrics() {
@@ -267,6 +259,11 @@ public class Main {
       String sql = "INSERT INTO employees (name, position, role, team, status, capacity, startdate, enddate) VALUES ('" + employee.getName() + "','" + employee.getPosition() + "','"
           + employee.getRole() + "','" + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'"
           + employee.getStart() + "','" + employee.getEnd() + "')";
+      if (employee.getPosition() == "intern") {
+        System.out.println(employee.getPosition() == "intern");
+      } else {
+        System.out.println(employee.getPosition() == "intern");
+      }
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
