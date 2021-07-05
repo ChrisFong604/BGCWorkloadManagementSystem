@@ -1,0 +1,37 @@
+.data-table {
+    overflow-y: auto;
+    height: 150px;
+    width: 90%;
+}
+
+.data-table thead th {
+    position: sticky;
+    top: 0;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 8px 16px;
+    text-align: left;
+}
+
+th {
+    background: #eee;
+}
+
+.data-table, .data-table td {
+    box-shadow: inset 1px -1px rgb(255, 255, 255);
+}
+
+.data-table th {
+    box-shadow: inset 1px 1px rgb(255, 255, 255), 0 1px #000;
+}
+
+
+
+
+

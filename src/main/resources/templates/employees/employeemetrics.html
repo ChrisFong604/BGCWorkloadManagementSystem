@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
    
     <title>Headcount View</title>
@@ -20,12 +23,21 @@
     <script th:inline="javascript">  
     
 
+<<<<<<< HEAD
         
         /*
         let test = [];
+||||||| adb6458
+        
+
+        let test = [];
+=======
+        /*let test = [];
+>>>>>>> a410597ff0f7fd15c1143371669f78c1429c0add
         var theList = [[${employees}]]
         for (i = 0; i < theList.length; i++) {
             test.push(theList[i].name);
+<<<<<<< HEAD
         }*/
         /*
         let currentTime = new Date();
@@ -36,11 +48,21 @@
         today = yyyy + "-" + mm + "-" + dd;
 
         let endtime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate());
+||||||| adb6458
+        }
+        /*
+        let currentTime = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
 
-        var times = [currentTime, endTime];
-        console.log(currentTime);
-        console.log(endTime);
-        */
+        today = yyyy + "-" + mm + "-" + dd;
+
+        let endtime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate());
+=======
+        }*/
+>>>>>>> a410597ff0f7fd15c1143371669f78c1429c0add
+
         var now = new Date(2021, 7, 21);
         var daysOfYear = [];
         for (var d = new Date(2021, 4, 1); d <= now; d.setDate(d.getDate() + 7)) {
@@ -51,13 +73,6 @@
             let abc = y + "/" + x + "/" + z;
             daysOfYear.push(abc);
         }
-
-    
-
-
-    
-
-
 
         let headcount = document.getElementById('headcount').getContext('2d');
 
@@ -125,24 +140,6 @@
                 }
             }
         });
-        
-        function addData(chart, label, data) {
-            chart.data.labels.push(label);
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.push(data);
-            });
-            chart.update();
-        }
-
-        function removeData(chart) {
-            chart.data.labels.pop();
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.pop();
-            });
-            chart.update();
-        }
-
-
     </script>
 
     
