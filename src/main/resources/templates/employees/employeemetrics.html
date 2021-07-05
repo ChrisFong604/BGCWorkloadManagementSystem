@@ -19,13 +19,17 @@
 
     <script th:inline="javascript">  
     
-    let test = [];
-        var theList = [[${employees}]]
-        for (i = 0; i < theList.length; i++) {
-            test.push(theList[i].name);
-        }
-    
-    
+
+        let currentTime = new Date();
+        var dd = String(currentTime.getDate()).padStart(2, '0');
+        var mm = String(currentTime.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = currentTime.getFullYear();
+
+        currentTime = yyyy + "-" + mm + "-" + dd;
+        
+        let endtime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate());
+            
+        var times = [currentTime, endTime];
 
         let headcount = document.getElementById('headcount').getContext('2d');
 
