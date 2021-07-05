@@ -11,21 +11,22 @@
 </head>
 <body>
 
-    
-    <table>
-        <tr th:each="emp : ${employees}">
-            <td th:text = "${emp.status}"></td>
-            <td th:text = "${emp.name}"></td>
-        </tr>
-    </table>
 
-
-    
     <div class = "container"> 
         <canvas id = "headcount"></canvas>
     </div>
 
-    <script>
+
+    <script th:inline="javascript">  
+    
+    let test = [];
+        var theList = [[${employees}]]
+        for (i = 0; i < theList.length; i++) {
+            test.push(theList[i].name);
+        }
+    
+    
+
         let headcount = document.getElementById('headcount').getContext('2d');
 
         let myChart = new Chart(headcount, {
@@ -34,7 +35,7 @@
 
              //the data of our dataset
             data: {
-                labels: ["April", "May", "June", "July", "August", "September", "October", "November"],
+                labels: test,
                 datasets: [{
                     label: 'Headcount: Planning',
                     
