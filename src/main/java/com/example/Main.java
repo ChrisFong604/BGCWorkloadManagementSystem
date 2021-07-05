@@ -222,6 +222,8 @@ public class Main {
         java.sql.Date start = rs.getDate("startdate");
         java.sql.Date current = new java.sql.Date(System.currentTimeMillis());
 
+        current = start.getTime() - current.getTime();
+
         int daysWorked; //2021-12-15 - 2019-07-05
         switch(daysWorked) {
           case ():
