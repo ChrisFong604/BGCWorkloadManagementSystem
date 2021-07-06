@@ -33,6 +33,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -76,7 +77,6 @@ public class Main {
 
   @PostMapping(path = "/login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String login(Map<String, Object> model, UserLogin user) throws Exception {
-    // save the user into the database
     String username = user.getUsername();
     String pw = user.getPassword();
 
@@ -114,58 +114,73 @@ public class Main {
   public String createManager(Map<String, Object> model) {
     UserLogin user = new UserLogin();
     model.put("user", user);
-    return "manager";
-  }
 
-  // adding users
-  @PostMapping(path = "/manager/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
-    // save the user into the database
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
-      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword()
-          + "')";
-      stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+      String sql = "SELECT * FROM login";
+      ResultSet rs = stmt.executeQuery(sql);
 
-      ResultSet rs = stmt.getGeneratedKeys();
-      if (rs.next()) {
-        int id = rs.getInt(1);
-        user.setID(id);
+      ArrayList<UserLogin> output = new ArrayList<UserLogin>();
+      while (rs.next()) {
+        if (rs.getInt("id") == 1) {
+          continue;
+        }
+        UserLogin manager = new UserLogin();
+        manager.setID(rs.getInt("id"));
+        manager.setUsername(rs.getString("username"));
+        manager.setPassword(rs.getString("password"));
+        output.add(manager);
       }
-      return "index";
+      model.put("managers", output);
+
+      return "manager";
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
     }
   }
 
+  // adding users
+  @PostMapping(path = "/manager/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
+      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword()
+          + "')";
+      stmt.executeUpdate(sql);
+      return "redirect:/manager/create";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+  // filter by attributes
   @GetMapping("/employees")
   String returnEmployeeHomepage(Map<String, Object> model) {
-    Employee employee = new Employee();
-
-    model.put("employee", employee);
+    Property prop = new Property();
+    model.put("property", prop);
 
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
-      ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
+      String sql = "SELECT * FROM employees";
+      ResultSet rs = stmt.executeQuery(sql);
 
       ArrayList<Employee> output = new ArrayList<Employee>();
       while (rs.next()) {
-        Employee temp = new Employee();
-        temp.setName(rs.getString("name"));
-        temp.setPosition(rs.getString("position"));
-        temp.setRole(rs.getString("role"));
-        temp.setTeam(rs.getString("team"));
-        temp.setStatus(rs.getBoolean("status"));
-        temp.setCapacity(rs.getFloat("capacity"));
-        temp.setStart(rs.getDate("startdate"));
-        temp.setEnd(rs.getDate("enddate"));
+        Employee emp = new Employee();
+        emp.setId(rs.getString("id"));
+        emp.setName(rs.getString("name"));
+        emp.setPosition(rs.getString("position"));
+        emp.setRole(rs.getString("role"));
+        emp.setTeam(rs.getString("team"));
+        emp.setStatus(rs.getBoolean("status"));
+        emp.setCapacity(rs.getFloat("capacity"));
+        emp.setStart(rs.getDate("startdate"));
+        emp.setEnd(rs.getDate("enddate"));
 
-        output.add(temp);
+        output.add(emp);
       }
       model.put("employees", output);
 
@@ -176,9 +191,85 @@ public class Main {
     }
   }
 
+  // filtered results
+  @PostMapping(path = "/employees", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String filterByProperty(Map<String, Object> model, Property prop) {
+    String filterBy = prop.getFilterBy();
+    String value = prop.getValue();
+
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT * FROM employees WHERE " + filterBy + " = '" + value + "' ";
+      // System.out.println(sql);
+
+      ResultSet rs = stmt.executeQuery(sql);
+
+      ArrayList<Employee> output = new ArrayList<Employee>();
+      while (rs.next()) {
+        Employee emp = new Employee();
+        emp.setId(rs.getString("id"));
+        emp.setName(rs.getString("name"));
+        emp.setPosition(rs.getString("position"));
+        emp.setRole(rs.getString("role"));
+        emp.setTeam(rs.getString("team"));
+        emp.setStatus(rs.getBoolean("status"));
+        emp.setCapacity(rs.getFloat("capacity"));
+        emp.setStart(rs.getDate("startdate"));
+        emp.setEnd(rs.getDate("enddate"));
+
+        output.add(emp);
+      }
+      model.put("employees", output);
+
+      return "employees/allEmployees";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+  // deleting employees
+  @GetMapping("/employees/deleted")
+  public String deleteEmployee(Map<String, Object> model, @RequestParam String e_id) {
+    try (Connection connection = dataSource.getConnection()) {
+      String sql = "DELETE FROM employees WHERE id =?";
+      PreparedStatement ps = connection.prepareStatement(sql);
+      ps.setInt(1, Integer.parseInt(e_id));
+      ps.executeUpdate();
+
+      return "redirect:/employees";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
   @GetMapping("/employees/metrics")
-  String returnEmployeeMetrics() {
-    return "employees/employeemetrics";
+  String returnEmployeeMetrics(Map<String, Object> model) {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT * FROM employees";
+      ResultSet rs = stmt.executeQuery(sql);
+
+      ArrayList<Employee> output = new ArrayList<Employee>();
+      while (rs.next()) {
+        Employee emp = new Employee();
+        emp.setName(rs.getString("name"));
+        emp.setPosition(rs.getString("position"));
+        emp.setRole(rs.getString("role"));
+        emp.setTeam(rs.getString("team"));
+        emp.setStatus(rs.getBoolean("status"));
+        emp.setCapacity(rs.getFloat("capacity"));
+        emp.setStart(rs.getDate("startdate"));
+        emp.setEnd(rs.getDate("enddate"));
+        output.add(emp);
+      }
+      model.put("employees", output);
+      return "employees/employeemetrics";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
   }
 
   @GetMapping("/employees/create")
@@ -200,8 +291,8 @@ public class Main {
       final String UniqueID = UUID.randomUUID().toString().replace("-", "");
 
       String sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
-          + UniqueID + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
-          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'" + employee.getStart() + "','"
+          + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
+          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
           + employee.getEnd() + "')";
 
       stmt.executeUpdate(sql);
@@ -216,7 +307,7 @@ public class Main {
   public void scheduledRampCheck() {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT id, startdate FROM employees");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
 
       while (rs.next()) {
         java.sql.Date start = rs.getDate("startdate");
@@ -226,52 +317,28 @@ public class Main {
         daysWorked /= 1000 * 60 * 60 * 24; // 2021-12-15 - 2019-07-05
         int weeksWorked = (int) (Math.ceil(daysWorked % 7));
 
-        System.out.println("weeksworked: " + weeksWorked);
+        System.out.println("name: " + rs.getString("name") + "\nweeksworked: " + weeksWorked + "\n");
+
         switch (weeksWorked) {
           case 1:
-            stmt.executeUpdate("UPDATE employees SET capacity=’0.100’ WHERE id=" + rs.getString("id"));
+            stmt.executeUpdate("UPDATE employees SET capacity=0.100 WHERE id=" + rs.getString("id"));
             break;
           case 2:
-            stmt.executeUpdate("UPDATE employees SET capacity=’0.250’ WHERE id=" + rs.getString("id"));
+            stmt.executeUpdate("UPDATE employees SET capacity=0.250 WHERE id=" + rs.getString("id"));
             break;
           case 3:
-            stmt.executeUpdate("UPDATE employees SET capacity=’0.500’ WHERE id=" + rs.getString("id"));
+            stmt.executeUpdate("UPDATE employees SET capacity=0.500 WHERE id=" + rs.getString("id"));
             break;
           case 4:
-            stmt.executeUpdate("UPDATE employees SET capacity=’0.875’ WHERE id=" + rs.getString("id"));
+            stmt.executeUpdate("UPDATE employees SET capacity=0.875 WHERE id=" + rs.getString("id"));
             break;
           case 5:
-            stmt.executeUpdate("UPDATE employees SET capacity=’0.875’ WHERE id=" + rs.getString("id"));
+            stmt.executeUpdate("UPDATE employees SET capacity=0.875 WHERE id=" + rs.getString("id"));
             break;
         }
-        Employee temp = new Employee();
-        temp.setStart(rs.getDate("startdate"));
-        temp.setEnd(rs.getDate("enddate"));
       }
 
     } catch (Exception e) {
-    }
-  }
-
-  @RequestMapping("/db")
-  String db(Map<String, Object> model) {
-
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
-
-      ArrayList<String> output = new ArrayList<String>();
-      while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick"));
-      }
-
-      model.put("records", output);
-      return "db";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
     }
   }
 

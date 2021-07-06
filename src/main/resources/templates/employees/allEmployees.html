@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/allEmployees.css" />
     <title>Current Employees</title>
 </head>
 
@@ -13,21 +14,71 @@
 
 <body>
     <a th:href="@{/employees/metrics}">View metrics</a>
-    <a th:href="@{/employees/create}">Add Employee Profile</a>
 
-    <table class="data-table">
+    <div class="container">
+      <form action="#" method="post" th:action="@{/employees}" th:object="${property}">
+        <label>Search by</label> 
+        <select name="filterBy" id="filterBy">
+            <optgroup th:field=*{filterBy}>
+              <option value="">Select...</option>
+                <option value="name">Name</option>
+                <option value="position">Employee Type</option>
+                <option value="role">Role</option>
+                <option value="team">Team</option>
+                <option value="status">Hired</option>
+                <option value="capacity">Capacity</option>
+                <option value="startdate">Start Date</option>
+                <option value="enddate">End Date</option>
+            </optgroup>
+        </select>
 
+        <label>Search value</label>
+        <input type="text" th:field="*{value}" id="value">
+
+        <input type="submit" value="Search">
+        <button class="cancel"><a th:href="@{/employees}">Unfilter</a></button>   
+    </form>
+  </div>
+    
+  <div class="data-table">
+    <table>
         <thead>
           <tr>
             <th>Name</th>
+            <th>Employee Type</th>
+            <th>Role</th>
+            <th>Team</th>
+            <th>Hired</th>
+            <th>Capacity</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
 
-        <tr th:each="employee : ${employees}">
-            <td th:text="${employee.getName()}"></td>
-        </tr>
+        <tbody>
+          <tr th:each="employee : ${employees}">
+              <td th:text="${employee.name}"></td>
+              <td th:text="${employee.position}"></td>
+              <td th:text="${employee.role}"></td>
+              <td th:text="${employee.team}"></td>
+              <td th:text="${employee.status}"></td>
+              <td th:text="${employee.capacity}"></td>
+              <td th:text="${employee.start}"></td>
+              <td th:text="${employee.end}"></td>
+
+              <td>
+                <button><a>Edit</a></button>
+              </td>
+
+              <td>
+                <button><a th:href="@{/employees/deleted?e_id={id}(id=${employee.id})}"><i class="bi bi-trash"></i>Delete</a></button>
+              </td>
+          </tr>
+        </tbody>
     </table>
-    
+  </div>
 </body>
 
 </html>
