@@ -142,7 +142,12 @@ public class Main {
       }
       model.put("managers", output);
 
-      return "manager";
+      if (flag && edit) {
+        return "manager";
+      }
+      else {
+        return "userNotFound";
+      }
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
@@ -158,6 +163,7 @@ public class Main {
       String sql = "INSERT INTO login (username, password, access) VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getAccess() + "')";
       System.out.println(user.getAccess());
       stmt.executeUpdate(sql);
+      
       return "redirect:/manager/create";
     } catch (Exception e) {
       model.put("message", e.getMessage());
