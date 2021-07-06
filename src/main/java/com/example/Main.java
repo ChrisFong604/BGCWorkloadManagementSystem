@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @SpringBootApplication
@@ -303,22 +304,22 @@ public class Main {
     }
   }
 
-  @Scheduled(cron = "*/20 * * * * *", zone = "Canada/Pacific")
+  @Scheduled(cron = "*/30 * * * * *", zone = "Canada/Pacific")
   public void scheduledRampCheck() {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
 
       while (rs.next()) {
-        java.sql.Date start = rs.getDate("startdate");
-        java.sql.Date current = new java.sql.Date(System.currentTimeMillis());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        java.util.Date start = rs.getDate("startdate");
+        LocalDate current = LocalDate.now(ZoneId.of("Canada/America"));
 
-        long daysWorked = start.getTime() - current.getTime();
-        daysWorked /= 1000 * 60 * 60 * 24; // 2021-12-15 - 2019-07-05
-        int weeksWorked = (int) (Math.ceil(daysWorked % 7));
+        long daysWorked = start.getTime();
+        daysWorked /= 86400000; // milliseconds to days
+        int weeksWorked = (int) (Math.floor(daysWorked / 7));
 
-        System.out.println("name: " + rs.getString("name") + "\nweeksworked: " + weeksWorked + "\nDays Worked");
-
+        System.out.println("Current Time: " + current.format(formatter));
         switch (weeksWorked) {
           case 1:
             stmt.executeUpdate("UPDATE employees SET capacity=0.100 WHERE id=" + rs.getString("id"));
