@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
 import java.time.*;
 
 @Controller
@@ -148,7 +149,7 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (name varchar(40), position varchar(10), role varchar(40),"
+          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
       ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
 
@@ -192,17 +193,17 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (id serial, name varchar(40), position varchar(10), role varchar(40),"
+          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
-      String sql = "INSERT INTO employees (name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
-          + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
+
+      // Creates a universally unique ID for each employee (Only exists in Database)
+      final String UniqueID = UUID.randomUUID().toString().replace("-", "");
+
+      String sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+          + UniqueID + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
           + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'" + employee.getStart() + "','"
           + employee.getEnd() + "')";
-      if (employee.getPosition() == "intern") {
-        System.out.println(employee.getPosition() == "intern");
-      } else {
-        System.out.println(employee.getPosition() == "intern");
-      }
+
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
@@ -211,28 +212,37 @@ public class Main {
     }
   }
 
-  @Scheduled(cron = "*/10 * * * * *", zone = "Canada/Pacific")
+  @Scheduled(cron = "*/20 * * * * *", zone = "Canada/Pacific")
   public void scheduledRampCheck() {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT id,   FROM employees");
+      ResultSet rs = stmt.executeQuery("SELECT id, startdate FROM employees");
 
       while (rs.next()) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         java.sql.Date start = rs.getDate("startdate");
         java.sql.Date current = new java.sql.Date(System.currentTimeMillis());
 
-        current = start.getTime() - current.getTime();
+        long daysWorked = start.getTime() - current.getTime();
+        daysWorked /= 1000 * 60 * 60 * 24; // 2021-12-15 - 2019-07-05
+        int weeksWorked = (int) (Math.ceil(daysWorked % 7));
 
-        int daysWorked; //2021-12-15 - 2019-07-05
-        switch(daysWorked) {
-          case ():
-            stmt.executeUpdate("UPDATE employees SET capacity=’0.1’ WHERE id=" + rs.getInt("id"));
-          case < 14:
-
-          case < 21:
-
-          case > 21:
+        System.out.println("weeksworked: " + weeksWorked);
+        switch (weeksWorked) {
+          case 1:
+            stmt.executeUpdate("UPDATE employees SET capacity=’0.100’ WHERE id=" + rs.getString("id"));
+            break;
+          case 2:
+            stmt.executeUpdate("UPDATE employees SET capacity=’0.250’ WHERE id=" + rs.getString("id"));
+            break;
+          case 3:
+            stmt.executeUpdate("UPDATE employees SET capacity=’0.500’ WHERE id=" + rs.getString("id"));
+            break;
+          case 4:
+            stmt.executeUpdate("UPDATE employees SET capacity=’0.875’ WHERE id=" + rs.getString("id"));
+            break;
+          case 5:
+            stmt.executeUpdate("UPDATE employees SET capacity=’0.875’ WHERE id=" + rs.getString("id"));
+            break;
         }
         Employee temp = new Employee();
         temp.setStart(rs.getDate("startdate"));
