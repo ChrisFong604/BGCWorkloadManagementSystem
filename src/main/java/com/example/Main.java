@@ -24,8 +24,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -287,6 +285,59 @@ public class Main {
           "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
 
+      // Creates a universally unique ID for each employee (Only exists in Database)
+      final String UniqueID = UUID.randomUUID().toString().replace("-", "");
+
+      String sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+          + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
+          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
+          + employee.getEnd() + "')";
+
+      stmt.executeUpdate(sql);
+      return "redirect:/employees"; // Directly returns to employee homepage
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+  
+  @GetMapping("/employees/edit")
+  public String editEmployee(Map<String, Object> model, @RequestParam String rid) throws Exception {
+	  try (Connection connection = dataSource.getConnection()) {
+		  String sql = "SELECT * FROM employees WHERE id = ?";
+		  PreparedStatement pstmt = connection.prepareStatement(sql);
+	      pstmt.setInt(1, Integer.parseInt(rid));
+	      ResultSet rs = pstmt.executeQuery(sql);
+
+	      ArrayList<Employee> output = new ArrayList<Employee>();
+	      while (rs.next()) {
+	        Employee emp = new Employee();
+	        emp.setName(rs.getString("name"));
+	        emp.setPosition(rs.getString("position"));
+	        emp.setRole(rs.getString("role"));
+	        emp.setTeam(rs.getString("team"));
+	        emp.setStatus(rs.getBoolean("status"));
+	        emp.setCapacity(rs.getFloat("capacity"));
+	        emp.setStart(rs.getDate("startdate"));
+	        emp.setEnd(rs.getDate("enddate"));
+	        output.add(emp);
+	      }
+	      model.put("employees", output);
+	      return "employees/edit";
+	    } catch (Exception e) {
+	      model.put("message", e.getMessage());
+	      return "error";
+	    }
+  }
+
+  @PostMapping(path = "/employees/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      /*stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
+              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+*/
       // Creates a universally unique ID for each employee (Only exists in Database)
       final String UniqueID = UUID.randomUUID().toString().replace("-", "");
 
