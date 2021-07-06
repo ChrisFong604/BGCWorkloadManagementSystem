@@ -303,7 +303,7 @@ public class Main {
     }
   }
 
-  @Scheduled(cron = "*/120 * * * * *", zone = "Canada/Pacific")
+  @Scheduled(cron = "*/20 * * * * *", zone = "Canada/Pacific")
   public void scheduledRampCheck() {
 
     System.out.println("\n----NEW SCHEDULED CHECK\n\n");
@@ -313,42 +313,37 @@ public class Main {
 
       while (rs.next()) {
         String name = rs.getString("name");
-        System.out.println("name: " + name);
+        System.out.println("EMPLOYEE: " + name);
         java.sql.Date grab = rs.getDate("startdate");
 
-        System.out.println("Grabbed date: " + grab);
         LocalDate start = grab.toLocalDate();
         LocalDate current = LocalDate.now(ZoneId.of("Canada/Pacific"));
 
-        System.out.println("startDate: " + start);
-        System.out.println("CurrentDate: " + current);
-
         Period period = Period.between(start, current);
 
-        System.out.print(period.getYears() + " years,");
-        System.out.print(period.getMonths() + " months,");
-        System.out.print(period.getDays() + " days\n\n");
+        int daysWorked = period.getYears()*365 + period.getMonths()*30 + period.getDays();
 
-        /*
-        switch (weeksWorked) {
-          case 1:
-            stmt.executeUpdate("UPDATE employees SET capacity=0.100 WHERE id=" + rs.getString("id"));
-            break;
-          case 2:
-            stmt.executeUpdate("UPDATE employees SET capacity=0.250 WHERE id=" + rs.getString("id"));
-            break;
-          case 3:
-            stmt.executeUpdate("UPDATE employees SET capacity=0.500 WHERE id=" + rs.getString("id"));
-            break;
-          case 4:
-            stmt.executeUpdate("UPDATE employees SET capacity=0.875 WHERE id=" + rs.getString("id"));
-            break;
-          case 5:
-            stmt.executeUpdate("UPDATE employees SET capacity=0.875 WHERE id=" + rs.getString("id"));
-            break;
+        System.out.println("daysWorked: " + daysWorked);
+        if (daysWorked < 0) {
+          stmt.executeUpdate("UPDATE employees SET capacity = 0 WHERE id = '" + rs.getString("id") + "'");
         }
-        */
+        else if (daysWorked < 7) {
+          stmt.executeUpdate("UPDATE employees SET capacity = 0.100 WHERE id = '" + rs.getString("id") + "'");
+        }
+        else if (daysWorked < 14) {
+          stmt.executeUpdate("UPDATE employees SET capacity = 0.25 WHERE id = '" + rs.getString("id") + "'");
+        }
+        else if (daysWorked < 21) {
+          stmt.executeUpdate("UPDATE employees SET capacity = 0.5 WHERE id = '" + rs.getString("id") + "'");
+        }
+        else if (daysWorked < 28){
+          stmt.executeUpdate("UPDATE employees SET capacity = 0.875 WHERE id = '" + rs.getString("id") + "'");
+        }
+        else {
+          stmt.executeUpdate("UPDATE employees SET capacity = 0.875 WHERE id = '" + rs.getString("id") + "'");
+        }
       }
+      
 
     } catch (Exception e) {
     }
