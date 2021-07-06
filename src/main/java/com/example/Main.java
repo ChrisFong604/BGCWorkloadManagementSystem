@@ -317,7 +317,7 @@ public class Main {
         daysWorked /= 1000 * 60 * 60 * 24; // 2021-12-15 - 2019-07-05
         int weeksWorked = (int) (Math.ceil(daysWorked % 7));
 
-        System.out.println("name: " + rs.getString("name") + "\nweeksworked: " + weeksWorked + "\n");
+        System.out.println("name: " + rs.getString("name") + "\nweeksworked: " + weeksWorked + "\nDays Worked");
 
         switch (weeksWorked) {
           case 1:
