@@ -39,13 +39,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 
 @Controller
 @SpringBootApplication
@@ -306,22 +303,33 @@ public class Main {
     }
   }
 
-  @Scheduled(cron = "*/30 * * * * *", zone = "Canada/Pacific")
+  @Scheduled(cron = "*/120 * * * * *", zone = "Canada/Pacific")
   public void scheduledRampCheck() {
+
+    System.out.println("\n----NEW SCHEDULED CHECK\n\n");
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
 
       while (rs.next()) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        java.util.Date start = rs.getDate("startdate");
-        LocalDate current = LocalDate.now(ZoneId.of("Canada/America"));
+        String name = rs.getString("name");
+        System.out.println("name: " + name);
+        java.sql.Date grab = rs.getDate("startdate");
 
-        long daysWorked = start.getTime();
-        daysWorked /= 86400000; // milliseconds to days
-        int weeksWorked = (int) (Math.floor(daysWorked / 7));
+        System.out.println("Grabbed date: " + grab);
+        LocalDate start = grab.toLocalDate();
+        LocalDate current = LocalDate.now(ZoneId.of("Canada/Pacific"));
 
-        System.out.println("Current Time: " + current.format(formatter));
+        System.out.println("startDate: " + start);
+        System.out.println("CurrentDate: " + current);
+
+        Period period = Period.between(start, current);
+
+        System.out.print(period.getYears() + " years,");
+        System.out.print(period.getMonths() + " months,");
+        System.out.print(period.getDays() + " days\n\n");
+
+        /*
         switch (weeksWorked) {
           case 1:
             stmt.executeUpdate("UPDATE employees SET capacity=0.100 WHERE id=" + rs.getString("id"));
@@ -339,6 +347,7 @@ public class Main {
             stmt.executeUpdate("UPDATE employees SET capacity=0.875 WHERE id=" + rs.getString("id"));
             break;
         }
+        */
       }
 
     } catch (Exception e) {
