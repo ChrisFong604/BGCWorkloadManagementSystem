@@ -88,8 +88,8 @@ public class Main {
         if (username.equals(compareToUserName) && pw.equals(compareToPW)) {
           System.out.println("user exists");
           flag = true;
-          String e = "edit";
-          if (compareToAccess.equals(e)) {
+          String ed = "edit";
+          if (compareToAccess.equals(ed)) {
             edit = true;
           }
           /*System.out.println(edit);
@@ -193,7 +193,15 @@ public class Main {
       }
       model.put("employees", output);
 
-      return "employees/allEmployees";
+      if (flag && edit) {
+        return "employees/allEmployees";
+      }
+      else if (flag && !edit) {
+        return "readOnly/allEmployees_r";
+      }
+      else {
+        return "userNotFound";
+      }
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
@@ -286,7 +294,12 @@ public class Main {
   public String returnEmployeeCreate(Map<String, Object> model) throws Exception {
     Employee employee = new Employee();
     model.put("employee", employee);
-    return "employees/createEmployee";
+    if (flag && edit) {
+      return "employees/createEmployee";
+    }
+    else {
+      return "userNotFound";
+    }
   }
 
   @PostMapping(path = "/employees/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
