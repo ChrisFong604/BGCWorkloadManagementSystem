@@ -43,6 +43,7 @@ import java.util.Map;
 public class Main {
 
   boolean flag = false;
+  boolean edit = false;
 
   @Value("${spring.datasource.url}")
   private String dbUrl;
@@ -63,6 +64,7 @@ public class Main {
   @GetMapping("/login")
   String loginPageHandler(Map<String, Object> model) {
     flag = false;
+    edit = false;
     UserLogin user = new UserLogin();
     model.put("user", user);
     return "login";
@@ -72,6 +74,7 @@ public class Main {
   public String login(Map<String, Object> model, UserLogin user) throws Exception {
     String username = user.getUsername();
     String pw = user.getPassword();
+    String access = user.getAccess();
 
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
@@ -81,9 +84,17 @@ public class Main {
       while (rs.next()) {
         String compareToUserName = rs.getString("username");
         String compareToPW = rs.getString("password");
+        String compareToAccess = rs.getString("access");
         if (username.equals(compareToUserName) && pw.equals(compareToPW)) {
           System.out.println("user exists");
           flag = true;
+          String e = "edit";
+          if (compareToAccess.equals(e)) {
+            edit = true;
+          }
+          /*System.out.println(edit);
+          System.out.println(compareToAccess);
+          System.out.println(s);*/
           return "redirect:/dashboard";
         }
       }
@@ -96,9 +107,13 @@ public class Main {
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
-    if (flag) {
+    if (flag && edit) {
       return "index";
-    } else {
+    } 
+    else if (flag && !edit) {
+      return "readOnly/index_r";
+    }
+    else {
       return "userNotFound";
     }
   }
