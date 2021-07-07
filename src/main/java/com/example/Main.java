@@ -24,10 +24,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -35,11 +35,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
+import java.time.*;
 
 @Controller
 @SpringBootApplication
+@EnableScheduling
 public class Main {
 
   boolean flag = false;
@@ -139,7 +144,8 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
-      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')";
+      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword()
+          + "')";
       stmt.executeUpdate(sql);
       return "redirect:/manager/create";
     } catch (Exception e) {
@@ -162,7 +168,7 @@ public class Main {
       ArrayList<Employee> output = new ArrayList<Employee>();
       while (rs.next()) {
         Employee emp = new Employee();
-        emp.setId(rs.getInt("id"));
+        emp.setId(rs.getString("id"));
         emp.setName(rs.getString("name"));
         emp.setPosition(rs.getString("position"));
         emp.setRole(rs.getString("role"));
@@ -192,14 +198,14 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       String sql = "SELECT * FROM employees WHERE " + filterBy + " = '" + value + "' ";
-      //System.out.println(sql);
+      // System.out.println(sql);
 
       ResultSet rs = stmt.executeQuery(sql);
 
       ArrayList<Employee> output = new ArrayList<Employee>();
       while (rs.next()) {
         Employee emp = new Employee();
-        emp.setId(rs.getInt("id"));
+        emp.setId(rs.getString("id"));
         emp.setName(rs.getString("name"));
         emp.setPosition(rs.getString("position"));
         emp.setRole(rs.getString("role"));
@@ -238,7 +244,7 @@ public class Main {
 
   @GetMapping("/employees/metrics")
   String returnEmployeeMetrics(Map<String, Object> model) {
-     try (Connection connection = dataSource.getConnection()) {
+    try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       String sql = "SELECT * FROM employees";
       ResultSet rs = stmt.executeQuery(sql);
@@ -255,11 +261,10 @@ public class Main {
         emp.setStart(rs.getDate("startdate"));
         emp.setEnd(rs.getDate("enddate"));
         output.add(emp);
-    }
-    model.put("employees", output);
-    return "employees/employeemetrics";
-    }
-    catch (Exception e) {
+      }
+      model.put("employees", output);
+      return "employees/employeemetrics";
+    } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
     }
@@ -277,17 +282,81 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (id serial, name varchar(40), position varchar(10), role varchar(40),"
+          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
-      String sql = "INSERT INTO employees (name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
-          + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
-          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.875 + ",'" + employee.getStart() + "','"
+
+      // Creates a universally unique ID for each employee (Only exists in Database)
+      final String UniqueID = UUID.randomUUID().toString().replace("-", "");
+
+      String sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+          + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
+          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
           + employee.getEnd() + "')";
-      if (employee.getPosition() == "intern") {
-        System.out.println(employee.getPosition() == "intern");
-      } else {
-        System.out.println(employee.getPosition() == "intern");
-      }
+
+      stmt.executeUpdate(sql);
+      return "redirect:/employees"; // Directly returns to employee homepage
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+  
+  @GetMapping("/employees/edit")
+  public String editEmployee(Map<String, Object> model, @RequestParam String rid) throws Exception {
+	  try (Connection connection = dataSource.getConnection()) {
+		  String sql = "SELECT * FROM employees WHERE id = ?";
+		  PreparedStatement pstmt = connection.prepareStatement(sql);
+	      pstmt.setString(1, rid);
+	      ResultSet rs = pstmt.executeQuery();
+	      Employee emp = new Employee();
+	      if(rs.next()) {
+	    	  emp.setId(rs.getString("id"));
+		      emp.setName(rs.getString("name"));
+		      System.out.println(emp.getName());
+		      emp.setPosition(rs.getString("position"));
+		      System.out.println(emp.getPosition());
+		      emp.setRole(rs.getString("role"));
+		      emp.setTeam(rs.getString("team"));
+		      emp.setStatus(rs.getBoolean("status"));
+		      emp.setCapacity(rs.getFloat("capacity"));
+		      emp.setStart(rs.getDate("startdate"));
+		      emp.setEnd(rs.getDate("enddate"));
+	      }
+	      
+	      model.put("employee", emp);
+	      return "employees/editEmployee";
+	    } catch (Exception e) {
+	      model.put("message", e.getMessage());
+	      return "error";
+	    }
+  }
+
+  @PostMapping(path = "/employees/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      /*stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
+              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+
+      // Creates a universally unique ID for each employee (Only exists in Database)
+      final String UniqueID = UUID.randomUUID().toString().replace("-", "");*/
+      String sql = "UPDATE employees SET "
+      		+ "name = '" + employee.getName() + "', "
+      		+ "position = '" + employee.getPosition() + "', "
+      		+ "role = '" + employee.getRole() + "', "
+      		+ "team = '" + employee.getTeam() + "', "
+      		+ "status = " + employee.getStatus() + ", "
+      		+ "startdate = '" + employee.getStart() + "', "
+      		+ "enddate = '" + employee.getEnd() + "' "
+      		+ "WHERE id = '" + employee.getId() + "';";
+      System.out.println(rid);
+
+      /*String sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+          + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
+          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
+          + employee.getEnd() + "')";*/
+
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
@@ -296,24 +365,42 @@ public class Main {
     }
   }
 
-  @RequestMapping("/db")
-  String db(Map<String, Object> model) {
+  @Scheduled(cron = "*/20 * * * * *", zone = "Canada/Pacific")
+  public void scheduledRampCheck() {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
 
-      ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick"));
+        java.sql.Date start = rs.getDate("startdate");
+        java.sql.Date current = new java.sql.Date(System.currentTimeMillis());
+
+        long daysWorked = start.getTime() - current.getTime();
+        daysWorked /= 1000 * 60 * 60 * 24; // 2021-12-15 - 2019-07-05
+        int weeksWorked = (int) (Math.ceil(daysWorked % 7));
+
+        System.out.println("name: " + rs.getString("name") + "\nweeksworked: " + weeksWorked + "\nDays Worked");
+
+        switch (weeksWorked) {
+          case 1:
+            stmt.executeUpdate("UPDATE employees SET capacity=0.100 WHERE id=" + rs.getString("id"));
+            break;
+          case 2:
+            stmt.executeUpdate("UPDATE employees SET capacity=0.250 WHERE id=" + rs.getString("id"));
+            break;
+          case 3:
+            stmt.executeUpdate("UPDATE employees SET capacity=0.500 WHERE id=" + rs.getString("id"));
+            break;
+          case 4:
+            stmt.executeUpdate("UPDATE employees SET capacity=0.875 WHERE id=" + rs.getString("id"));
+            break;
+          case 5:
+            stmt.executeUpdate("UPDATE employees SET capacity=0.875 WHERE id=" + rs.getString("id"));
+            break;
+        }
       }
 
-      model.put("records", output);
-      return "db";
     } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
     }
   }
 

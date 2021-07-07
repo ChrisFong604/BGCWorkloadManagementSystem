@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/createEmployee.css" />
+    <title>Edit New Profile</title> 
+</head>
+
+<header></header>
+
+<body>
+    <div class="container">
+        <h1 class="heading">Edit Profile</h1>
+        <!--  <div class="data-table">
+		    <table>
+		        <tbody>
+		        	<tr th:object="${employee}">
+		        	<td th:text="${employee.name}"></td>
+		        	<td th:text="${employee.position}"></td>
+		        	<td th:text="${employee.role}"></td>
+		        	<td th:text="${employee.team}"></td>
+		        	<td th:text="${employee.status}"></td>
+		            <td th:text="${employee.capacity}"></td>
+		            <td th:text="${employee.start}"></td>
+		            <td th:text="${employee.end}"></td>
+		            </tr>
+		        </tbody>
+		    </table>
+  		</div> -->
+        <form action="#" method="post" th:action="@{/employees/edit?rid={id}(id = ${id})}" th:object="${employee}">
+            <label for="name">Name</label> <br>
+            <input type="text" th:field="*{name}" th:attr="value = ${employee.name}" id="name"> <br>
+
+            <label>Select employee type</label>
+            <select name="position" id="position" >
+                <optgroup th:field=*{position} th:attr="value = ${employee.position}">
+                    <option value="">PLEASE RESELECT</option>
+                    <option value="permanent">Permanent Hire</option>
+                    <option value="intern">Co-op/Intern</option>
+                </optgroup>
+            </select>
+
+            <br><label for="role">Role</label> 
+            <input type="text" th:field=*{role} th:attr="value = ${employee.role}" id="role"> <br>
+
+            <label for="team">Team</label> <br>
+            <input type="text" th:field=*{team} th:attr="value = ${employee.team}" id="team"> <br>
+
+            <label for="status">Employee status</label>
+            <select name="status" id="status">
+                <optgroup th:field=*{status} label="status" th:attr="value = ${employee.status}">
+                    <option value="TRUE">PLEASE RESELECT</option> <!-- <text th:utext = "${employee.status}"> -->
+                    <option value="TRUE">Hired</option>
+                    <option value="FALSE">Projected</option>
+                </optgroup>
+            </select>
+
+            <br>
+            <label>Start Date</label>
+            <input type="date" th:field=*{start} th:attr="value = ${employee.start}"> <br>
+        
+            <br>
+            <label>End Date (Co-op/Intern)</label>
+            <input type="date" th:field=*{end} th:attr="value = ${employee.end}"> <br>
+            
+            <br>
+            <label>ID (debug)</label>
+            <input type="text" th:field=*{id} th:attr="value = ${employee.id}"> <br>
+
+            <div class="buttons">
+                <input type="submit" value="Save">
+                <button class="cancel"><a th:href="@{/employees}">Cancel</a></button>
+            </div>
+        </form>
+    </div>
+
+    <a th:href="@{/employees}">Back to Homepage</a>
+</body>
+
+</html>
