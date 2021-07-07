@@ -19,26 +19,113 @@
         <canvas id = "headcount"></canvas>
     </div>
 
+    
+
 
     <script th:inline="javascript">  
     
 
-        /*let test = [];
-        var theList = [[${employees}]]
-        for (i = 0; i < theList.length; i++) {
-            test.push(theList[i].name);
-        }*/
-
-        var now = new Date(2021, 7, 21);
+       
+        // Date: y/m/d
+        var now = new Date(2021, 8, 31);
         var daysOfYear = [];
-        for (var d = new Date(2021, 4, 1); d <= now; d.setDate(d.getDate() + 7)) {
-            console.log(d.getDate());
+        for (var d = new Date(2021, 7, 10); d <= now; d.setDate(d.getDate() + 7)) {
+            //console.log(d.getDate());
             let x = d.getDate();
             let y = d.getMonth();
             let z = d.getFullYear();
-            let abc = y + "/" + x + "/" + z;
+            if (y < 10){
+                y = "0" + y.toString();
+            } 
+            let abc = z + "-" + y + "-" + x;
             daysOfYear.push(abc);
         }
+        let empsd = [];
+        var theList = [[${employees}]]
+        let hemp = [];
+        let pemp = [];
+        let empst = [];
+        
+        
+        for (i = 0; i < theList.length; i++) {
+            empsd.push(theList[i].start);
+            empst.push(theList[i].status);
+            //console.log(test[i]);
+            
+        }
+        
+
+        //creating hired employee list to match daysofyear
+        for (i = 0; i < daysOfYear.length; i++){
+            hemp.push(0);
+            //console.log(hemp[i]);
+        }
+        
+        //creating projected employee list
+        for (i = 0; i < daysOfYear.length; i++){
+            pemp.push(0);
+            //console.log(hemp[i]);
+        }
+
+        for (i = 0; i < empsd.length; i++){
+            for(j = 0; j < daysOfYear.length; j++){
+                if ((empsd[i] == daysOfYear[j]) && (empst[i] == true)){
+                    hemp[j] += 1;
+                    
+                }
+            }
+        }
+
+        for (i = 0; i < empsd.length; i++){
+            for(j = 0; j < daysOfYear.length; j++){
+                if ((empsd[i] == daysOfYear[j]) && (empst[i] == false)){
+                    pemp[j] += 1;
+                    
+                }
+            }
+        }
+
+
+
+        /*
+        console.log("printing test 2 after adding");
+        for (i = 0; i < hemp.length; i++){
+            console.log(hemp[i]);
+        }
+        */
+        for (i = 0; i < hemp.length; i++){
+            if (i == 0){
+                hemp[0] = hemp[0];
+            }
+            else{
+                hemp[i] = hemp[i-1] + hemp[i];
+            }
+            
+        }
+
+        for (i = 0; i < pemp.length; i++){
+            if (i == 0){
+                pemp[0] = pemp[0];
+            }
+            else{
+                pemp[i] = pemp[i-1] + pemp[i];
+            }
+            
+        }
+
+        /*
+        console.log("TEST[0] " + test[0]);
+        console.log("DAYSOFYEAR[0] " + daysOfYear[0]);
+        if (test[0] == daysOfYear[0]){
+            console.log("YAYYY");
+            
+        }
+        console.log(typeof test[0]);
+        console.log(typeof daysOfYear[0]);
+        console.log("BELOW IS START DATE");
+        console.log(theList[0].start);
+        console.log(theList[0].role);
+        */
 
         let headcount = document.getElementById('headcount').getContext('2d');
 
@@ -52,7 +139,7 @@
                 datasets: [{
                     label: 'Headcount: Planning',
                     
-                    data: [10, 50, 25, 70, 40],
+                    data: pemp,
                     backgroundColor:'orange',
                     borderColor: 'orange',
                     fill: false,
@@ -61,7 +148,7 @@
 
                 {
                     label: 'Headcount: Confirmed',
-                    data: [20,35,40,60,50],
+                    data: hemp,
                     backgroundColor:'blue',
                     borderColor: 'blue',
                     fill: false,
