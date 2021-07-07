@@ -58,30 +58,51 @@
         </thead>
 
         <tbody>
-          <tr th:each="employee : ${employees}">
-              <td th:text="${employee.name}"></td>
-              <td th:text="${employee.position}"></td>
-              <td th:text="${employee.role}"></td>
-              <td th:text="${employee.team}"></td>
-              <td th:text="${employee.status}"></td>
-              <td th:text="${employee.capacity}"></td>
-              <td th:text="${employee.start}"></td>
-              <td th:text="${employee.end}"></td>
-
-              <td>
-                <button><a>Edit</a></button>
-              </td>
-
-              <td>
-                <button><a th:href="@{/employees/deleted?e_id={id}(id=${employee.id})}"><i class="bi bi-trash"></i>Delete</a></button>
-              </td>
-          </tr>
+        	<tr th:each="employee : ${employees}">
+        	<td th:text="${employee.name}"></td>
+        	<td th:text="${employee.position}"></td>
+        	<td th:text="${employee.role}"></td>
+        	<td th:text="${employee.team}"></td>
+        	<td th:text="${employee.status}"></td>
+            <td th:text="${employee.capacity}"></td>
+            <td th:text="${employee.start}"></td>
+            <td th:text="${employee.end}"></td>
+			<td>
+				<button><a th:href="@{/employees/edit?rid={id}(id = ${employee.getId()})}">Edit</a></button>
+			</td>
+	        <td>
+	        	<button><a th:href="@{/employees/deleted?e_id={id}(id=${employee.id})}"><i class="bi bi-trash"></i>Delete</a></button>
+	        </td>
+			</tr>
+		
         </tbody>
     </table>
   </div>
+  
+  <script>
+/*var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+
+document.ready(function() {
+	'[data-toggle="toggle"]'.change(function(){
+		this.parents().next('.hide').toggle();
+	});
+}*/
+</script>
+
 </body>
 
 </html>
-
-<h1>This page will display the list of employees</h1>
 

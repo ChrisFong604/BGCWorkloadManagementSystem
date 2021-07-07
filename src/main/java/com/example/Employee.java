@@ -10,7 +10,7 @@ import java.sql.Date;
 public class Employee {
 
     // PROPERTIES
-    private int id;
+    private String id;
     private String name;
     private String position; // Co-op or Intern (e.g QA, SW Dev, etc.)
     private String role; // eg. QA analyst, SW Dev, etc
@@ -32,8 +32,8 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int id, String name, String position, String role, String team, Boolean status, Float capacity, Date start,
-            Date end) {
+    public Employee(String id, String name, String position, String role, String team, Boolean status, Float capacity,
+            Date start, Date end) {
         this.id = id;
         this.name = name;
         this.position = position;
@@ -45,7 +45,7 @@ public class Employee {
         this.end = end;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -81,7 +81,7 @@ public class Employee {
         this.end = end;
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
@@ -117,5 +117,4 @@ public class Employee {
         return this.end;
     }
 
-    
 }
