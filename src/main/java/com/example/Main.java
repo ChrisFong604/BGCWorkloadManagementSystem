@@ -48,6 +48,7 @@ import java.time.*;
 public class Main {
 
   boolean flag = false;
+  boolean edit = false;
 
   @Value("${spring.datasource.url}")
   private String dbUrl;
@@ -68,6 +69,7 @@ public class Main {
   @GetMapping("/login")
   String loginPageHandler(Map<String, Object> model) {
     flag = false;
+    edit = false;
     UserLogin user = new UserLogin();
     model.put("user", user);
     return "login";
@@ -77,6 +79,7 @@ public class Main {
   public String login(Map<String, Object> model, UserLogin user) throws Exception {
     String username = user.getUsername();
     String pw = user.getPassword();
+    String access = user.getAccess();
 
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
@@ -86,9 +89,17 @@ public class Main {
       while (rs.next()) {
         String compareToUserName = rs.getString("username");
         String compareToPW = rs.getString("password");
+        String compareToAccess = rs.getString("access");
         if (username.equals(compareToUserName) && pw.equals(compareToPW)) {
           System.out.println("user exists");
           flag = true;
+          String ed = "edit";
+          if (compareToAccess.equals(ed)) {
+            edit = true;
+          }
+          /*System.out.println(edit);
+          System.out.println(compareToAccess);
+          System.out.println(s);*/
           return "redirect:/dashboard";
         }
       }
@@ -101,9 +112,13 @@ public class Main {
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
-    if (flag) {
+    if (flag && edit) {
       return "index";
-    } else {
+    } 
+    else if (flag && !edit) {
+      return "readOnly/index_r";
+    }
+    else {
       return "userNotFound";
     }
   }
@@ -127,11 +142,17 @@ public class Main {
         manager.setID(rs.getInt("id"));
         manager.setUsername(rs.getString("username"));
         manager.setPassword(rs.getString("password"));
+        manager.setAccess(rs.getString("access"));
         output.add(manager);
       }
       model.put("managers", output);
 
-      return "manager";
+      if (flag && edit) {
+        return "manager";
+      }
+      else {
+        return "userNotFound";
+      }
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
@@ -143,10 +164,11 @@ public class Main {
   public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20))");
-      String sql = "INSERT INTO login (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword()
-          + "')";
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
+      String sql = "INSERT INTO login (username, password, access) VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getAccess() + "')";
+      System.out.println(user.getAccess());
       stmt.executeUpdate(sql);
+      
       return "redirect:/manager/create";
     } catch (Exception e) {
       model.put("message", e.getMessage());
@@ -182,7 +204,15 @@ public class Main {
       }
       model.put("employees", output);
 
-      return "employees/allEmployees";
+      if (flag && edit) {
+        return "employees/allEmployees";
+      }
+      else if (flag && !edit) {
+        return "readOnly/allEmployees_r";
+      }
+      else {
+        return "userNotFound";
+      }
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
@@ -219,7 +249,12 @@ public class Main {
       }
       model.put("employees", output);
 
-      return "employees/allEmployees";
+      if (flag && edit) {
+        return "employees/allEmployees";
+      }
+      else {
+        return "readOnly/allEmployees_r";
+      }
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
@@ -274,7 +309,12 @@ public class Main {
   public String returnEmployeeCreate(Map<String, Object> model) throws Exception {
     Employee employee = new Employee();
     model.put("employee", employee);
-    return "employees/createEmployee";
+    if (flag && edit) {
+      return "employees/createEmployee";
+    }
+    else {
+      return "userNotFound";
+    }
   }
 
   @PostMapping(path = "/employees/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })

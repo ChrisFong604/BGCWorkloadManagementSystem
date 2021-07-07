@@ -20,8 +20,17 @@
         <label for="pwd">Create Password</label> <br>
         <input type="password" id="pwd" required th:field="*{password}"> <br>
 
+        <label>Type of Access</label> 
+        <select name="access" id="access">
+            <optgroup th:field=*{access}>
+              <option value="">Select...</option>
+                <option value="read">Read only</option>
+                <option value="edit">Edit</option>
+            </optgroup>
+        </select>
+
         <input type="submit" value="Submit">
-        <button><a th:href="@{/dashboard}">Cancel</a></button>
+        <button><a th:href="@{/manager/create}">Cancel</a></button>
     </form>
 
     <table class="data-table">
@@ -29,11 +38,13 @@
         <thead>
           <tr>
             <th>Name</th>
+            <th>Type of Access</th>
           </tr>
         </thead>
   
         <tr th:each="manager : ${managers}">
             <td th:text="${manager.username}"></td>
+            <td th:text="${manager.access}"></td>
   
             <td>
               <button><a>Edit</a></button>
