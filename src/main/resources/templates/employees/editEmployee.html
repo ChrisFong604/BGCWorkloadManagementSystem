@@ -14,30 +14,46 @@
 
 <body>
     <div class="container">
-        <h1 class="heading">Profile</h1>
-        <form action="#" method="post" th:action="@{/employees/edit}" th:object="${employee}">
+        <h1 class="heading">Edit Profile</h1>
+        <!--  <div class="data-table">
+		    <table>
+		        <tbody>
+		        	<tr th:object="${employee}">
+		        	<td th:text="${employee.name}"></td>
+		        	<td th:text="${employee.position}"></td>
+		        	<td th:text="${employee.role}"></td>
+		        	<td th:text="${employee.team}"></td>
+		        	<td th:text="${employee.status}"></td>
+		            <td th:text="${employee.capacity}"></td>
+		            <td th:text="${employee.start}"></td>
+		            <td th:text="${employee.end}"></td>
+		            </tr>
+		        </tbody>
+		    </table>
+  		</div> -->
+        <form action="#" method="post" th:action="@{/employees/edit?rid={id}(id = ${id})}" th:object="${employee}">
             <label for="name">Name</label> <br>
-            <input type="text" th:field=*{name} id="name" value="oof" autocomplete="off"> <br>
+            <input type="text" th:value="${employee.name}" id="name"> <br>
 
             <label>Select employee type</label>
             <select name="position" id="position">
-                <optgroup th:field=*{position}>
-                    <option value="">Select...</option>
+                <optgroup th:value="${employee.position}">
+                    <option value="${employee.position}"><text th:utext = "${employee.position}"></option>
                     <option value="permanent">Permanent Hire</option>
                     <option value="intern">Co-op/Intern</option>
                 </optgroup>
             </select>
 
             <br><label for="role">Role</label> 
-            <input type="text" th:field=*{role} id="role"> <br>
+            <input type="text" th:value="${employee.role}" id="role"> <br>
 
             <label for="team">Team</label> <br>
-            <input type="text" th:field=*{team} id="team"> <br>
+            <input type="text" th:value="${employee.team}" id="team"> <br>
 
             <label for="status">Employee status</label>
             <select name="status" id="status">
-                <optgroup th:field=*{status} label="status">
-                    <option value="">Select...</option>
+                <optgroup th:value="${employee.status}" label="status">
+                    <option value="TRUE">PLEASE RESELECT</option> <!-- <text th:utext = "${employee.status}"> -->
                     <option value="TRUE">Hired</option>
                     <option value="FALSE">Projected</option>
                 </optgroup>
@@ -45,11 +61,11 @@
 
             <br>
             <label>Start Date</label>
-            <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd"> <br>
+            <input type="date" th:value="${employee.start}" placeholder="yyyy-mm-dd"> <br>
         
             <br>
             <label>End Date (Co-op/Intern)</label>
-            <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd"> <br>
+            <input type="date" th:value="${employee.end}" placeholder="yyyy-mm-dd"> <br>
 
             <div class="buttons">
                 <input type="submit" value="Save">
