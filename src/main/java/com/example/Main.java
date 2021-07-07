@@ -249,7 +249,12 @@ public class Main {
       }
       model.put("employees", output);
 
-      return "employees/allEmployees";
+      if (flag && edit) {
+        return "employees/allEmployees";
+      }
+      else {
+        return "readOnly/allEmployees_r";
+      }
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
