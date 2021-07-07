@@ -19,60 +19,84 @@
         <canvas id = "headcount"></canvas>
     </div>
 
+    
+
 
     <script th:inline="javascript">  
     
 
-<<<<<<< HEAD
-        
-        /*
-        let test = [];
-||||||| adb6458
-        
-
-        let test = [];
-=======
-        /*let test = [];
->>>>>>> a410597ff0f7fd15c1143371669f78c1429c0add
-        var theList = [[${employees}]]
-        for (i = 0; i < theList.length; i++) {
-            test.push(theList[i].name);
-<<<<<<< HEAD
-        }*/
-        /*
-        let currentTime = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-
-        today = yyyy + "-" + mm + "-" + dd;
-
-        let endtime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate());
-||||||| adb6458
-        }
-        /*
-        let currentTime = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-
-        today = yyyy + "-" + mm + "-" + dd;
-
-        let endtime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate());
-=======
-        }*/
->>>>>>> a410597ff0f7fd15c1143371669f78c1429c0add
-
-        var now = new Date(2021, 7, 21);
+       
+        // Date: y/m/d
+        var now = new Date(2021, 8, 31);
         var daysOfYear = [];
-        for (var d = new Date(2021, 4, 1); d <= now; d.setDate(d.getDate() + 7)) {
-            console.log(d.getDate());
+        for (var d = new Date(2021, 7, 10); d <= now; d.setDate(d.getDate() + 7)) {
+            //console.log(d.getDate());
             let x = d.getDate();
             let y = d.getMonth();
             let z = d.getFullYear();
-            let abc = y + "/" + x + "/" + z;
+            if (y < 10){
+                y = "0" + y.toString();
+            } 
+            let abc = z + "-" + y + "-" + x;
             daysOfYear.push(abc);
         }
+        let test = [];
+        var theList = [[${employees}]]
+        let test2 = [];
+        
+        
+        for (i = 0; i < theList.length; i++) {
+            test.push(theList[i].start);
+            console.log(test[i]);
+            
+        }
+        
+
+        console.log("PRINTING TEST2");
+
+        for (i = 0; i < daysOfYear.length; i++){
+            test2.push(0);
+            console.log(test2[i]);
+        }
+        console.log("LENGTH OF TEST 2 " + test2.length);
+
+        for (i = 0; i < test.length; i++){
+            for(j = 0; j < daysOfYear.length; j++){
+                if (test[i] == daysOfYear[j]){
+                    test2[j] += 1;
+                    console.log("IM IN IF STATEMENT");
+                }
+            }
+        }
+
+        console.log("printing test 2 after adding");
+        for (i = 0; i < test2.length; i++){
+            console.log(test2[i]);
+        }
+
+        for (i = 0; i < test2.length; i++){
+            if (i == 0){
+                test2[0] = test2[0];
+            }
+            else{
+                test2[i] = test2[i-1] + test2[i];
+            }
+            
+        }
+
+        /*
+        console.log("TEST[0] " + test[0]);
+        console.log("DAYSOFYEAR[0] " + daysOfYear[0]);
+        if (test[0] == daysOfYear[0]){
+            console.log("YAYYY");
+            
+        }
+        console.log(typeof test[0]);
+        console.log(typeof daysOfYear[0]);
+        console.log("BELOW IS START DATE");
+        console.log(theList[0].start);
+        console.log(theList[0].role);
+        */
 
         let headcount = document.getElementById('headcount').getContext('2d');
 
@@ -86,7 +110,7 @@
                 datasets: [{
                     label: 'Headcount: Planning',
                     
-                    data: [10, 50, 25, 70, 40],
+                    data: [5, 12, 4, 8, 6],
                     backgroundColor:'orange',
                     borderColor: 'orange',
                     fill: false,
@@ -95,7 +119,7 @@
 
                 {
                     label: 'Headcount: Confirmed',
-                    data: [20,35,40,60,50],
+                    data: test2,
                     backgroundColor:'blue',
                     borderColor: 'blue',
                     fill: false,

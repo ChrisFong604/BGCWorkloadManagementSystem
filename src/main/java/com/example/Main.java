@@ -237,30 +237,6 @@ public class Main {
   }
 
   @GetMapping("/employees/metrics")
-<<<<<<< HEAD
-  String returnEmployeeMetrics() {
-     try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      String sql = "SELECT * FROM employees";
-      ResultSet rs = stmt.executeQuery(sql);
-
-      ArrayList<Employee> output = new ArrayList<Employee>();
-      while (rs.next()) {
-        Employee emp = new Employee();
-        emp.setName(rs.getString("name"));
-        emp.setPosition(rs.getString("position"));
-        emp.setRole(rs.getString("role"));
-        emp.setTeam(rs.getString("team"));
-        emp.setStatus(rs.getBoolean("status"));
-        emp.setCapacity(rs.getFloat("capacity"));
-        emp.setStart(rs.getDate("startdate"));
-        emp.setEnd(rs.getDate("enddate"));
-        output.add(temp);
-    }
-    model.put("employees", output);
-||||||| adb6458
-  String returnEmployeeMetrics() {
-=======
   String returnEmployeeMetrics(Map<String, Object> model) {
      try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
@@ -281,25 +257,12 @@ public class Main {
         output.add(emp);
     }
     model.put("employees", output);
->>>>>>> a410597ff0f7fd15c1143371669f78c1429c0add
     return "employees/employeemetrics";
-<<<<<<< HEAD
     }
     catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
     }
-
-
-    
-||||||| adb6458
-=======
-    }
-    catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
->>>>>>> a410597ff0f7fd15c1143371669f78c1429c0add
   }
 
   @GetMapping("/employees/create")
