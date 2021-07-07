@@ -310,6 +310,7 @@ public class Main {
 	      ResultSet rs = pstmt.executeQuery();
 	      Employee emp = new Employee();
 	      if(rs.next()) {
+	    	  emp.setId(rs.getString("id"));
 		      emp.setName(rs.getString("name"));
 		      System.out.println(emp.getName());
 		      emp.setPosition(rs.getString("position"));
@@ -331,7 +332,7 @@ public class Main {
   }
 
   @PostMapping(path = "/employees/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee) throws Exception {
+  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       /*stmt.executeUpdate(
@@ -341,15 +342,15 @@ public class Main {
       // Creates a universally unique ID for each employee (Only exists in Database)
       final String UniqueID = UUID.randomUUID().toString().replace("-", "");*/
       String sql = "UPDATE employees SET "
-      		+ "name = '" + employee.getName() + "','"
-      		+ "position = '" + employee.getPosition() + "','"
-      		+ "role = '" + employee.getRole() + "','"
-      		+ "team = '" + employee.getTeam() + "',"
-      		+ "status = '" + employee.getStatus() + ",'"
-      		+ "capacity = '" + employee.getCapacity() + "','"
-      		+ "startdate = '" + employee.getStart() + "','"
+      		+ "name = '" + employee.getName() + "', "
+      		+ "position = '" + employee.getPosition() + "', "
+      		+ "role = '" + employee.getRole() + "', "
+      		+ "team = '" + employee.getTeam() + "', "
+      		+ "status = " + employee.getStatus() + ", "
+      		+ "startdate = '" + employee.getStart() + "', "
       		+ "enddate = '" + employee.getEnd() + "' "
-      		+ "WHERE id = " + employee.getId() + ";";
+      		+ "WHERE id = '" + employee.getId() + "';";
+      System.out.println(rid);
 
       /*String sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
           + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"

@@ -33,26 +33,26 @@
   		</div> -->
         <form action="#" method="post" th:action="@{/employees/edit?rid={id}(id = ${id})}" th:object="${employee}">
             <label for="name">Name</label> <br>
-            <input type="text" th:value="${employee.name}" id="name"> <br>
+            <input type="text" th:field="*{name}" th:attr="value = ${employee.name}" id="name"> <br>
 
             <label>Select employee type</label>
-            <select name="position" id="position">
-                <optgroup th:value="${employee.position}">
-                    <option value="${employee.position}"><text th:utext = "${employee.position}"></option>
+            <select name="position" id="position" >
+                <optgroup th:field=*{position} th:attr="value = ${employee.position}">
+                    <option value="">PLEASE RESELECT</option>
                     <option value="permanent">Permanent Hire</option>
                     <option value="intern">Co-op/Intern</option>
                 </optgroup>
             </select>
 
             <br><label for="role">Role</label> 
-            <input type="text" th:value="${employee.role}" id="role"> <br>
+            <input type="text" th:field=*{role} th:attr="value = ${employee.role}" id="role"> <br>
 
             <label for="team">Team</label> <br>
-            <input type="text" th:value="${employee.team}" id="team"> <br>
+            <input type="text" th:field=*{team} th:attr="value = ${employee.team}" id="team"> <br>
 
             <label for="status">Employee status</label>
             <select name="status" id="status">
-                <optgroup th:value="${employee.status}" label="status">
+                <optgroup th:field=*{status} label="status" th:attr="value = ${employee.status}">
                     <option value="TRUE">PLEASE RESELECT</option> <!-- <text th:utext = "${employee.status}"> -->
                     <option value="TRUE">Hired</option>
                     <option value="FALSE">Projected</option>
@@ -61,11 +61,15 @@
 
             <br>
             <label>Start Date</label>
-            <input type="date" th:value="${employee.start}" placeholder="yyyy-mm-dd"> <br>
+            <input type="date" th:field=*{start} th:attr="value = ${employee.start}"> <br>
         
             <br>
             <label>End Date (Co-op/Intern)</label>
-            <input type="date" th:value="${employee.end}" placeholder="yyyy-mm-dd"> <br>
+            <input type="date" th:field=*{end} th:attr="value = ${employee.end}"> <br>
+            
+            <br>
+            <label>ID (debug)</label>
+            <input type="text" th:field=*{id} th:attr="value = ${employee.id}"> <br>
 
             <div class="buttons">
                 <input type="submit" value="Save">
