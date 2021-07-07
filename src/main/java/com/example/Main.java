@@ -112,15 +112,39 @@ public class Main {
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
-    if (flag && edit) {
-      return "index";
-    } 
-    else if (flag && !edit) {
-      return "readOnly/index_r";
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT * FROM employees";
+      ResultSet rs = stmt.executeQuery(sql);
+
+      ArrayList<Employee> output = new ArrayList<Employee>();
+      while (rs.next()) {
+        Employee emp = new Employee();
+        emp.setName(rs.getString("name"));
+        emp.setPosition(rs.getString("position"));
+        emp.setRole(rs.getString("role"));
+        emp.setTeam(rs.getString("team"));
+        emp.setStatus(rs.getBoolean("status"));
+        emp.setCapacity(rs.getFloat("capacity"));
+        emp.setStart(rs.getDate("startdate"));
+        emp.setEnd(rs.getDate("enddate"));
+        output.add(emp);
+      }
+      model.put("employees", output);
+      if (flag && edit) {
+        return "index";
+      } 
+      else if (flag && !edit) {
+        return "readOnly/index_r";
+      }
+      else {
+        return "userNotFound";
+      }
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
     }
-    else {
-      return "userNotFound";
-    }
+    
   }
 
   @GetMapping("/manager/create")
