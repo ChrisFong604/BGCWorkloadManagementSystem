@@ -40,46 +40,75 @@
             let abc = z + "-" + y + "-" + x;
             daysOfYear.push(abc);
         }
-        let test = [];
+        let empsd = [];
         var theList = [[${employees}]]
-        let test2 = [];
+        let hemp = [];
+        let pemp = [];
+        let empst = [];
         
         
         for (i = 0; i < theList.length; i++) {
-            test.push(theList[i].start);
-            console.log(test[i]);
+            empsd.push(theList[i].start);
+            empst.push(theList[i].status);
+            //console.log(test[i]);
             
         }
         
 
-        console.log("PRINTING TEST2");
-
+        //creating hired employee list to match daysofyear
         for (i = 0; i < daysOfYear.length; i++){
-            test2.push(0);
-            console.log(test2[i]);
+            hemp.push(0);
+            //console.log(hemp[i]);
         }
-        console.log("LENGTH OF TEST 2 " + test2.length);
+        
+        //creating projected employee list
+        for (i = 0; i < daysOfYear.length; i++){
+            pemp.push(0);
+            //console.log(hemp[i]);
+        }
 
-        for (i = 0; i < test.length; i++){
+        for (i = 0; i < empsd.length; i++){
             for(j = 0; j < daysOfYear.length; j++){
-                if (test[i] == daysOfYear[j]){
-                    test2[j] += 1;
-                    console.log("IM IN IF STATEMENT");
+                if ((empsd[i] == daysOfYear[j]) && (empst[i] == true)){
+                    hemp[j] += 1;
+                    
                 }
             }
         }
 
-        console.log("printing test 2 after adding");
-        for (i = 0; i < test2.length; i++){
-            console.log(test2[i]);
+        for (i = 0; i < empsd.length; i++){
+            for(j = 0; j < daysOfYear.length; j++){
+                if ((empsd[i] == daysOfYear[j]) && (empst[i] == false)){
+                    pemp[j] += 1;
+                    
+                }
+            }
         }
 
-        for (i = 0; i < test2.length; i++){
+
+
+        /*
+        console.log("printing test 2 after adding");
+        for (i = 0; i < hemp.length; i++){
+            console.log(hemp[i]);
+        }
+        */
+        for (i = 0; i < hemp.length; i++){
             if (i == 0){
-                test2[0] = test2[0];
+                hemp[0] = hemp[0];
             }
             else{
-                test2[i] = test2[i-1] + test2[i];
+                hemp[i] = hemp[i-1] + hemp[i];
+            }
+            
+        }
+
+        for (i = 0; i < pemp.length; i++){
+            if (i == 0){
+                pemp[0] = pemp[0];
+            }
+            else{
+                pemp[i] = pemp[i-1] + pemp[i];
             }
             
         }
@@ -110,7 +139,7 @@
                 datasets: [{
                     label: 'Headcount: Planning',
                     
-                    data: [5, 12, 4, 8, 6],
+                    data: pemp,
                     backgroundColor:'orange',
                     borderColor: 'orange',
                     fill: false,
@@ -119,7 +148,7 @@
 
                 {
                     label: 'Headcount: Confirmed',
-                    data: test2,
+                    data: hemp,
                     backgroundColor:'blue',
                     borderColor: 'blue',
                     fill: false,

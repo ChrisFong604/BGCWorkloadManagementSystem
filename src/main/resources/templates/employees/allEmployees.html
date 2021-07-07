@@ -71,7 +71,8 @@
 				<button><a th:href="@{/employees/edit?rid={id}(id = ${employee.getId()})}">Edit</a></button>
 			</td>
 	        <td>
-	        	<button><a th:href="@{/employees/deleted?e_id={id}(id=${employee.id})}"><i class="bi bi-trash"></i>Delete</a></button>
+	        	<button><a th:href="@{/employees/deleted?e_id={id}(id=${employee.getId()})}"><i class="bi bi-trash"></i>Delete</a></button>
+            
 	        </td>
 			</tr>
 		

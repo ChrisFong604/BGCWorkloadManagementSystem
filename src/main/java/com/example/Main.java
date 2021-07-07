@@ -232,7 +232,7 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       String sql = "DELETE FROM employees WHERE id =?";
       PreparedStatement ps = connection.prepareStatement(sql);
-      ps.setInt(1, Integer.parseInt(e_id));
+      ps.setString(1, e_id);
       ps.executeUpdate();
 
       return "redirect:/employees";
