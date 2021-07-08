@@ -24,7 +24,10 @@
 
        
     // Date: y/m/d
-    var now = new Date(2021, 8, 31);
+    let y = [2021, 8, 31];
+    var now = new Date(y[0],y[1],y[2]);
+    
+    //console.l
     var daysOfYear = [];
     for (var d = new Date(2021, 7, 10); d <= now; d.setDate(d.getDate() + 7)) {
         //console.log(d.getDate());
@@ -45,13 +48,26 @@
     let hemp = [];
     let pemp = [];
     let empst = [];
+    let emped = [];
+    let pempsd = [];
+    let pemped = [];
+    let pempst = [];
+    var theList2 = [[${employees2}]]
+    
     
     
     for (i = 0; i < theList.length; i++) {
         empsd.push(theList[i].start);
         empst.push(theList[i].status);
+        emped.push(theList[i].end);
         //console.log(test[i]);
         
+    }
+
+    for (i = 0; i < theList2.length; i++){
+        pempsd.push(theList2[i].start);
+        pempst.push(theList2[i].status);
+        pemped.push(theList2[i].end);
     }
     
 
@@ -76,14 +92,33 @@
         }
     }
 
-    for (i = 0; i < empsd.length; i++){
+    for (i = 0; i < pempsd.length; i++){
         for(j = 0; j < daysOfYear.length; j++){
-            if ((empsd[i] == daysOfYear[j]) && (empst[i] == false)){
+            if ((pempsd[i] == daysOfYear[j]) && (pempst[i] == false)){
                 pemp[j] += 1;
                 
             }
         }
     }
+
+    for (i = 0; i < emped.length; i++){
+        for(j = 0; j < daysOfYear.length; j++){
+            if ((emped[i] == daysOfYear[j]) && (empst[i] == true)){
+                hemp[j] -= 1;
+                
+            }
+        }
+    }
+
+    for (i = 0; i < pemped.length; i++){
+        for(j = 0; j < daysOfYear.length; j++){
+            if ((pemped[i] == daysOfYear[j]) && (pempst[i] == false)){
+                pemp[j] -= 1;
+                
+            }
+        }
+    }
+    
     
 
 
