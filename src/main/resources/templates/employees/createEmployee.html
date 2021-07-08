@@ -59,6 +59,25 @@
     </div>
 
     <a th:href="@{/employees}">Back to Homepage</a>
+
+    <script>
+        let status = document.getElementById("position");
+        let end = document.getElementById("end");
+    
+        status.addEventListener("click", displayDate);
+    
+        function displayDate() {
+            let val = status.value;
+            //console.log(val);
+            if (val == "permanent") {
+                end.valueAsDate = new Date("2999-12-31");
+            }
+            else {
+                end.valueAsDate = new Date("yyyy-mm-dd");
+            }
+        }
+    </script>
+
 </body>
 
 </html>
