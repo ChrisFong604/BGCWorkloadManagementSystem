@@ -131,6 +131,26 @@ public class Main {
         output.add(emp);
       }
       model.put("employees", output);
+
+      Statement stmt2 = connection.createStatement();
+      String sql2 = "SELECT * FROM employees2";
+      ResultSet rs2 = stmt.executeQuery(sql2);
+
+      ArrayList<Employee> output2 = new ArrayList<Employee>();
+      while (rs2.next()) {
+        Employee emp2 = new Employee();
+        emp2.setName(rs2.getString("name"));
+        emp2.setPosition(rs2.getString("position"));
+        emp2.setRole(rs2.getString("role"));
+        emp2.setTeam(rs2.getString("team"));
+        emp2.setStatus(rs2.getBoolean("status"));
+        emp2.setCapacity(rs2.getFloat("capacity"));
+        emp2.setStart(rs2.getDate("startdate"));
+        emp2.setEnd(rs2.getDate("enddate"));
+        output2.add(emp2);
+      }
+      model.put("employees2", output2);
+      
       if (flag && edit) {
         return "index";
       } 
@@ -322,6 +342,26 @@ public class Main {
         output.add(emp);
       }
       model.put("employees", output);
+
+      Statement stmt2 = connection.createStatement();
+      String sql2 = "SELECT * FROM employees2";
+      ResultSet rs2 = stmt.executeQuery(sql2);
+
+      ArrayList<Employee> output2 = new ArrayList<Employee>();
+      while (rs2.next()) {
+        Employee emp2 = new Employee();
+        emp2.setName(rs2.getString("name"));
+        emp2.setPosition(rs2.getString("position"));
+        emp2.setRole(rs2.getString("role"));
+        emp2.setTeam(rs2.getString("team"));
+        emp2.setStatus(rs2.getBoolean("status"));
+        emp2.setCapacity(rs2.getFloat("capacity"));
+        emp2.setStart(rs2.getDate("startdate"));
+        emp2.setEnd(rs2.getDate("enddate"));
+        output2.add(emp2);
+      }
+      model.put("employees2", output2);
+
       return "employees/employeemetrics";
     } catch (Exception e) {
       model.put("message", e.getMessage());
@@ -348,6 +388,9 @@ public class Main {
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
+              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
 
       // Creates a universally unique ID for each employee (Only exists in Database)
       final String UniqueID = UUID.randomUUID().toString().replace("-", "");
@@ -357,7 +400,13 @@ public class Main {
           + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
           + employee.getEnd() + "')";
 
+      String sql2 = "INSERT INTO employees2 (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+          + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
+          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
+          + employee.getEnd() + "')";
+
       stmt.executeUpdate(sql);
+      stmt.executeUpdate(sql2);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
       model.put("message", e.getMessage());
