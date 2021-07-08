@@ -351,6 +351,7 @@ public class Main {
       		+ "enddate = '" + employee.getEnd() + "' "
       		+ "WHERE id = '" + employee.getId() + "';";
       System.out.println(rid);
+      System.out.println(sql);
 
       /*String sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
           + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
