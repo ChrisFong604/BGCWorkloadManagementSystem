@@ -1,65 +1,81 @@
 <!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Profile</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/createEmployee.css" />
+    <title>Create New Profile</title> 
 </head>
 
-<header>
-	<h1 class="heading">Profile</h1>
-</header>
+<header></header>
 
 <body>
-    <form action="#" method="post" th:action="@{/employee/create}" th:object="${Employee}">
-        <label for="name">Name</label> <br>
-        <input type="text" id="name"> <br>
+    <div class="container">
+        <h1 class="heading">Profile</h1>
+        <form action="#" method="post" th:action="@{/employees/create}" th:object="${employee}">
+            <label for="name">Name</label> <br>
+            <input type="text" th:field=*{name} id="name"> <br>
 
-        <label for="role">Position</label> <br>
-        <input type="text" id="Position"> <br>
+            <label>Select employee type</label>
+            <select name="position" id="position">
+                <optgroup th:field=*{position}>
+                    <option value="">Select...</option>
+                    <option value="permanent">Permanent Hire</option>
+                    <option value="intern">Co-op/Intern</option>
+                </optgroup>
+            </select>
 
-        <label for="sDate">Start Date</label> <br>
-        <input type="date" id="sDate"> <br>
+            <br><label for="role">Role</label> 
+            <input type="text" th:field=*{role} id="role"> <br>
 
-        <section class="status">
-            <input type="checkbox" id="p">
-            <label for="p">Projected</label> 
+            <label for="team">Team</label> <br>
+            <input type="text" th:field=*{team} id="team"> <br>
 
-            <input type="checkbox" id="hp">
-            <label for="h">Hired</label> <br>
-        </section>
+            <label for="status">Employee status</label>
+            <select name="status" id="status">
+                <optgroup th:field=*{status} label="status">
+                    <option value="">Select...</option>
+                    <option value="TRUE">Hired</option>
+                    <option value="FALSE">Projected</option>
+                </optgroup>
+            </select>
 
-        <label for="type"> Select employee type</label>
-        <select name="type" id="type">
-            <optgroup label="type">
-                <option value="permanent">Permanent Hire</option>
-                <option value="intern">Co-op/Intern</option>
-            </optgroup>
-        </select>
+            <br>
+            <label>Start Date</label>
+            <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd"> <br>
+        
+            <br>
+            <label>End Date (Co-op/Intern)</label>
+            <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end"> <br>
 
-        <section class="rampUp">
-            <table>
-                <tr>
-                    <th><label for="w1">Week 1</label></th>
-                    <th><label for="w2">Week 2</label></th>
-                    <th><label for="w3">Week 3</label></th>
-                    <th><label for="w4">Week 4</label></th>
-                </tr>
-                <tr>
-                    <td><input type="number" id="w1" max="1" min="0"> </td>
-                    <td><input type="number" id="w2" max="1" min="0"> </td>
-                    <td><input type="number" id="w3" max="1" min="0"> </td>
-                    <td><input type="number" id="w4" max="1" min="0"> </td>
-                </tr>
-            </table> 
-        </section>
+            <div class="buttons">
+                <input type="submit" value="Save">
+                <button class="cancel"><a th:href="@{/employees}">Cancel</a></button>
+            </div>
+        </form>
+    </div>
 
-        <label for="eDate">Co-op End Date</label> <br>
-        <input type="date" id="eDate"> <br>
+    <script>
+        let status = document.getElementById("position");
+        let end = document.getElementById("end");
+    
+        status.addEventListener("click", displayDate);
+    
+        function displayDate() {
+            let val = status.value;
+            //console.log(val);
+            if (val == "permanent") {
+                end.valueAsDate = new Date("2999-12-31");
+            }
+            else {
+                end.valueAsDate = new Date("yyyy-mm-dd");
+            }
+        }
+    </script>
 
-        <input type="submit" value="Save">
-    </form>
 </body>
 
 </html>

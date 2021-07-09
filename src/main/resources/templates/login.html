@@ -5,34 +5,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/login.css" />
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Login</title>
 </head>
+
+<header>
+    <h1>BGC</h1>
+</header>
 
 
 <body>
     <section class="main">
         <h1>Login</h1>
-        <form action="#">
+        <form action="#" method="post" th:action="@{/login}" th:object="${user}">
             <div class="cred">
-                <label for="uName">Username</label>
-                <input type="text" id="uName" required> <br>
+                <label for="uName">Username</label> <br>
+                <input type="text" id="uName" th:field="*{username}" required > <br>
     
-                <label>Password</label>
-                <input type="password" id="pwd" required> <br>
+                <label for="pwd">Password</label> <br>
+                <input type="password" id="pwd" th:field="*{password}" required > <br>
     
                 <input type="submit" value="Login">
             </div>
         </form>
     </section>
-    <span><div class="g-signin2"></div> <button onclick="signOut()">Sign out</button> </span>
+    <!-- <span><div class="g-signin2"></div> <button onclick="signOut()">Sign out</button> </span>
     <script>
         function signOut() {
             gapi.auth2.getAuthInstance().signOut().then(function() {
             console.log('user signed out')
             })
         }
-    </script>
+    </script> -->
     
 </body>
 
