@@ -53,7 +53,14 @@
     var now = new Date(y[0],y[1],y[2]);
 
     let dateobjects = [];
+    // emp start date
     let dateobjects2 = [];
+    //pemp start date
+    let dateobjects3 = [];
+    // emp end date
+    let dateobjects4 = [];
+    // pemp end date
+    let dateobjects5 = [];
 
     //console.l
     var daysOfYear = [];
@@ -112,8 +119,12 @@
         let p = new Date(o[0],o[1]-1,o[2]);
         dateobjects2.push(p);
         //console.log("DATEOBJECT2" + p);
+    }
 
-
+    for (i = 0; i < theList.length; i++){
+        let o = emped[i].split("-");
+        let p = new Date(o[0],o[1]-1,o[2]);
+        dateobjects4.push(p);
     }
 
 
@@ -122,6 +133,22 @@
         pempsd.push(theList2[i].start);
         pempst.push(theList2[i].status);
         pemped.push(theList2[i].end);
+    }
+
+    for (i = 0; i < theList2.length; i++){
+        //console.log("EMPSD " + empsd[i]);
+        let o = pempsd[i].split("-");
+        let p = new Date(o[0],o[1]-1,o[2]);
+        dateobjects3.push(p);
+        //console.log("DATEOBJECT2" + p);
+    }
+
+    for (i = 0; i < theList2.length; i++){
+        //console.log("EMPSD " + empsd[i]);
+        let o = pemped[i].split("-");
+        let p = new Date(o[0],o[1]-1,o[2]);
+        dateobjects5.push(p);
+        //console.log("DATEOBJECT2" + p);
     }
     
     //creating hired employee list to match daysofyear
@@ -141,28 +168,133 @@
             hemp[0] += 1;
             pemp[0] += 1;
             
-            //console.log("DATEOBJECT1 " + dateobjects[0]);
-            //console.log("DATEOBJECT2 " + dateobjects2[0]);
+            console.log("DATEOBJECT1 " + dateobjects[0]);
+            console.log("DATEOBJECT2 " + dateobjects2[i]);
         }
     }
 
+    // first for loop
+
     for (i = 0; i < empsd.length; i++){
+
         for(j = 0; j < daysOfYear.length; j++){
-            if ((empsd[i] == daysOfYear[j]) && (empst[i] == true)){
+
+            if (j == 0){
+                
+                if ((dateobjects2[i].getTime() == dateobjects[0].getTime()) && (empst[i] == true)){
+                    hemp[0] += 1;
+                }
+
+                else if ((dateobjects2[i] > dateobjects[0] && dateobjects2[i] < dateobjects[1]) && (empst[i] == true)){
+                    hemp[1] += 1;
+                }
+            }
+
+            else if ((dateobjects2[i].getTime() == dateobjects[j].getTime()) && (empst[i] == true)){
                 hemp[j] += 1;
-                
-                
+                console.log("HIi"); 
+            }
+
+            
+
+            else if ((dateobjects2[i] > dateobjects[j-1] && dateobjects2[i] < dateobjects[j]) && (empst[i] == true)){
+                hemp[j] += 1;          
+                console.log("HI");     
             }
         }
     }
+
+    // second for loop
+
     for (i = 0; i < pempsd.length; i++){
+
         for(j = 0; j < daysOfYear.length; j++){
-            if ((pempsd[i] == daysOfYear[j])){
+
+            if (j == 0){
+
+                if (dateobjects3[i].getTime() == dateobjects[0].getTime()){
+                    pemp[0] += 1;
+                }
+
+                else if (dateobjects3[i] > dateobjects[0] && dateobjects3[i] < dateobjects[1]){
+                    pemp[1] += 1;
+                }
+            }
+
+            else if (dateobjects3[i].getTime() == dateobjects[j].getTime()){
                 pemp[j] += 1;
-                
+            }
+
+            
+
+            else if ((dateobjects3[i] > dateobjects[j-1] && dateobjects3[i] < dateobjects[j])){
+                pemp[j] += 1;               
             }
         }
     }
+    // third for loop
+    for (i = 0; i < emped.length; i++){
+
+        for(j = 0; j < daysOfYear.length; j++){
+
+            if (j == 0){
+        
+                if ((dateobjects4[i].getTime() == dateobjects[0].getTime()) && (empst[i] == true)){
+                    hemp[0] -= 1;
+                }
+
+                else if ((dateobjects4[i] > dateobjects[0] && dateobjects4[i] < dateobjects[1]) && (empst[i] == true)){
+                    hemp[1] -= 1;
+                }
+            }
+
+            else if ((dateobjects4[i].getTime() == dateobjects[j].getTime()) && (empst[i] == true)){
+                hemp[j] -= 1;
+                console.log("HIi"); 
+            }
+
+    
+            else if ((dateobjects4[i] > dateobjects[j-1] && dateobjects4[i] < dateobjects[j]) && (empst[i] == true)){
+                hemp[j] -= 1;          
+                console.log("HI");     
+            }
+        }
+    }
+
+    // fourth for loop
+    for (i = 0; i < pemped.length; i++){
+
+        for(j = 0; j < daysOfYear.length; j++){
+
+            if (j == 0){
+
+                if (dateobjects5[i].getTime() == dateobjects[0].getTime()){
+                    pemp[0] -= 1;
+                    
+                }
+
+                else if (dateobjects5[i] > dateobjects[0] && dateobjects5[i] < dateobjects[1]){
+                    pemp[1] -= 1;
+                    
+                }
+            }
+
+            else if (dateobjects5[i].getTime() == dateobjects[j].getTime()){
+                pemp[j] -= 1;
+                
+            }
+
+    
+
+            else if ((dateobjects5[i] > dateobjects[j-1] && dateobjects5[i] < dateobjects[j])){
+                pemp[j] -= 1;    
+                break;           
+            }
+        }
+    }
+    
+    
+    /*
     for (i = 0; i < emped.length; i++){
         for(j = 0; j < daysOfYear.length; j++){
             if ((emped[i] == daysOfYear[j]) && (empst[i] == true)){
@@ -179,7 +311,7 @@
             }
         }
     }
-    
+    */
     
     /*
     console.log("printing test 2 after adding");
