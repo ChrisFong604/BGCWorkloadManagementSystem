@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
 <html lang="en">
 <head>
@@ -10,28 +9,285 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"> -->
   <title>Dashboard</title>
 </head>
-
 <header></header>
   
 <body>
+ 
+ <div class="input">
+    <form action="#" method="post" th:action="@{/dashboard}" th:object="${rangeEmpty}">
+        <label>Start Date</label>
+        <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd"> <br>
 
-    <div class="input">
-        <form action="#" method="post" th:action="@{/dashboard}" th:object="${rangeEmpty}">
-            <label>Start Date</label>
-            <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd"> <br>
+        <label>End Date</label>
+        <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd"> <br>
+
+        <input type="submit" value="Apply">
+    </form>
+
+  </div>
+  
+  <div class = "container"> 
+    <canvas id = "headcount"></canvas>
+  </div>
+  <script th:inline="javascript">  
+    
+       
+
+
+
+
+
+    var str = [[${range}]]
+
+        // Date: y/m/d
+        //let str = "2021-07-10";/
+
+    // START DATE
+    let st = str.start.split("-");
         
-            <label>End Date</label>
-            <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd"> <br>
+    // END DATE
+    let y = str.end.split("-");
+    
+    // Date: y/m/d
+    
+    var now = new Date(y[0],y[1],y[2]);
 
-            <input type="submit" value="Apply">
-        </form>
+    let dateobjects = [];
+    let dateobjects2 = [];
 
-    </div> 
+    //console.l
+    var daysOfYear = [];
+    for (var d = new Date(st[0], st[1], st[2]); d <= now; d.setDate(d.getDate() + 7)) {
+        //console.log(d.getDate());
+        let x = d.getDate();
+        let y = d.getMonth();
+        let z = d.getFullYear();
+        if (y < 10){
+            y = "0" + y.toString();
+        } 
+        if (x < 10){
+            x = "0" + x.toString();
+        }
+        let abc = z + "-" + y + "-" + x;
+        daysOfYear.push(abc);
+        console.log("DAYS OF YEAR " + abc);
+        let c = new Date(z,y-1,x);
+        dateobjects.push(c);
 
-    <div class = "container"> 
-        <canvas id = "headcount"></canvas>
-    </div>
+        console.log("C " + c);
+    }
 
 
+    let empsd = [];
+    var theList = [[${employees}]]
+    let hemp = [];
+    let pemp = [];
+    let empst = [];
+    let emped = [];
+    let pempsd = [];
+    let pemped = [];
+    let pempst = [];
+    var theList2 = [[${employees2}]]
+
+
+
+
+
+
+
+    for (i = 0; i < theList.length; i++) {
+        empsd.push(theList[i].start);
+        empst.push(theList[i].status);
+        emped.push(theList[i].end);
+        //console.log(test[i]);
+
+    }
+    /*
+    let st = str.start.split("-");
+    */
+
+    for (i = 0; i < theList.length; i++){
+        //console.log("EMPSD " + empsd[i]);
+        let o = empsd[i].split("-");
+        let p = new Date(o[0],o[1]-1,o[2]);
+        dateobjects2.push(p);
+        //console.log("DATEOBJECT2" + p);
+
+
+    }
+
+
+
+    for (i = 0; i < theList2.length; i++){
+        pempsd.push(theList2[i].start);
+        pempst.push(theList2[i].status);
+        pemped.push(theList2[i].end);
+    }
+    
+    //creating hired employee list to match daysofyear
+    for (i = 0; i < daysOfYear.length; i++){
+        hemp.push(0);
+        //console.log(hemp[i]);
+    }
+    
+    //creating projected employee list
+    for (i = 0; i < daysOfYear.length; i++){
+        pemp.push(0);
+        //console.log(hemp[i]);
+    }
+
+    for (i = 0; i < dateobjects2.length; i++){
+        if (dateobjects2[i] < dateobjects[0]){
+            hemp[0] += 1;
+            pemp[0] += 1;
+            
+            //console.log("DATEOBJECT1 " + dateobjects[0]);
+            //console.log("DATEOBJECT2 " + dateobjects2[0]);
+        }
+    }
+
+    for (i = 0; i < empsd.length; i++){
+        for(j = 0; j < daysOfYear.length; j++){
+            if ((empsd[i] == daysOfYear[j]) && (empst[i] == true)){
+                hemp[j] += 1;
+                
+                
+            }
+        }
+    }
+    for (i = 0; i < pempsd.length; i++){
+        for(j = 0; j < daysOfYear.length; j++){
+            if ((pempsd[i] == daysOfYear[j])){
+                pemp[j] += 1;
+                
+            }
+        }
+    }
+    for (i = 0; i < emped.length; i++){
+        for(j = 0; j < daysOfYear.length; j++){
+            if ((emped[i] == daysOfYear[j]) && (empst[i] == true)){
+                hemp[j] -= 1;
+                
+            }
+        }
+    }
+    for (i = 0; i < pemped.length; i++){
+        for(j = 0; j < daysOfYear.length; j++){
+            if ((pemped[i] == daysOfYear[j])){
+                pemp[j] -= 1;
+                
+            }
+        }
+    }
+    
+    
+    /*
+    console.log("printing test 2 after adding");
+    for (i = 0; i < hemp.length; i++){
+        console.log(hemp[i]);
+    }
+    */
+    for (i = 0; i < hemp.length; i++){
+        if (i == 0){
+            hemp[0] = hemp[0];
+        }
+        else{
+            hemp[i] = hemp[i-1] + hemp[i];
+        }
+        
+    }
+    for (i = 0; i < pemp.length; i++){
+        if (i == 0){
+            pemp[0] = pemp[0];
+        }
+        else{
+            pemp[i] = pemp[i-1] + pemp[i];
+        }
+        
+    }
+    console.log("PRINTING HEMP");
+    for (i = 0; i < hemp.length; i++){
+        console.log(hemp[i]);
+    }
+
+
+
+    /*
+    console.log("TEST[0] " + test[0]);
+    console.log("DAYSOFYEAR[0] " + daysOfYear[0]);
+    if (test[0] == daysOfYear[0]){
+        console.log("YAYYY");
+        
+    }
+    console.log(typeof test[0]);
+    console.log(typeof daysOfYear[0]);
+    console.log("BELOW IS START DATE");
+    console.log(theList[0].start);
+    console.log(theList[0].role);
+    */
+    let headcount = document.getElementById('headcount').getContext('2d');
+    let myChart = new Chart(headcount, {
+        //type of line we want to create
+        type: 'line',
+         //the data of our dataset
+        data: {
+            labels: daysOfYear, //[jan 1, jan 7, jan 15, jan 22],
+            datasets: [{
+                label: 'Headcount: Planning',
+                
+                data: pemp,
+                backgroundColor:'orange',
+                borderColor: 'orange',
+                fill: false,
+                pointRadius: 5
+            },
+            {
+                label: 'Headcount: Confirmed',
+                data: hemp,
+                backgroundColor:'blue',
+                borderColor: 'blue',
+                fill: false,
+                pointRadius: 5
+            }]
+        },
+        options: {
+            scales:{
+                yAxes:{
+                    title: {
+                        display: true,
+                        text: "Headcount",
+                        font: {
+                            size: 25
+                        },
+                    }
+                },
+                xAxes:{
+                    title: {
+                        display: true,
+                        text: "Date",
+                        font: {
+                            size: 25
+                        }                      
+                    }
+                }
+            },
+            plugins:{
+                legend:{
+                    position: 'bottom',
+                    labels:{
+                        padding:50
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Headcount View',
+                    font: {
+                            size: 50
+                    }
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>
