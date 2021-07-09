@@ -498,7 +498,7 @@ public class Main {
    * Checks each day at 5:00 a.m the current capacity for all employees based on
    * their start date, and adjusts it in the database accordingly
    */
-  @Scheduled(cron = "*/30 * * * * *", zone = "Canada/Pacific")
+  @Scheduled(cron = "0 6 * * * *", zone = "Canada/Pacific")
   public void scheduledRampCheck() {
 
     System.out.println("\n----NEW SCHEDULED CHECK\n\n");
