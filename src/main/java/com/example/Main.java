@@ -98,9 +98,10 @@ public class Main {
           if (compareToAccess.equals(ed)) {
             edit = true;
           }
-          /*System.out.println(edit);
-          System.out.println(compareToAccess);
-          System.out.println(s);*/
+          /*
+           * System.out.println(edit); System.out.println(compareToAccess);
+           * System.out.println(s);
+           */
           return "redirect:/dashboard";
         }
       }
@@ -151,21 +152,19 @@ public class Main {
         output2.add(emp2);
       }
       model.put("employees2", output2);
-      
+
       if (flag && edit) {
         return "index";
-      } 
-      else if (flag && !edit) {
+      } else if (flag && !edit) {
         return "readOnly/index_r";
-      }
-      else {
+      } else {
         return "userNotFound";
       }
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
     }
-    
+
   }
 
   @GetMapping("/manager/create")
@@ -194,8 +193,7 @@ public class Main {
 
       if (flag && edit) {
         return "manager";
-      }
-      else {
+      } else {
         return "userNotFound";
       }
     } catch (Exception e) {
@@ -209,11 +207,13 @@ public class Main {
   public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
-      String sql = "INSERT INTO login (username, password, access) VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getAccess() + "')";
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
+      String sql = "INSERT INTO login (username, password, access) VALUES ('" + user.getUsername() + "','"
+          + user.getPassword() + "','" + user.getAccess() + "')";
       System.out.println(user.getAccess());
       stmt.executeUpdate(sql);
-      
+
       return "redirect:/manager/create";
     } catch (Exception e) {
       model.put("message", e.getMessage());
@@ -251,11 +251,9 @@ public class Main {
 
       if (flag && edit) {
         return "employees/allEmployees";
-      }
-      else if (flag && !edit) {
+      } else if (flag && !edit) {
         return "readOnly/allEmployees_r";
-      }
-      else {
+      } else {
         return "userNotFound";
       }
     } catch (Exception e) {
@@ -296,8 +294,7 @@ public class Main {
 
       if (flag && edit) {
         return "employees/allEmployees";
-      }
-      else {
+      } else {
         return "readOnly/allEmployees_r";
       }
     } catch (Exception e) {
@@ -376,8 +373,7 @@ public class Main {
     model.put("employee", employee);
     if (flag && edit) {
       return "employees/createEmployee";
-    }
-    else {
+    } else {
       return "userNotFound";
     }
   }
@@ -414,62 +410,67 @@ public class Main {
       return "error";
     }
   }
-  
+
   @GetMapping("/employees/edit")
   public String editEmployee(Map<String, Object> model, @RequestParam String rid) throws Exception {
-	  try (Connection connection = dataSource.getConnection()) {
-		  String sql = "SELECT * FROM employees WHERE id = ?";
-		  PreparedStatement pstmt = connection.prepareStatement(sql);
-	      pstmt.setString(1, rid);
-	      ResultSet rs = pstmt.executeQuery();
-	      Employee emp = new Employee();
-	      if(rs.next()) {
-	    	  emp.setId(rs.getString("id"));
-		      emp.setName(rs.getString("name"));
-		      System.out.println(emp.getName());
-		      emp.setPosition(rs.getString("position"));
-		      System.out.println(emp.getPosition());
-		      emp.setRole(rs.getString("role"));
-		      emp.setTeam(rs.getString("team"));
-		      emp.setStatus(rs.getBoolean("status"));
-		      emp.setCapacity(rs.getFloat("capacity"));
-		      emp.setStart(rs.getDate("startdate"));
-		      emp.setEnd(rs.getDate("enddate"));
-	      }
-	      
-	      model.put("employee", emp);
-	      return "employees/editEmployee";
-	    } catch (Exception e) {
-	      model.put("message", e.getMessage());
-	      return "error";
-	    }
+    try (Connection connection = dataSource.getConnection()) {
+      String sql = "SELECT * FROM employees WHERE id = ?";
+      PreparedStatement pstmt = connection.prepareStatement(sql);
+      pstmt.setString(1, rid);
+      ResultSet rs = pstmt.executeQuery();
+      Employee emp = new Employee();
+      if (rs.next()) {
+        emp.setId(rs.getString("id"));
+        emp.setName(rs.getString("name"));
+        System.out.println(emp.getName());
+        emp.setPosition(rs.getString("position"));
+        System.out.println(emp.getPosition());
+        emp.setRole(rs.getString("role"));
+        emp.setTeam(rs.getString("team"));
+        emp.setStatus(rs.getBoolean("status"));
+        emp.setCapacity(rs.getFloat("capacity"));
+        emp.setStart(rs.getDate("startdate"));
+        emp.setEnd(rs.getDate("enddate"));
+      }
+
+      model.put("employee", emp);
+      return "employees/editEmployee";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
   }
 
   @PostMapping(path = "/employees/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid) throws Exception {
+  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid)
+      throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      /*stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
-
-      // Creates a universally unique ID for each employee (Only exists in Database)
-      final String UniqueID = UUID.randomUUID().toString().replace("-", "");*/
-      String sql = "UPDATE employees SET "
-      		+ "name = '" + employee.getName() + "', "
-      		+ "position = '" + employee.getPosition() + "', "
-      		+ "role = '" + employee.getRole() + "', "
-      		+ "team = '" + employee.getTeam() + "', "
-      		+ "status = " + employee.getStatus() + ", "
-      		+ "startdate = '" + employee.getStart() + "', "
-      		+ "enddate = '" + employee.getEnd() + "' "
-      		+ "WHERE id = '" + employee.getId() + "';";
+      /*
+       * stmt.executeUpdate(
+       * "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
+       * +
+       * "team varchar(40), status boolean, capacity float, startdate date, enddate date)"
+       * );
+       * 
+       * // Creates a universally unique ID for each employee (Only exists in
+       * Database) final String UniqueID = UUID.randomUUID().toString().replace("-",
+       * "");
+       */
+      String sql = "UPDATE employees SET " + "name = '" + employee.getName() + "', " + "position = '"
+          + employee.getPosition() + "', " + "role = '" + employee.getRole() + "', " + "team = '" + employee.getTeam()
+          + "', " + "status = " + employee.getStatus() + ", " + "startdate = '" + employee.getStart() + "', "
+          + "enddate = '" + employee.getEnd() + "' " + "WHERE id = '" + employee.getId() + "';";
       System.out.println(rid);
 
-      /*String sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
-          + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
-          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
-          + employee.getEnd() + "')";*/
+      /*
+       * String sql =
+       * "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+       * + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() +
+       * "','" + employee.getRole() + "','" + employee.getTeam() + "'," +
+       * employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','" +
+       * employee.getEnd() + "')";
+       */
 
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
@@ -479,6 +480,10 @@ public class Main {
     }
   }
 
+  /*
+   * Checks each day at 5:00 a.m the current capacity for all employees based on
+   * their start date, and adjusts it in the database accordingly
+   */
   @Scheduled(cron = "*/30 * * * * *", zone = "Canada/Pacific")
   public void scheduledRampCheck() {
     try (Connection connection = dataSource.getConnection()) {
