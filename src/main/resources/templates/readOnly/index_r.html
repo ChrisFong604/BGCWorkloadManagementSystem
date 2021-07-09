@@ -61,25 +61,37 @@
         let dateobjects5 = [];
     
         //console.l
+        
         var daysOfYear = [];
-        for (var d = new Date(st[0], st[1], st[2]); d <= now; d.setDate(d.getDate() + 7)) {
-            //console.log(d.getDate());
+        for (var d = new Date(st[0], st[1]-1, st[2]); d <= now; d.setDate(d.getDate() + parseInt(7))) {
+            console.log("D " + d);
             let x = d.getDate();
-            let y = d.getMonth();
+            let y = d.getMonth(); // 0
             let z = d.getFullYear();
-            if (y < 10){
-                y = "0" + y.toString();
+            /*
+            if (y == 0){
+                y = "12";
+            }
+            
+            else if (y < 10){
+                y = "0" + y;
             } 
+            
+    
             if (x < 10){
                 x = "0" + x.toString();
             }
             let abc = z + "-" + y + "-" + x;
-            daysOfYear.push(abc);
-            console.log("DAYS OF YEAR " + abc);
-            let c = new Date(z,y-1,x);
+            //daysOfYear.push(abc);
+            */
+            let c = new Date(z,y,x);
             dateobjects.push(c);
-    
+            let c1 = c.getDate();
+            let c2 = c.getMonth();
+            let c3 = c.getFullYear();
+            daysOfYear.push(c3 + "-" + parseInt(c2+1).toString() + "-" + c1);
             console.log("C " + c);
+            console.log("DAYS OF YEAR " + c3 + "-" + parseInt(c2+1).toString() + "-" + c1);
         }
     
     
@@ -175,29 +187,33 @@
     
         for (i = 0; i < empsd.length; i++){
     
-            for(j = 0; j < daysOfYear.length; j++){
+            for(j = 0; j < dateobjects.length; j++){
     
                 if (j == 0){
                     
                     if ((dateobjects2[i].getTime() == dateobjects[0].getTime()) && (empst[i] == true)){
                         hemp[0] += 1;
+                        break;
                     }
     
                     else if ((dateobjects2[i] > dateobjects[0] && dateobjects2[i] < dateobjects[1]) && (empst[i] == true)){
                         hemp[1] += 1;
+                        break;
                     }
                 }
     
                 else if ((dateobjects2[i].getTime() == dateobjects[j].getTime()) && (empst[i] == true)){
                     hemp[j] += 1;
                     console.log("HIi"); 
+                    break;
                 }
     
                 
     
                 else if ((dateobjects2[i] > dateobjects[j-1] && dateobjects2[i] < dateobjects[j]) && (empst[i] == true)){
                     hemp[j] += 1;          
-                    console.log("HI");     
+                    console.log("HI");  
+                    break;   
                 }
             }
         }
@@ -206,55 +222,63 @@
     
         for (i = 0; i < pempsd.length; i++){
     
-            for(j = 0; j < daysOfYear.length; j++){
+            for(j = 0; j < dateobjects.length; j++){
     
                 if (j == 0){
     
                     if (dateobjects3[i].getTime() == dateobjects[0].getTime()){
                         pemp[0] += 1;
+                        break;
                     }
     
                     else if (dateobjects3[i] > dateobjects[0] && dateobjects3[i] < dateobjects[1]){
                         pemp[1] += 1;
+                        break;
                     }
                 }
     
                 else if (dateobjects3[i].getTime() == dateobjects[j].getTime()){
                     pemp[j] += 1;
+                    break;
                 }
     
                 
     
                 else if ((dateobjects3[i] > dateobjects[j-1] && dateobjects3[i] < dateobjects[j])){
-                    pemp[j] += 1;               
+                    pemp[j] += 1;   
+                    break;            
                 }
             }
         }
         // third for loop
         for (i = 0; i < emped.length; i++){
     
-            for(j = 0; j < daysOfYear.length; j++){
+            for(j = 0; j < dateobjects.length; j++){
     
                 if (j == 0){
             
                     if ((dateobjects4[i].getTime() == dateobjects[0].getTime()) && (empst[i] == true)){
                         hemp[0] -= 1;
+                        break;
                     }
     
                     else if ((dateobjects4[i] > dateobjects[0] && dateobjects4[i] < dateobjects[1]) && (empst[i] == true)){
                         hemp[1] -= 1;
+                        break;
                     }
                 }
     
                 else if ((dateobjects4[i].getTime() == dateobjects[j].getTime()) && (empst[i] == true)){
                     hemp[j] -= 1;
                     console.log("HIi"); 
+                    break;
                 }
     
         
                 else if ((dateobjects4[i] > dateobjects[j-1] && dateobjects4[i] < dateobjects[j]) && (empst[i] == true)){
                     hemp[j] -= 1;          
-                    console.log("HI");     
+                    console.log("HI"); 
+                    break;    
                 }
             }
         }
@@ -262,23 +286,26 @@
         // fourth for loop
         for (i = 0; i < pemped.length; i++){
     
-            for(j = 0; j < daysOfYear.length; j++){
+            for(j = 0; j < dateobjects.length; j++){
     
                 if (j == 0){
     
                     if (dateobjects5[i].getTime() == dateobjects[0].getTime()){
                         pemp[0] -= 1;
+                        break;
                         
                     }
     
                     else if (dateobjects5[i] > dateobjects[0] && dateobjects5[i] < dateobjects[1]){
                         pemp[1] -= 1;
+                        break;
                         
                     }
                 }
     
                 else if (dateobjects5[i].getTime() == dateobjects[j].getTime()){
                     pemp[j] -= 1;
+                    break;
                     
                 }
     
@@ -361,11 +388,11 @@
             type: 'line',
              //the data of our dataset
             data: {
-                labels: daysOfYear, //[jan 1, jan 7, jan 15, jan 22],
+                labels: daysOfYear, //[july 3, jan 10, july 17, jan 22],
                 datasets: [{
                     label: 'Headcount: Planning',
                     
-                    data: pemp,
+                    data: pemp, //[3,3,3,4]
                     backgroundColor:'orange',
                     borderColor: 'orange',
                     fill: false,
@@ -383,6 +410,7 @@
             options: {
                 scales:{
                     yAxes:{
+                        suggestedMin: 0,
                         title: {
                             display: true,
                             text: "Headcount",
