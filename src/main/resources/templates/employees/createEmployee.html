@@ -49,7 +49,7 @@
         
             <br>
             <label>End Date (Co-op/Intern)</label>
-            <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd"> <br>
+            <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end"> <br>
 
             <div class="buttons">
                 <input type="submit" value="Save">
@@ -58,7 +58,24 @@
         </form>
     </div>
 
-    <a th:href="@{/employees}">Back to Homepage</a>
+    <script>
+        let status = document.getElementById("position");
+        let end = document.getElementById("end");
+    
+        status.addEventListener("click", displayDate);
+    
+        function displayDate() {
+            let val = status.value;
+            //console.log(val);
+            if (val == "permanent") {
+                end.valueAsDate = new Date("2999-12-31");
+            }
+            else {
+                end.valueAsDate = new Date("yyyy-mm-dd");
+            }
+        }
+    </script>
+
 </body>
 
 </html>
