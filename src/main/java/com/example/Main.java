@@ -68,14 +68,20 @@ public class Main {
   // Change to PostMapping or whatever for login page later
   @GetMapping("/login")
   String loginPageHandler(Map<String, Object> model) {
-    flag = false;
-    edit = false;
-    Statement stmt = connection.createStatement();
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
+      flag = false;
+      edit = false;
+    
       
-    UserLogin user = new UserLogin();
-    model.put("user", user);
-    return "login";
+      UserLogin user = new UserLogin();
+      model.put("user", user);
+      return "login";
+    }catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
   }
 
   @PostMapping(path = "/login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
