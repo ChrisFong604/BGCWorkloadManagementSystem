@@ -133,6 +133,7 @@ public class Main {
     model.put("rangeEmpty", range);
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
+      
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
@@ -209,6 +210,10 @@ public class Main {
   public String getRange(Map<String, Object> model, RangeInput range) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
+      
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
+              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
       String sql = "INSERT INTO range (startdate, enddate) VALUES ('" + range.getStart() + "','" + range.getEnd() + "')";
       stmt.executeUpdate(sql);
@@ -219,6 +224,24 @@ public class Main {
       return "error";
     }
   }
+
+  @PostMapping(path = "/deletetabledata")
+  public String deletetabledata(Map<String, Object> model) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate(
+        "delete from employees"
+      );
+      stmt.executeUpdate(
+        "delete from employees2"
+      );
+      return "redirect:/dashboard";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
 
   @GetMapping("/manager/create")
   public String createManager(Map<String, Object> model) {
@@ -386,9 +409,13 @@ public class Main {
   public String deleteEmployee(Map<String, Object> model, @RequestParam String e_id) {
     try (Connection connection = dataSource.getConnection()) {
       String sql = "DELETE FROM employees WHERE id =?";
+      String sql2 = "DELETE FROM employees2 WHERE id =?";
       PreparedStatement ps = connection.prepareStatement(sql);
+      PreparedStatement ps2 = connection.prepareStatement(sql2);
       ps.setString(1, e_id);
+      ps2.setString(1, e_id);
       ps.executeUpdate();
+      ps2.executeUpdate();
 
       return "redirect:/employees";
     } catch (Exception e) {
