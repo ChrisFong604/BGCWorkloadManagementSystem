@@ -249,6 +249,22 @@ public class Main {
     }
   }
 
+  // deleting managers
+  @GetMapping("/manager/deleted")
+  public String deleteManager(Map<String, Object> model, @RequestParam String m_id) {
+    try (Connection connection = dataSource.getConnection()) {
+      String sql = "DELETE FROM login WHERE id =?";
+      PreparedStatement ps = connection.prepareStatement(sql);
+      ps.setInt(1, Integer.parseInt(m_id));
+      ps.executeUpdate();
+
+      return "redirect:/manager/create";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
   // filter by attributes
   @GetMapping("/employees")
   String returnEmployeeHomepage(Map<String, Object> model) {
