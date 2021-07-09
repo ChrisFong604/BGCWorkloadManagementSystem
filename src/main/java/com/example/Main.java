@@ -70,6 +70,9 @@ public class Main {
   String loginPageHandler(Map<String, Object> model) {
     flag = false;
     edit = false;
+    Statement stmt = connection.createStatement();
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
+      
     UserLogin user = new UserLogin();
     model.put("user", user);
     return "login";
