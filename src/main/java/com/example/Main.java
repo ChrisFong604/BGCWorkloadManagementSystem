@@ -397,9 +397,13 @@ public class Main {
   public String deleteEmployee(Map<String, Object> model, @RequestParam String e_id) {
     try (Connection connection = dataSource.getConnection()) {
       String sql = "DELETE FROM employees WHERE id =?";
+      String sql2 = "DELETE FROM employees2 WHERE id =?";
       PreparedStatement ps = connection.prepareStatement(sql);
+      PreparedStatement ps2 = connection.prepareStatement(sql2);
       ps.setString(1, e_id);
+      ps2.setString(1, e_id);
       ps.executeUpdate();
+      ps2.executeUpdate();
 
       return "redirect:/employees";
     } catch (Exception e) {
