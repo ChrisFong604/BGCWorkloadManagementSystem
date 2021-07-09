@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
 <html lang="en">
 <head>
@@ -10,22 +9,19 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"> -->
   <title>Dashboard</title>
 </head>
-
 <header></header>
   
 <body>
-
   <div class = "container"> 
     <canvas id = "headcount"></canvas>
   </div>
-
   <script th:inline="javascript">  
     
-
        
     // Date: y/m/d
     let y = [2021, 8, 31];
     var now = new Date(y[0],y[1],y[2]);
+
     let dateobjects = [];
     let dateobjects2 = [];
 
@@ -51,7 +47,7 @@
         console.log("C " + c);
     }
 
-    
+
     let empsd = [];
     var theList = [[${employees}]]
     let hemp = [];
@@ -64,17 +60,17 @@
     var theList2 = [[${employees2}]]
 
 
-    
 
-    
-    
-    
+
+
+
+
     for (i = 0; i < theList.length; i++) {
         empsd.push(theList[i].start);
         empst.push(theList[i].status);
         emped.push(theList[i].end);
         //console.log(test[i]);
-        
+
     }
     /*
     let st = str.start.split("-");
@@ -90,7 +86,7 @@
 
     }
 
-    
+
 
     for (i = 0; i < theList2.length; i++){
         pempsd.push(theList2[i].start);
@@ -98,7 +94,6 @@
         pemped.push(theList2[i].end);
     }
     
-
     //creating hired employee list to match daysofyear
     for (i = 0; i < daysOfYear.length; i++){
         hemp.push(0);
@@ -130,7 +125,6 @@
             }
         }
     }
-
     for (i = 0; i < pempsd.length; i++){
         for(j = 0; j < daysOfYear.length; j++){
             if ((pempsd[i] == daysOfYear[j])){
@@ -139,7 +133,6 @@
             }
         }
     }
-
     for (i = 0; i < emped.length; i++){
         for(j = 0; j < daysOfYear.length; j++){
             if ((emped[i] == daysOfYear[j]) && (empst[i] == true)){
@@ -148,7 +141,6 @@
             }
         }
     }
-
     for (i = 0; i < pemped.length; i++){
         for(j = 0; j < daysOfYear.length; j++){
             if ((pemped[i] == daysOfYear[j])){
@@ -159,10 +151,6 @@
     }
     
     
-
-
-
-
     /*
     console.log("printing test 2 after adding");
     for (i = 0; i < hemp.length; i++){
@@ -178,7 +166,6 @@
         }
         
     }
-
     for (i = 0; i < pemp.length; i++){
         if (i == 0){
             pemp[0] = pemp[0];
@@ -188,13 +175,12 @@
         }
         
     }
-
     console.log("PRINTING HEMP");
     for (i = 0; i < hemp.length; i++){
         console.log(hemp[i]);
     }
 
-    
+
 
     /*
     console.log("TEST[0] " + test[0]);
@@ -209,13 +195,10 @@
     console.log(theList[0].start);
     console.log(theList[0].role);
     */
-
     let headcount = document.getElementById('headcount').getContext('2d');
-
     let myChart = new Chart(headcount, {
         //type of line we want to create
         type: 'line',
-
          //the data of our dataset
         data: {
             labels: daysOfYear, //[jan 1, jan 7, jan 15, jan 22],
@@ -228,7 +211,6 @@
                 fill: false,
                 pointRadius: 5
             },
-
             {
                 label: 'Headcount: Confirmed',
                 data: hemp,
@@ -277,7 +259,5 @@
         }
     });
 </script>
-
-
 </body>
 </html>
