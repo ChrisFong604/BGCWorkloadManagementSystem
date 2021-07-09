@@ -90,7 +90,7 @@ public class Main {
     String pw = user.getPassword();
     String access = user.getAccess();
 
-    if (username == "admin" || pw == "123"){
+    if (username.equals("admin") || pw.equals("123")){
       flag = true;
       return "index";
     }
