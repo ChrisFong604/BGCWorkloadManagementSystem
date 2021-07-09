@@ -183,23 +183,27 @@
                 
                 if ((dateobjects2[i].getTime() == dateobjects[0].getTime()) && (empst[i] == true)){
                     hemp[0] += 1;
+                    break;
                 }
 
                 else if ((dateobjects2[i] > dateobjects[0] && dateobjects2[i] < dateobjects[1]) && (empst[i] == true)){
                     hemp[1] += 1;
+                    break;
                 }
             }
 
             else if ((dateobjects2[i].getTime() == dateobjects[j].getTime()) && (empst[i] == true)){
                 hemp[j] += 1;
                 console.log("HIi"); 
+                break;
             }
 
             
 
             else if ((dateobjects2[i] > dateobjects[j-1] && dateobjects2[i] < dateobjects[j]) && (empst[i] == true)){
                 hemp[j] += 1;          
-                console.log("HI");     
+                console.log("HI");  
+                break;   
             }
         }
     }
@@ -214,21 +218,25 @@
 
                 if (dateobjects3[i].getTime() == dateobjects[0].getTime()){
                     pemp[0] += 1;
+                    break;
                 }
 
                 else if (dateobjects3[i] > dateobjects[0] && dateobjects3[i] < dateobjects[1]){
                     pemp[1] += 1;
+                    break;
                 }
             }
 
             else if (dateobjects3[i].getTime() == dateobjects[j].getTime()){
                 pemp[j] += 1;
+                break;
             }
 
             
 
             else if ((dateobjects3[i] > dateobjects[j-1] && dateobjects3[i] < dateobjects[j])){
-                pemp[j] += 1;               
+                pemp[j] += 1;   
+                break;            
             }
         }
     }
@@ -241,22 +249,26 @@
         
                 if ((dateobjects4[i].getTime() == dateobjects[0].getTime()) && (empst[i] == true)){
                     hemp[0] -= 1;
+                    break;
                 }
 
                 else if ((dateobjects4[i] > dateobjects[0] && dateobjects4[i] < dateobjects[1]) && (empst[i] == true)){
                     hemp[1] -= 1;
+                    break;
                 }
             }
 
             else if ((dateobjects4[i].getTime() == dateobjects[j].getTime()) && (empst[i] == true)){
                 hemp[j] -= 1;
                 console.log("HIi"); 
+                break;
             }
 
     
             else if ((dateobjects4[i] > dateobjects[j-1] && dateobjects4[i] < dateobjects[j]) && (empst[i] == true)){
                 hemp[j] -= 1;          
-                console.log("HI");     
+                console.log("HI"); 
+                break;    
             }
         }
     }
@@ -270,17 +282,20 @@
 
                 if (dateobjects5[i].getTime() == dateobjects[0].getTime()){
                     pemp[0] -= 1;
+                    break;
                     
                 }
 
                 else if (dateobjects5[i] > dateobjects[0] && dateobjects5[i] < dateobjects[1]){
                     pemp[1] -= 1;
+                    break;
                     
                 }
             }
 
             else if (dateobjects5[i].getTime() == dateobjects[j].getTime()){
                 pemp[j] -= 1;
+                break;
                 
             }
 
@@ -363,11 +378,11 @@
         type: 'line',
          //the data of our dataset
         data: {
-            labels: daysOfYear, //[jan 1, jan 7, jan 15, jan 22],
+            labels: daysOfYear, //[july 3, jan 10, july 17, jan 22],
             datasets: [{
                 label: 'Headcount: Planning',
                 
-                data: pemp,
+                data: pemp, //[3,3,3,4]
                 backgroundColor:'orange',
                 borderColor: 'orange',
                 fill: false,
@@ -422,7 +437,7 @@
     });
 </script>
 
-    <form action="#" method="post" th:action="@{/dashboard}">   
+    <form action="#" method="post" th:action="@{/deletetabledata}">   
     
 
         <input type="submit" value="Delete all data">
