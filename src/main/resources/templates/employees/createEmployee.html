@@ -21,7 +21,7 @@
 
             <label>Select employee type</label>
             <select name="position" id="position">
-                <optgroup th:field=*{position}>
+                <optgroup th:field=*{position} label="Position">
                     <option value="">Select...</option>
                     <option value="permanent">Permanent Hire</option>
                     <option value="intern">Co-op/Intern</option>
@@ -36,7 +36,7 @@
 
             <label for="status">Employee status</label>
             <select name="status" id="status">
-                <optgroup th:field=*{status} label="status">
+                <optgroup th:field=*{status} label="Status">
                     <option value="">Select...</option>
                     <option value="TRUE">Hired</option>
                     <option value="FALSE">Projected</option>
