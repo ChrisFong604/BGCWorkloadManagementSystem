@@ -575,7 +575,7 @@ public class Main {
        * employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','" +
        * employee.getEnd() + "')";
        */
-      
+
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
