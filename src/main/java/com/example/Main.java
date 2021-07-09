@@ -27,6 +27,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.ranges.Range;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -128,6 +129,8 @@ public class Main {
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
+    RangeInput range = new RangeInput();
+    model.put("rangeEmpty", range);
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate(
@@ -173,6 +176,18 @@ public class Main {
       }
       model.put("employees2", output2);
 
+      // range
+      Statement stmt3 = connection.createStatement();
+      String sql3 = "SELECT * FROM range";
+      ResultSet rs3 = stmt.executeQuery(sql3);
+
+      RangeInput output3 = new RangeInput();
+      while (rs3.next()) {
+        output3.setStart(rs3.getString("startdate"));
+        output3.setEnd(rs3.getString("enddate"));
+      }
+      model.put("range", output3);
+      
       if (flag && edit) {
         return "index";
       } else if (flag && !edit) {
@@ -184,7 +199,21 @@ public class Main {
       model.put("message", e.getMessage());
       return "error";
     }
+  }
 
+  @PostMapping(path = "/dashboard", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String getRange(Map<String, Object> model, RangeInput range) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
+      String sql = "INSERT INTO range (startdate, enddate) VALUES ('" + range.getStart() + "','" + range.getEnd() + "')";
+      stmt.executeUpdate(sql);
+      
+      return "redirect:/dashboard";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
   }
 
   @GetMapping("/manager/create")
