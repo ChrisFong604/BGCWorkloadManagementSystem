@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+//test
+
 package com.example;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -35,13 +37,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 
 @Controller
 @SpringBootApplication
@@ -486,36 +485,37 @@ public class Main {
    */
   @Scheduled(cron = "*/30 * * * * *", zone = "Canada/Pacific")
   public void scheduledRampCheck() {
+
+    System.out.println("\n----NEW SCHEDULED CHECK\n\n");
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
 
       while (rs.next()) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        java.util.Date start = rs.getDate("startdate");
-        LocalDate current = LocalDate.now(ZoneId.of("Canada/America"));
+        String name = rs.getString("name");
+        System.out.println("EMPLOYEE: " + name);
+        java.sql.Date grab = rs.getDate("startdate");
 
-        long daysWorked = start.getTime();
-        daysWorked /= 86400000; // milliseconds to days
-        int weeksWorked = (int) (Math.floor(daysWorked / 7));
+        LocalDate start = grab.toLocalDate();
+        LocalDate current = LocalDate.now(ZoneId.of("Canada/Pacific"));
 
-        System.out.println("Current Time: " + current.format(formatter));
-        switch (weeksWorked) {
-          case 1:
-            stmt.executeUpdate("UPDATE employees SET capacity=0.100 WHERE id=" + rs.getString("id"));
-            break;
-          case 2:
-            stmt.executeUpdate("UPDATE employees SET capacity=0.250 WHERE id=" + rs.getString("id"));
-            break;
-          case 3:
-            stmt.executeUpdate("UPDATE employees SET capacity=0.500 WHERE id=" + rs.getString("id"));
-            break;
-          case 4:
-            stmt.executeUpdate("UPDATE employees SET capacity=0.875 WHERE id=" + rs.getString("id"));
-            break;
-          case 5:
-            stmt.executeUpdate("UPDATE employees SET capacity=0.875 WHERE id=" + rs.getString("id"));
-            break;
+        Period period = Period.between(start, current);
+
+        int daysWorked = period.getYears() * 365 + period.getMonths() * 30 + period.getDays();
+
+        System.out.println("daysWorked: " + daysWorked);
+        if (daysWorked < 0) {
+          stmt.executeUpdate("UPDATE employees SET capacity = 0 WHERE id = '" + rs.getString("id") + "'");
+        } else if (daysWorked < 7) {
+          stmt.executeUpdate("UPDATE employees SET capacity = 0.100 WHERE id = '" + rs.getString("id") + "'");
+        } else if (daysWorked < 14) {
+          stmt.executeUpdate("UPDATE employees SET capacity = 0.25 WHERE id = '" + rs.getString("id") + "'");
+        } else if (daysWorked < 21) {
+          stmt.executeUpdate("UPDATE employees SET capacity = 0.5 WHERE id = '" + rs.getString("id") + "'");
+        } else if (daysWorked < 28) {
+          stmt.executeUpdate("UPDATE employees SET capacity = 0.875 WHERE id = '" + rs.getString("id") + "'");
+        } else {
+          stmt.executeUpdate("UPDATE employees SET capacity = 0.875 WHERE id = '" + rs.getString("id") + "'");
         }
       }
 
