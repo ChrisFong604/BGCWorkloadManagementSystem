@@ -419,7 +419,7 @@ public class Main {
       String sql2 = "INSERT INTO employees2 (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
           + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
           + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
-          + employee.getEnd() + "')";
+          + employee.getEnd() + "')"; 
 
       stmt.executeUpdate(sql);
       stmt.executeUpdate(sql2);

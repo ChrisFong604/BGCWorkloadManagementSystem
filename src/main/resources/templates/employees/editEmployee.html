@@ -38,7 +38,7 @@
             <label>Select employee type</label>
             <select name="position" id="position" >
                 <optgroup th:field=*{position} th:attr="value = ${employee.position}">
-                    <option value=${employee.position}>PLEASE RESELECT</option>
+                    <option th:attr="value = ${employee.position}"><text th:utext = "${employee.position}"></option>
                     <option value="permanent">Permanent Hire</option>
                     <option value="intern">Co-op/Intern</option>
                 </optgroup>
@@ -53,7 +53,7 @@
             <label for="status">Employee status</label>
             <select name="status" id="status">
                 <optgroup th:field=*{status} label="status" th:attr="value = ${employee.status}">
-                    <option value="TRUE">PLEASE RESELECT</option> <!-- <text th:utext = "${employee.status}"> -->
+                    <option th:attr="value = ${employee.status}"><text th:utext = "${employee.status}"></option> <!-- <text th:utext = "${employee.status}"> -->
                     <option value="TRUE">Hired</option>
                     <option value="FALSE">Projected</option>
                 </optgroup>
