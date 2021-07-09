@@ -128,6 +128,12 @@ public class Main {
   String dashboard(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
+              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
+              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
       String sql = "SELECT * FROM employees";
       ResultSet rs = stmt.executeQuery(sql);
 
@@ -188,6 +194,7 @@ public class Main {
 
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
+      
       String sql = "SELECT * FROM login";
       ResultSet rs = stmt.executeQuery(sql);
 
