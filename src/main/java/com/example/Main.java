@@ -92,6 +92,7 @@ public class Main {
 
     if (username.equals("admin") || pw.equals("123")){
       flag = true;
+      edit = true;
       return "index";
     }
 
