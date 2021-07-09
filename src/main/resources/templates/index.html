@@ -46,6 +46,7 @@
         let y = str.end.split("-");
         var now = new Date(y[0],y[1],y[2]);
         
+<<<<<<< HEAD
         //console.l
         var daysOfYear = [];
         for (var d = new Date(st[0], st[1], st[2]); d <= now; d.setDate(d.getDate() + 7)) {
@@ -58,6 +59,35 @@
             } 
             if (x < 10){
                 x = "0" + x.toString();
+=======
+    }
+
+    for (i = 0; i < theList2.length; i++){
+        pempsd.push(theList2[i].start);
+        pempst.push(theList2[i].status);
+        pemped.push(theList2[i].end);
+    }
+    
+
+    //creating hired employee list to match daysofyear
+    for (i = 0; i < daysOfYear.length; i++){
+        hemp.push(0);
+        //console.log(hemp[i]);
+    }
+    
+    //creating projected employee list
+    for (i = 0; i < daysOfYear.length; i++){
+        pemp.push(0);
+        //console.log(hemp[i]);
+    }
+
+    for (i = 0; i < empsd.length; i++){
+        for(j = 0; j < daysOfYear.length; j++){
+            if ((empsd[i] == daysOfYear[j]) && (empst[i] == true)){
+                hemp[j] += 1;
+                
+                
+>>>>>>> 4a02edae8fb25b7fe78051978daea531fc4ee01a
             }
             let abc = z + "-" + y + "-" + x;
             daysOfYear.push(abc);
@@ -83,6 +113,7 @@
             
         }
 
+<<<<<<< HEAD
         for (i = 0; i < theList2.length; i++){
             pempsd.push(theList2[i].start);
             pempst.push(theList2[i].status);
@@ -108,6 +139,13 @@
                     hemp[j] += 1;
                     
                 }
+=======
+    for (i = 0; i < pempsd.length; i++){
+        for(j = 0; j < daysOfYear.length; j++){
+            if ((pempsd[i] == daysOfYear[j])){
+                pemp[j] += 1;
+                
+>>>>>>> 4a02edae8fb25b7fe78051978daea531fc4ee01a
             }
         }
 
@@ -120,12 +158,20 @@
             }
         }
 
+<<<<<<< HEAD
         for (i = 0; i < emped.length; i++){
             for(j = 0; j < daysOfYear.length; j++){
                 if ((emped[i] == daysOfYear[j]) && (empst[i] == true)){
                     hemp[j] -= 1;
                     
                 }
+=======
+    for (i = 0; i < pemped.length; i++){
+        for(j = 0; j < daysOfYear.length; j++){
+            if ((pemped[i] == daysOfYear[j])){
+                pemp[j] -= 1;
+                
+>>>>>>> 4a02edae8fb25b7fe78051978daea531fc4ee01a
             }
         }
 
