@@ -435,29 +435,16 @@ public class Main {
 
       // Creates a universally unique ID for each employee (Only exists in Database)
       final String UniqueID = UUID.randomUUID().toString().replace("-", "");
-      String sql, sql2;
 
-      if (employee.getPosition() != "intern") {
-        sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
-            + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole()
-            + "','" + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
-            + "2099-01-01" + "')";
+      String sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+          + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
+          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
+          + employee.getEnd() + "')";
 
-        sql2 = "INSERT INTO employees2 (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
-            + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole()
-            + "','" + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
-            + "2099-01-01" + "')";
-      } else {
-        sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
-            + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole()
-            + "','" + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
-            + "2099-01-01" + "')";
-
-        sql2 = "INSERT INTO employees2 (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
-            + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole()
-            + "','" + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
-            + employee.getEnd() + "')";
-      }
+      String sql2 = "INSERT INTO employees2 (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+          + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
+          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
+          + employee.getEnd() + "')";
 
       stmt.executeUpdate(sql);
       stmt.executeUpdate(sql2);
