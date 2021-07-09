@@ -214,7 +214,7 @@ public class Main {
         "drop table employees"
       );
       stmt.executeUpdate(
-        "drop table employees"
+        "drop table employees2"
       );
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
