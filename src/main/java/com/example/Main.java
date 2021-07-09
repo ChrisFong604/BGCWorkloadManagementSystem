@@ -268,6 +268,10 @@ public class Main {
       
       Statement stmt = connection.createStatement();
       stmt.executeUpdate(
+          "drop table employees");
+      stmt.executeUpdate(
+          "drop table employees2");
+      stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
       stmt.executeUpdate(
