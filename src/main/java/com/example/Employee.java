@@ -12,7 +12,7 @@ public class Employee {
     // PROPERTIES
     private String id;
     private String name;
-    private String position; // Co-op or Intern (e.g QA, SW Dev, etc.)
+    private String position; // Co-op/Intern or Permanent/Full-Time hire
     private String role; // eg. QA analyst, SW Dev, etc
     private String team;
     private Boolean status; // True -> confirmed, False -> projected
