@@ -63,25 +63,37 @@
     let dateobjects5 = [];
 
     //console.l
+    
     var daysOfYear = [];
-    for (var d = new Date(st[0], st[1], st[2]); d <= now; d.setDate(d.getDate() + 7)) {
-        //console.log(d.getDate());
+    for (var d = new Date(st[0], st[1]-1, st[2]); d <= now; d.setDate(d.getDate() + parseInt(7))) {
+        console.log("D " + d);
         let x = d.getDate();
-        let y = d.getMonth();
+        let y = d.getMonth(); // 0
         let z = d.getFullYear();
-        if (y < 10){
-            y = "0" + y.toString();
+        /*
+        if (y == 0){
+            y = "12";
+        }
+        
+        else if (y < 10){
+            y = "0" + y;
         } 
+        
+
         if (x < 10){
             x = "0" + x.toString();
         }
         let abc = z + "-" + y + "-" + x;
-        daysOfYear.push(abc);
-        console.log("DAYS OF YEAR " + abc);
-        let c = new Date(z,y-1,x);
+        //daysOfYear.push(abc);
+        */
+        let c = new Date(z,y,x);
         dateobjects.push(c);
-
+        let c1 = c.getDate();
+        let c2 = c.getMonth();
+        let c3 = c.getFullYear();
+        daysOfYear.push(c3 + "-" + parseInt(c2+1).toString() + "-" + c1);
         console.log("C " + c);
+        console.log("DAYS OF YEAR " + c3 + "-" + parseInt(c2+1).toString() + "-" + c1);
     }
 
 
@@ -177,7 +189,7 @@
 
     for (i = 0; i < empsd.length; i++){
 
-        for(j = 0; j < daysOfYear.length; j++){
+        for(j = 0; j < dateobjects.length; j++){
 
             if (j == 0){
                 
@@ -212,7 +224,7 @@
 
     for (i = 0; i < pempsd.length; i++){
 
-        for(j = 0; j < daysOfYear.length; j++){
+        for(j = 0; j < dateobjects.length; j++){
 
             if (j == 0){
 
@@ -243,7 +255,7 @@
     // third for loop
     for (i = 0; i < emped.length; i++){
 
-        for(j = 0; j < daysOfYear.length; j++){
+        for(j = 0; j < dateobjects.length; j++){
 
             if (j == 0){
         
@@ -276,7 +288,7 @@
     // fourth for loop
     for (i = 0; i < pemped.length; i++){
 
-        for(j = 0; j < daysOfYear.length; j++){
+        for(j = 0; j < dateobjects.length; j++){
 
             if (j == 0){
 
