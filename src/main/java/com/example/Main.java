@@ -356,7 +356,6 @@ public class Main {
       }
       model.put("employees", output);
 
-      Statement stmt2 = connection.createStatement();
       String sql2 = "SELECT * FROM employees2";
       ResultSet rs2 = stmt.executeQuery(sql2);
 
