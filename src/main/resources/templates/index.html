@@ -12,14 +12,44 @@
 <header></header>
   
 <body>
+ 
+ <div class="input">
+    <form action="#" method="post" th:action="@{/dashboard}" th:object="${rangeEmpty}">
+        <label>Start Date</label>
+        <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd"> <br>
+
+        <label>End Date</label>
+        <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd"> <br>
+
+        <input type="submit" value="Apply">
+    </form>
+
+  </div>
+  
   <div class = "container"> 
     <canvas id = "headcount"></canvas>
   </div>
   <script th:inline="javascript">  
     
        
+
+
+
+
+
+    var str = [[${range}]]
+
+        // Date: y/m/d
+        //let str = "2021-07-10";/
+
+    // START DATE
+    let st = str.start.split("-");
+        
+    // END DATE
+    let y = str.end.split("-");
+    
     // Date: y/m/d
-    let y = [2021, 8, 31];
+    
     var now = new Date(y[0],y[1],y[2]);
 
     let dateobjects = [];
@@ -27,7 +57,7 @@
 
     //console.l
     var daysOfYear = [];
-    for (var d = new Date(2021, 7, 10); d <= now; d.setDate(d.getDate() + 7)) {
+    for (var d = new Date(st[0], st[1], st[2]); d <= now; d.setDate(d.getDate() + 7)) {
         //console.log(d.getDate());
         let x = d.getDate();
         let y = d.getMonth();
@@ -110,7 +140,7 @@
         if (dateobjects2[i] < dateobjects[0]){
             hemp[0] += 1;
             pemp[0] += 1;
-            console.log("IF STATEMENT!");
+            
             //console.log("DATEOBJECT1 " + dateobjects[0]);
             //console.log("DATEOBJECT2 " + dateobjects2[0]);
         }
