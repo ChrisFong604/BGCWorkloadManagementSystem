@@ -210,12 +210,6 @@ public class Main {
   public String getRange(Map<String, Object> model, RangeInput range) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate(
-        "delete from employees"
-      );
-      stmt.executeUpdate(
-        "delete from employees2"
-      );
       
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
@@ -230,6 +224,24 @@ public class Main {
       return "error";
     }
   }
+
+  @PostMapping(path = "/deletetabledata")
+  public String deletetabledata(Map<String, Object> model) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate(
+        "delete from employees"
+      );
+      stmt.executeUpdate(
+        "delete from employees2"
+      );
+      return "redirect:/dashboard";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
 
   @GetMapping("/manager/create")
   public String createManager(Map<String, Object> model) {
