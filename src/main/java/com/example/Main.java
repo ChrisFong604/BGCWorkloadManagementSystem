@@ -346,6 +346,7 @@ public class Main {
       		+ "WHERE id = '" + employee.getId() + "';";
       //System.out.println(rid);
       //System.out.println(sql);
+      
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
