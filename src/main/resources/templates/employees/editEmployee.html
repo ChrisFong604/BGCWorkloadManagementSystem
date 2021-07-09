@@ -35,10 +35,10 @@
             <label for="name">Name</label> <br>
             <input type="text" th:field="*{name}" th:attr="value = ${employee.name}" id="name"> <br>
 
-            <label>Select employee type</label>
-            <select name="position" id="position" >
+            <label>Select Employee Type</label>
+            <select name="position" id="position" label="Position">
                 <optgroup th:field=*{position} th:attr="value = ${employee.position}">
-                    <option value="">PLEASE RESELECT</option>
+                    <option th:attr="value = ${employee.position}"><text th:utext = "${employee.position}"></option>
                     <option value="permanent">Permanent Hire</option>
                     <option value="intern">Co-op/Intern</option>
                 </optgroup>
@@ -50,10 +50,10 @@
             <label for="team">Team</label> <br>
             <input type="text" th:field=*{team} th:attr="value = ${employee.team}" id="team"> <br>
 
-            <label for="status">Employee status</label>
+            <label for="status">Employee Status</label>
             <select name="status" id="status">
                 <optgroup th:field=*{status} label="status" th:attr="value = ${employee.status}">
-                    <option value="TRUE">PLEASE RESELECT</option> <!-- <text th:utext = "${employee.status}"> -->
+                    <option th:attr="value = ${employee.status}"><text th:utext = "${employee.status}"></option>
                     <option value="TRUE">Hired</option>
                     <option value="FALSE">Projected</option>
                 </optgroup>
@@ -69,7 +69,7 @@
             
             <br>
             <label>ID (debug)</label>
-            <input type="text" th:field=*{id} th:attr="value = ${employee.id}"> <br>
+            <input type="text" th:field=*{id} th:attr="value = ${employee.id}" readonly> <br>
 
             <div class="buttons">
                 <input type="submit" value="Save">
@@ -79,6 +79,25 @@
     </div>
 
     <a th:href="@{/employees}">Back to Homepage</a>
+    
+    <script>
+        let status = document.getElementById("position");
+        let end = document.getElementById("end");
+    
+        status.addEventListener("click", displayDate);
+    
+        function displayDate() {
+            let val = status.value;
+            //console.log(val);
+            if (val == "permanent") {
+                end.valueAsDate = new Date("2999-12-31");
+            }
+            else {
+                end.valueAsDate = new Date("yyyy-mm-dd");
+            }
+        }
+    </script>
+    
 </body>
 
 </html>
