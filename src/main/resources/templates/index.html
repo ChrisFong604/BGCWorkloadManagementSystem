@@ -88,13 +88,14 @@
             if ((empsd[i] == daysOfYear[j]) && (empst[i] == true)){
                 hemp[j] += 1;
                 
+                
             }
         }
     }
 
     for (i = 0; i < pempsd.length; i++){
         for(j = 0; j < daysOfYear.length; j++){
-            if ((pempsd[i] == daysOfYear[j]) && (pempst[i] == false)){
+            if ((pempsd[i] == daysOfYear[j])){
                 pemp[j] += 1;
                 
             }
@@ -112,7 +113,7 @@
 
     for (i = 0; i < pemped.length; i++){
         for(j = 0; j < daysOfYear.length; j++){
-            if ((pemped[i] == daysOfYear[j]) && (pempst[i] == false)){
+            if ((pemped[i] == daysOfYear[j])){
                 pemp[j] -= 1;
                 
             }
