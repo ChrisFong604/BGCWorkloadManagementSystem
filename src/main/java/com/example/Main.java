@@ -91,6 +91,7 @@ public class Main {
     String access = user.getAccess();
 
     if (username == "admin" || pw == "123"){
+      flag = true;
       return "index";
     }
 
