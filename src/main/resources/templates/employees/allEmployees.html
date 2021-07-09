@@ -24,7 +24,6 @@
                 <option value="role">Role</option>
                 <option value="team">Team</option>
                 <option value="status">Hired</option>
-                <option value="capacity">Capacity</option>
                 <option value="startdate">Start Date</option>
                 <option value="enddate">End Date</option>
             </optgroup>
@@ -47,7 +46,6 @@
             <th>Role</th>
             <th>Team</th>
             <th>Hired</th>
-            <th>Capacity</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th></th>
@@ -62,7 +60,6 @@
             <td th:text="${employee.role}"></td>
             <td th:text="${employee.team}"></td>
             <td th:text="${employee.status}"></td>
-            <td th:text="${employee.capacity}"></td>
             <td th:text="${employee.start}"></td>
             <td th:text="${employee.end}"></td>
             
@@ -79,6 +76,11 @@
   </div>
   
   <script>
+  
+  	//replace infinite date with text 
+  	//let str = "2999-12-31";
+  	//str.replace(/2999-12-31/g, "Permanent");
+  
     let attr;
     let filterBy = document.getElementById("filterBy");  
     filterBy.addEventListener("click", getAttribute);
@@ -104,23 +106,20 @@
       else if (val == "status") {
         attr = 4;
       }
-      else if (val == "capacity") {
+      else if (val == "startdate") {
         attr = 5;
       }
-      else if (val == "startdate") {
+      else if (val == "enddate") {
         attr = 6;
       }
-      else if (val == "enddate") {
-        attr = 7;
-      }
       else {
-        attr = 8;    
+        attr = 7;    
       }
       //console.log(attr);
     }
 
     function getFilter() {
-      if (attr == 8) {
+      if (attr == 7) {
         return;
       }
       var input, filter, table, tr, td, i, txtValue;

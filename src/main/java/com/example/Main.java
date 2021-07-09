@@ -129,8 +129,8 @@ public class Main {
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
-    RangeInput range = new RangeInput();
-    model.put("rangeEmpty", range);
+    /*RangeInput range = new RangeInput();
+    model.put("rangeEmpty", range);*/
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       
