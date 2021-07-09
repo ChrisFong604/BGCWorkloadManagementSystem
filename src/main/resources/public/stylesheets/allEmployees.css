@@ -1,6 +1,6 @@
 /*.data-table {
     overflow-y: auto;
-    height: 90%;
+    height: 150px;
     width: 90%;
 }
 
@@ -12,7 +12,6 @@
 table {
     border-collapse: collapse;
     width: 80%;
-    height: 100%;
     margin: 20px
 }
 
@@ -24,14 +23,6 @@ table {
 
 .label tr td label {
 	display: block;
-}
-
-body {
-	background-color: rgb(255);
-	margin:20px;
-	padding: 12px;
-    border: 0px;
-    font-family: Georgia;
 }
 
 th, td {
@@ -77,8 +68,8 @@ th {
 
 .data-table {
     overflow-y: auto;
-    width: 95%;
-    height: 60%;
+    width: 90%;
+    height: 200px;
 }
 
 .data-table thead th {
@@ -89,8 +80,6 @@ th {
 table {
     border-collapse: collapse;
     width: 100%;
-    padding: 20px;
-    margin: 10px;
 }
 
 th, td {
