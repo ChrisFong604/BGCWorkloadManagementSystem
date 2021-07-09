@@ -1,6 +1,6 @@
 .data-table {
     overflow-y: auto;
-    height: 150px;
+    height: 90%;
     width: 90%;
 }
 
@@ -12,6 +12,7 @@
 table {
     border-collapse: collapse;
     width: 80%;
+    height: 100%;
     margin: 20px
 }
 

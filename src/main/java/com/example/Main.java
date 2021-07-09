@@ -335,12 +335,6 @@ public class Main {
   public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      /*stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
-
-      // Creates a universally unique ID for each employee (Only exists in Database)
-      final String UniqueID = UUID.randomUUID().toString().replace("-", "");*/
       String sql = "UPDATE employees SET "
       		+ "name = '" + employee.getName() + "', "
       		+ "position = '" + employee.getPosition() + "', "
@@ -350,14 +344,8 @@ public class Main {
       		+ "startdate = '" + employee.getStart() + "', "
       		+ "enddate = '" + employee.getEnd() + "' "
       		+ "WHERE id = '" + employee.getId() + "';";
-      System.out.println(rid);
-      System.out.println(sql);
-
-      /*String sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
-          + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
-          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
-          + employee.getEnd() + "')";*/
-
+      //System.out.println(rid);
+      //System.out.println(sql);
       stmt.executeUpdate(sql);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
