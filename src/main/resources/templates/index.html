@@ -21,7 +21,8 @@
         <input type="date" th:field="*{start}" th:attr="value = ${range.start}"> 
 
         <label>End Date</label>
-        <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd"> 
+        <!-- <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd">-->
+        <input type="date" th:field="*{end}" th:attr="value = ${range.end}">
 
         <input type="submit" value="Apply">
     </form>
