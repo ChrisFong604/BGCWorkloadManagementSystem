@@ -17,7 +17,7 @@
         <h1 class="heading">Profile</h1>
         <form action="#" method="post" th:action="@{/employees/create}" th:object="${employee}">
             <label for="name">Name/Resource</label> <br>
-            <input type="text" th:field=*{name} id="name"> <br>
+            <input type="text" th:field=*{name} id="name" required> <br>
 
             <label>Select employee type</label>
             <select name="position" id="position">
@@ -29,13 +29,13 @@
             </select>
 
             <br><label for="role">Role</label> 
-            <input type="text" th:field=*{role} id="role"> <br>
+            <input type="text" th:field=*{role} id="role" required> <br>
 
             <label for="team">Team</label> <br>
-            <input type="text" th:field=*{team} id="team"> <br>
+            <input type="text" th:field=*{team} id="team" required> <br>
 
             <label for="status">Employee status</label>
-            <select name="status" id="status">
+            <select name="status" id="status" required>
                 <optgroup th:field=*{status} label="status">
                     <option value="">Select...</option>
                     <option value="TRUE">Hired</option>
@@ -45,11 +45,11 @@
 
             <br>
             <label>Start Date</label>
-            <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd"> <br>
+            <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd" required> <br>
         
             <br>
             <label>End Date (Co-op/Intern)</label>
-            <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end"> <br>
+            <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end" required> <br>
 
             <div class="buttons">
                 <input type="submit" value="Save">
