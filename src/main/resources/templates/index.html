@@ -26,13 +26,54 @@
 
         <input type="submit" value="Apply">
     </form>
-
   </div>
   
   <div class = "container"> 
     <canvas id = "headcount"></canvas>
   </div>
+
+  <!--
+  <div class="container">
+    <table id="visual">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Employee Type</th>
+            <th>Role</th>
+            <th>Team</th>
+            <th>Hired</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+        	<tr th:each="employee : ${employees}">
+            <td th:text="${employee.name}"></td>
+            <td th:text="${employee.position}"></td>
+            <td th:text="${employee.role}"></td>
+            <td th:text="${employee.team}"></td>
+            <td th:text="${employee.status}"></td>
+            <td th:text="${employee.start}"></td>
+            <td th:text="${employee.end}"></td>
+            
+            <td>
+              <button><a th:href="@{/employees/edit?rid={id}(id = ${employee.getId()})}">Edit</a></button>
+            </td>
+            <td>
+              <button><a th:href="@{/employees/deleted?e_id={id}(id=${employee.id})}"><i class="bi bi-trash"></i>Delete</a></button>
+            </td>
+			</tr>
+		
+        </tbody>
+    </table>
+  </div
+  -->
+
   
+
   <script th:inline="javascript">  
 
     var str = [[${range}]]
@@ -48,7 +89,11 @@
     
     // Date: y/m/d
     
-    var now = new Date(y[0],y[1],y[2]);
+    var now = new Date(y[0],y[1]-1,y[2]);
+
+    console.log("Y -------------> " + y);
+    console.log("NOW -------------> " + now);
+
 
     let dateobjects = [];
     // emp start date
@@ -67,23 +112,7 @@
         console.log("D " + d);
         let x = d.getDate();
         let y = d.getMonth(); // 0
-        let z = d.getFullYear();
-        /*
-        if (y == 0){
-            y = "12";
-        }
-        
-        else if (y < 10){
-            y = "0" + y;
-        } 
-        
-
-        if (x < 10){
-            x = "0" + x.toString();
-        }
-        let abc = z + "-" + y + "-" + x;
-        //daysOfYear.push(abc);
-        */
+        let z = d.getFullYear();        
         let c = new Date(z,y,x);
         dateobjects.push(c);
         let c1 = c.getDate();
@@ -107,17 +136,11 @@
     var theList2 = [[${employees2}]]
 
 
-
-
-
-
-
     for (i = 0; i < theList.length; i++) {
         empsd.push(theList[i].start);
         empst.push(theList[i].status);
         emped.push(theList[i].end);
         //console.log(test[i]);
-
     }
     /*
     let st = str.start.split("-");
@@ -136,7 +159,6 @@
         let p = new Date(o[0],o[1]-1,o[2]);
         dateobjects4.push(p);
     }
-
 
 
     for (i = 0; i < theList2.length; i++){
@@ -184,7 +206,6 @@
     }
 
     // first for loop
-
     for (i = 0; i < empsd.length; i++){
 
         for(j = 0; j < dateobjects.length; j++){
@@ -208,8 +229,6 @@
                 break;
             }
 
-            
-
             else if ((dateobjects2[i] > dateobjects[j-1] && dateobjects2[i] < dateobjects[j]) && (empst[i] == true)){
                 hemp[j] += 1;          
                 console.log("HI");  
@@ -219,7 +238,6 @@
     }
 
     // second for loop
-
     for (i = 0; i < pempsd.length; i++){
 
         for(j = 0; j < dateobjects.length; j++){
@@ -250,6 +268,7 @@
             }
         }
     }
+    
     // third for loop
     for (i = 0; i < emped.length; i++){
 
@@ -318,32 +337,6 @@
         }
     }
     
-    
-    /*
-    for (i = 0; i < emped.length; i++){
-        for(j = 0; j < daysOfYear.length; j++){
-            if ((emped[i] == daysOfYear[j]) && (empst[i] == true)){
-                hemp[j] -= 1;
-                
-            }
-        }
-    }
-    for (i = 0; i < pemped.length; i++){
-        for(j = 0; j < daysOfYear.length; j++){
-            if ((pemped[i] == daysOfYear[j])){
-                pemp[j] -= 1;
-                
-            }
-        }
-    }
-    */
-    
-    /*
-    console.log("printing test 2 after adding");
-    for (i = 0; i < hemp.length; i++){
-        console.log(hemp[i]);
-    }
-    */
     for (i = 0; i < hemp.length; i++){
         if (i == 0){
             hemp[0] = hemp[0];
@@ -366,8 +359,6 @@
     for (i = 0; i < hemp.length; i++){
         console.log(hemp[i]);
     }
-
-
 
     /*
     console.log("TEST[0] " + test[0]);
@@ -453,5 +444,152 @@
 
         <input type="submit" value="Delete all data">
     </form>
+
+     
+    <script th:inline="javascript">
+        function GenerateTable() {
+           //Build an array containing Customer records.
+            var str = [[${range}]]
+
+            // Date: y/m/d
+            //let str = "2021-07-10";/
+
+            // START DATE
+           let st = str.start.split("-");
+
+            // END DATE
+           let y = str.end.split("-");
+
+           let listofdates = [];
+
+           let listofdateso = [];
+
+           let listofsd = [];
+
+            // Date: y/m/d
+
+           var now = new Date(y[0],y[1]-1,y[2]);
+           for (var d = new Date(st[0], st[1]-1, st[2]); d <= now; d.setDate(d.getDate() + parseInt(7))) {
+                let x = d.getDate();
+                let y = d.getMonth(); // 0
+                let z = d.getFullYear();        
+                let c = new Date(z,y,x);
+                listofdateso.push(c);
+                let c1 = c.getDate();
+                let c2 = c.getMonth();
+                let c3 = c.getFullYear();
+                listofdates.push(c3 + "-" + parseInt(c2+1).toString() + "-" + c1);
+                console.log("C " + c);
+                console.log("DAYS OF YEAR " + c3 + "-" + parseInt(c2+1).toString() + "-" + c1);
+            }
+           var employees = new Array();
+           var theList3 = [[${employees}]]
+           
+            for (i = 0; i < theList3.length; i++){
+
+               let n = theList3[i].name;
+
+               employees.push(n);
+            }
+
+            for (i = 0; i < theList3.length; i++){
+
+                let n = theList3[i].start;
+
+                listofsd.push(n);
+            }
+
+            for (i = 0; i < theList3.length; i++) {
+                listofsd.push(theList[i].start);
+                
+                //console.log(test[i]);
+            }
+            /*
+            let st = str.start.split("-");
+            */
+
+            let datesd = [];
+
+            for (i = 0; i < theList.length; i++){
+                //console.log("EMPSD " + empsd[i]);
+                let o = listofsd[i].split("-");
+                let p = new Date(o[0],o[1]-1,o[2]);
+                datesd.push(p);
+                //console.log("DATEOBJECT2" + p);
+            }
+
+            
+
+
+
+    
+           //Create a HTML Table element.
+           var table = document.createElement("TABLE");
+           table.id = "tbl"
+           table.border = "1";
+    
+           //Get the count of columns.
+           var columnCount = employees.length;
+    
+           //Add the header row.
+           var row = table.insertRow(-1);
+           for (var i = 0; i < listofdates.length+1; i++) {
+               var headerCell = document.createElement("TH");
+               if (i == 0){
+                   headerCell.innerHTML = "Name/Resource";
+               }
+               else{
+               headerCell.innerHTML = listofdates[i-1];
+               }
+               row.appendChild(headerCell);
+           }
+    
+           //Add the data rows.
+           for (var i = 1; i < employees.length ; i++) {
+               row = table.insertRow(i);
+               var cell;
+               for (var j = 0; j < listofdates.length+1; j++) {
+                   cell = row.insertCell(j);
+                   if (j == 0){
+                       cell.innerHTML = employees[i];
+                   }
+                   else{
+                   cell.innerHTML = "these will be capacity";
+                   }
+                   
+               }
+               
+           }
+           console.log("HELLO outside FOR LOOP!");
+           for (i = 0; i < datesd.length; i++){
+               console.log("HELLO FOR LOOP!");
+                for (j = 0; j < listofdateso.length; j++){
+                    if (datesd[i].getTime() == listofdateso[j].getTime()){
+                        console.log("HELLO IF STATEMENT!");
+                        table.rows[i].cells[2].innerHTML = "0.1";
+                        for (k = j+1; k < listofdateso.length; k++){
+                            console.log("HELLO 3RD FOR LOOP!");
+                            table.rows[i].cells[2].innerHTML = "0.1";
+                        }
+                    }
+                }
+
+            }
+    
+           var dvTable = document.getElementById("dvTable");
+           dvTable.innerHTML = "";
+           dvTable.appendChild(table);
+
+
+           
+
+       }
+       
+   </script> 
+   
+    <input type="button" value="Generate Table" onclick="GenerateTable()" />
+    <hr />
+    <div id="dvTable"></div>
+    
 </body>
 </html>
