@@ -130,6 +130,18 @@ public class Main {
     }
   }
 
+  @GetMapping("/dashboard/workload")
+  String workload(Map<String, Object> model) {
+    if (flag && edit) {
+      return "workload";
+    } else if (flag && !edit) {
+      return "readOnly/workload_r";
+    } else {
+      return "userNotFound";
+    }
+  }
+
+
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
     /*RangeInput range = new RangeInput();
@@ -147,7 +159,7 @@ public class Main {
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
 
       
-      String sql = "SELECT * FROM employees";
+      String sql = "SELECT * FROM employees ORDER BY startdate ASC";
       ResultSet rs = stmt.executeQuery(sql);
 
       ArrayList<Employee> output = new ArrayList<Employee>();
@@ -166,7 +178,7 @@ public class Main {
       model.put("employees", output);
 
       Statement stmt2 = connection.createStatement();
-      String sql2 = "SELECT * FROM employees2";
+      String sql2 = "SELECT * FROM employees2 ORDER BY startdate ASC";
       ResultSet rs2 = stmt.executeQuery(sql2);
 
       ArrayList<Employee> output2 = new ArrayList<Employee>();
@@ -228,15 +240,17 @@ public class Main {
       ArrayList<Employee> empInRange = new ArrayList<>();
       for (Employee employee : output) {
         ArrayList<Double> empRampUp = new ArrayList<>();
-        //ArrayList<Double> empRampUp2 = new ArrayList<>();
     
         Date date = employee.getStart();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-        String strDate = dateFormat.format(date);  
-        //startDates.add(strDate);
-        //System.out.println(strDate);
-        boolean isBefore = LocalDate.parse(strDate).isBefore(start);
-        boolean isAfter = LocalDate.parse(strDate).isAfter(end);
+        String strsDate = dateFormat.format(date);  
+        Date edate = employee.getEnd();
+        String streDate = dateFormat.format(edate);  
+        //startDates.add(strsDate);
+        //System.out.println(strsDate);
+        //System.out.println(streDate);
+        boolean isBefore = LocalDate.parse(strsDate).isBefore(start);
+        boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
         if (!isBefore && !isAfter) {
           empInRange.add(employee);
 
@@ -260,28 +274,63 @@ public class Main {
           }
 
           boolean flag = false;
+          int week = 0;
           for (int i = 0; i < listOfDates.size(); i++) {
-            if (!flag && (LocalDate.parse(strDate).equals(listOfDates.get(i)) ||
-                LocalDate.parse(strDate).isBefore(listOfDates2.get(i+1)))) {
+            if (flag && week >= 1 && week <= 4) {
+              if (LocalDate.parse(streDate).isBefore(listOfDates2.get(i)) ||
+              LocalDate.parse(streDate).equals(listOfDates2.get(i))) {
+                if (week == 1) {
+                  empRampUp.add(0.0);
+                  week++;
+                }
+                else if (week == 2) {
+                  empRampUp.add(0.0);
+                  week++;
+                }
+                else if (week == 3) {
+                  empRampUp.add(0.0);
+                  week++;
+                }
+                else if (week == 4) {
+                  empRampUp.add(0.0);
+                  week = 0;
+                }
+              }
+              else {
+                if (week == 1) {
+                  empRampUp.add(empRU.getWeek2());
+                  week++;
+                }
+                else if (week == 2) {
+                  empRampUp.add(empRU.getWeek3());
+                  week++;
+                }
+                else if (week == 3) {
+                  empRampUp.add(empRU.getWeek4());
+                  week++;
+                }
+                else if (week == 4) {
+                  empRampUp.add(empRU.getWeek5());
+                  week = 0;
+                }
+              }
+            }
+            else if (!flag && (LocalDate.parse(strsDate).equals(listOfDates.get(i)) ||
+                     LocalDate.parse(strsDate).isBefore(listOfDates2.get(i+1)))) {
               //System.out.println(listOfDates2.get(i));
               //System.out.println(listOfDates2.get(i+1));
               empRampUp.add(empRU.getWeek1());
-              empRampUp.add(empRU.getWeek2());
-              empRampUp.add(empRU.getWeek3());
-              empRampUp.add(empRU.getWeek4());
-              empRampUp.add(empRU.getWeek5());
               flag = true;
+              week++;
             }
-            else if (LocalDate.parse(strDate).isAfter(listOfDates.get(i))) {
+            else if (LocalDate.parse(strsDate).isAfter(listOfDates.get(i)) || 
+                     LocalDate.parse(streDate).isBefore(listOfDates2.get(i)) ||
+                     LocalDate.parse(streDate).equals(listOfDates2.get(i))) {
               empRampUp.add(0.0);
             }
             else {
               empRampUp.add(empRU.getWeek5());
             }
-          }
-
-          for (int i = 0; i < 4; i++) {
-            empRampUp.remove(empRampUp.size()-1);
           }
           employee.setRampUp(empRampUp);
         }
@@ -291,8 +340,7 @@ public class Main {
         }*/
       }
       model.put("empInRange", empInRange);
-      //model.put("emp", employee);
-
+      
       // print to check
       /*for (Employee emp : empInRange) {
         System.out.println(emp.getName());
@@ -435,7 +483,7 @@ public class Main {
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
-      String sql = "SELECT * FROM employees";
+      String sql = "SELECT * FROM employees ORDER BY startdate ASC";
       ResultSet rs = stmt.executeQuery(sql);
 
       ArrayList<Employee> output = new ArrayList<Employee>();
@@ -455,7 +503,7 @@ public class Main {
       }
       model.put("employees", output);
       
-      /*** visual ***/
+      /*** visual ****/ 
       Statement stmt4 = connection.createStatement();
       String sql4 = "SELECT * FROM range";
       ResultSet rs4 = stmt.executeQuery(sql4);
@@ -466,8 +514,6 @@ public class Main {
         start = LocalDate.parse(rs4.getString("startdate"));
         end = LocalDate.parse(rs4.getString("enddate"));
       }
-      //System.out.println(start);
-      //System.out.println(end);
 
       /*** setting up the range of dates ***/
       LocalDate endOfRange = end.plusWeeks(1);
@@ -487,15 +533,15 @@ public class Main {
       ArrayList<Employee> empInRange = new ArrayList<>();
       for (Employee employee : output) {
         ArrayList<Double> empRampUp = new ArrayList<>();
-        //ArrayList<Double> empRampUp2 = new ArrayList<>();
     
         Date date = employee.getStart();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-        String strDate = dateFormat.format(date);  
-        //startDates.add(strDate);
-        //System.out.println(strDate);
-        boolean isBefore = LocalDate.parse(strDate).isBefore(start);
-        boolean isAfter = LocalDate.parse(strDate).isAfter(end);
+        String strsDate = dateFormat.format(date);  
+        Date edate = employee.getEnd();
+        String streDate = dateFormat.format(edate);  
+
+        boolean isBefore = LocalDate.parse(strsDate).isBefore(start);
+        boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
         if (!isBefore && !isAfter) {
           empInRange.add(employee);
 
@@ -519,35 +565,64 @@ public class Main {
           }
 
           boolean flag = false;
+          int week = 0;
           for (int i = 0; i < listOfDates.size(); i++) {
-            if (!flag && (LocalDate.parse(strDate).equals(listOfDates.get(i)) ||
-                LocalDate.parse(strDate).isBefore(listOfDates2.get(i+1)))) {
-              //System.out.println(listOfDates2.get(i));
-              //System.out.println(listOfDates2.get(i+1));
-              empRampUp.add(empRU.getWeek1());
-              empRampUp.add(empRU.getWeek2());
-              empRampUp.add(empRU.getWeek3());
-              empRampUp.add(empRU.getWeek4());
-              empRampUp.add(empRU.getWeek5());
-              flag = true;
+            if (flag && week >= 1 && week <= 4) {
+              if (LocalDate.parse(streDate).isBefore(listOfDates2.get(i)) ||
+              LocalDate.parse(streDate).equals(listOfDates2.get(i))) {
+                if (week == 1) {
+                  empRampUp.add(0.0);
+                  week++;
+                }
+                else if (week == 2) {
+                  empRampUp.add(0.0);
+                  week++;
+                }
+                else if (week == 3) {
+                  empRampUp.add(0.0);
+                  week++;
+                }
+                else if (week == 4) {
+                  empRampUp.add(0.0);
+                  week = 0;
+                }
+              }
+              else {
+                if (week == 1) {
+                  empRampUp.add(empRU.getWeek2());
+                  week++;
+                }
+                else if (week == 2) {
+                  empRampUp.add(empRU.getWeek3());
+                  week++;
+                }
+                else if (week == 3) {
+                  empRampUp.add(empRU.getWeek4());
+                  week++;
+                }
+                else if (week == 4) {
+                  empRampUp.add(empRU.getWeek5());
+                  week = 0;
+                }
+              }
             }
-            else if (LocalDate.parse(strDate).isAfter(listOfDates.get(i))) {
+            else if (!flag && (LocalDate.parse(strsDate).equals(listOfDates.get(i)) ||
+                     LocalDate.parse(strsDate).isBefore(listOfDates2.get(i+1)))) {
+              empRampUp.add(empRU.getWeek1());
+              flag = true;
+              week++;
+            }
+            else if (LocalDate.parse(strsDate).isAfter(listOfDates.get(i)) || 
+                     LocalDate.parse(streDate).isBefore(listOfDates2.get(i)) ||
+                     LocalDate.parse(streDate).equals(listOfDates2.get(i))) {
               empRampUp.add(0.0);
             }
             else {
               empRampUp.add(empRU.getWeek5());
             }
           }
-
-          for (int i = 0; i < 4; i++) {
-            empRampUp.remove(empRampUp.size()-1);
-          }
           employee.setRampUp(empRampUp);
         }
-        //System.out.println(empRampUp.size());
-        /*for (double r : empRampUp) {
-          System.out.println(r);
-        }*/
       }
       model.put("empInRange", empInRange);
 
@@ -629,7 +704,7 @@ public class Main {
   String returnEmployeeMetrics(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      String sql = "SELECT * FROM employees";
+      String sql = "SELECT * FROM employees ORDER BY startdate ASC";
       ResultSet rs = stmt.executeQuery(sql);
 
       ArrayList<Employee> output = new ArrayList<Employee>();
@@ -647,7 +722,7 @@ public class Main {
       }
       model.put("employees", output);
 
-      String sql2 = "SELECT * FROM employees2";
+      String sql2 = "SELECT * FROM employees2 ORDER BY startdate ASC";
       ResultSet rs2 = stmt.executeQuery(sql2);
 
       ArrayList<Employee> output2 = new ArrayList<Employee>();
