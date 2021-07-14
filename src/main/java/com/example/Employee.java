@@ -1,6 +1,7 @@
 package com.example;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 /***
  * A Bean class for the Employee database and a method to determine work
@@ -12,13 +13,15 @@ public class Employee {
     // PROPERTIES
     private String id;
     private String name;
-    private String position; // Co-op or Intern (e.g QA, SW Dev, etc.)
+    private String position; // Co-op/Intern or Permanent/Full-Time hire
     private String role; // eg. QA analyst, SW Dev, etc
     private String team;
     private Boolean status; // True -> confirmed, False -> projected
     private Float capacity;
     private Date start;
     private Date end;
+
+    private ArrayList<Double> rampUp;
 
     /*
      * Name Role Working Capacity (time-based) Start String projected/hired full
@@ -81,6 +84,10 @@ public class Employee {
         this.end = end;
     }
 
+    public void setRampUp(ArrayList<Double> rampUp) {
+        this.rampUp = rampUp;
+    }
+
     public String getId() {
         return this.id;
     }
@@ -115,6 +122,10 @@ public class Employee {
 
     public Date getEnd() {
         return this.end;
+    }
+
+    public ArrayList getRampUp() {
+        return this.rampUp;
     }
 
 }

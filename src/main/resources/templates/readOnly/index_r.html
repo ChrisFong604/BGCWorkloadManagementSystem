@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.min.js"></script>
   <title>Dashboard</title>
 </head>
@@ -13,84 +14,441 @@
 <header></header>
   
 <body>
-    <p>hellooooooooo</p>
+    <div class="input">
+        <form action="#" method="post" th:action="@{/dashboard}" th:object="${range}">
+            <label>Start Date</label>
+            <!-- <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd"> -->
+            <input type="date" th:field="*{start}" th:attr="value = ${range.start}"> 
     
+            <label>End Date</label>
+            <!-- <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd">-->
+            <input type="date" th:field="*{end}" th:attr="value = ${range.end}">
+    
+            <input type="submit" value="Apply">
+        </form>
 
-  <div class = "container"> 
-    <canvas id = "headcount"></canvas>
-  </div>
+    </div> 
 
-  <script>
-      let headcount = document.getElementById('headcount').getContext('2d');
+    <div class = "container"> 
+        <canvas id = "headcount"></canvas>
+    </div>
 
-      let myChart = new Chart(headcount, {
-          //type of line we want to create
-          type: 'line',
+    <script th:inline="javascript">  
 
-          //the data of our dataset
-          data: {
-              labels: ["April", "May", "June", "July", "August", "September", "October", "November"],
-              datasets: [{
-                  label: 'Headcount: Planning',
-                  
-                  data: [10, 50, 25, 70, 40],
-                  backgroundColor:'orange',
-                  borderColor: 'orange',
-                  fill: false,
-                  pointRadius: 5
-              },
+        var str = [[${range}]]
+    
+            // Date: y/m/d
+            //let str = "2021-07-10";/
+    
+        // START DATE
+        let st = str.start.split("-");
+            
+        // END DATE
+        let y = str.end.split("-");
+        
+        // Date: y/m/d
+        
+        var now = new Date(y[0],y[1],y[2]);
+    
+        let dateobjects = [];
+        // emp start date
+        let dateobjects2 = [];
+        //pemp start date
+        let dateobjects3 = [];
+        // emp end date
+        let dateobjects4 = [];
+        // pemp end date
+        let dateobjects5 = [];
+    
+        //console.l
+        
+        var daysOfYear = [];
+        for (var d = new Date(st[0], st[1]-1, st[2]); d <= now; d.setDate(d.getDate() + parseInt(7))) {
+            console.log("D " + d);
+            let x = d.getDate();
+            let y = d.getMonth(); // 0
+            let z = d.getFullYear();
+            /*
+            if (y == 0){
+                y = "12";
+            }
+            
+            else if (y < 10){
+                y = "0" + y;
+            } 
+            
+    
+            if (x < 10){
+                x = "0" + x.toString();
+            }
+            let abc = z + "-" + y + "-" + x;
+            //daysOfYear.push(abc);
+            */
+            let c = new Date(z,y,x);
+            dateobjects.push(c);
+            let c1 = c.getDate();
+            let c2 = c.getMonth();
+            let c3 = c.getFullYear();
+            daysOfYear.push(c3 + "-" + parseInt(c2+1).toString() + "-" + c1);
+            console.log("C " + c);
+            console.log("DAYS OF YEAR " + c3 + "-" + parseInt(c2+1).toString() + "-" + c1);
+        }
+    
+    
+        let empsd = [];
+        var theList = [[${employees}]]
+        let hemp = [];
+        let pemp = [];
+        let empst = [];
+        let emped = [];
+        let pempsd = [];
+        let pemped = [];
+        let pempst = [];
+        var theList2 = [[${employees2}]]
+    
+    
+    
+    
+    
+    
+    
+        for (i = 0; i < theList.length; i++) {
+            empsd.push(theList[i].start);
+            empst.push(theList[i].status);
+            emped.push(theList[i].end);
+            //console.log(test[i]);
+    
+        }
+        /*
+        let st = str.start.split("-");
+        */
+    
+        for (i = 0; i < theList.length; i++){
+            //console.log("EMPSD " + empsd[i]);
+            let o = empsd[i].split("-");
+            let p = new Date(o[0],o[1]-1,o[2]);
+            dateobjects2.push(p);
+            //console.log("DATEOBJECT2" + p);
+        }
+    
+        for (i = 0; i < theList.length; i++){
+            let o = emped[i].split("-");
+            let p = new Date(o[0],o[1]-1,o[2]);
+            dateobjects4.push(p);
+        }
+    
+    
+    
+        for (i = 0; i < theList2.length; i++){
+            pempsd.push(theList2[i].start);
+            pempst.push(theList2[i].status);
+            pemped.push(theList2[i].end);
+        }
+    
+        for (i = 0; i < theList2.length; i++){
+            //console.log("EMPSD " + empsd[i]);
+            let o = pempsd[i].split("-");
+            let p = new Date(o[0],o[1]-1,o[2]);
+            dateobjects3.push(p);
+            //console.log("DATEOBJECT2" + p);
+        }
+    
+        for (i = 0; i < theList2.length; i++){
+            //console.log("EMPSD " + empsd[i]);
+            let o = pemped[i].split("-");
+            let p = new Date(o[0],o[1]-1,o[2]);
+            dateobjects5.push(p);
+            //console.log("DATEOBJECT2" + p);
+        }
+        
+        //creating hired employee list to match daysofyear
+        for (i = 0; i < daysOfYear.length; i++){
+            hemp.push(0);
+            //console.log(hemp[i]);
+        }
+        
+        //creating projected employee list
+        for (i = 0; i < daysOfYear.length; i++){
+            pemp.push(0);
+            //console.log(hemp[i]);
+        }
+    
+        for (i = 0; i < dateobjects2.length; i++){
+            if (dateobjects2[i] < dateobjects[0]){
+                hemp[0] += 1;
+                pemp[0] += 1;
+                
+                console.log("DATEOBJECT1 " + dateobjects[0]);
+                console.log("DATEOBJECT2 " + dateobjects2[i]);
+            }
+        }
+    
+        // first for loop
+    
+        for (i = 0; i < empsd.length; i++){
+    
+            for(j = 0; j < dateobjects.length; j++){
+    
+                if (j == 0){
+                    
+                    if ((dateobjects2[i].getTime() == dateobjects[0].getTime()) && (empst[i] == true)){
+                        hemp[0] += 1;
+                        break;
+                    }
+    
+                    else if ((dateobjects2[i] > dateobjects[0] && dateobjects2[i] < dateobjects[1]) && (empst[i] == true)){
+                        hemp[1] += 1;
+                        break;
+                    }
+                }
+    
+                else if ((dateobjects2[i].getTime() == dateobjects[j].getTime()) && (empst[i] == true)){
+                    hemp[j] += 1;
+                    console.log("HIi"); 
+                    break;
+                }
+    
+                
+    
+                else if ((dateobjects2[i] > dateobjects[j-1] && dateobjects2[i] < dateobjects[j]) && (empst[i] == true)){
+                    hemp[j] += 1;          
+                    console.log("HI");  
+                    break;   
+                }
+            }
+        }
+    
+        // second for loop
+    
+        for (i = 0; i < pempsd.length; i++){
+    
+            for(j = 0; j < dateobjects.length; j++){
+    
+                if (j == 0){
+    
+                    if (dateobjects3[i].getTime() == dateobjects[0].getTime()){
+                        pemp[0] += 1;
+                        break;
+                    }
+    
+                    else if (dateobjects3[i] > dateobjects[0] && dateobjects3[i] < dateobjects[1]){
+                        pemp[1] += 1;
+                        break;
+                    }
+                }
+    
+                else if (dateobjects3[i].getTime() == dateobjects[j].getTime()){
+                    pemp[j] += 1;
+                    break;
+                }
+    
+                
+    
+                else if ((dateobjects3[i] > dateobjects[j-1] && dateobjects3[i] < dateobjects[j])){
+                    pemp[j] += 1;   
+                    break;            
+                }
+            }
+        }
+        // third for loop
+        for (i = 0; i < emped.length; i++){
+    
+            for(j = 0; j < dateobjects.length; j++){
+    
+                if (j == 0){
+            
+                    if ((dateobjects4[i].getTime() == dateobjects[0].getTime()) && (empst[i] == true)){
+                        hemp[0] -= 1;
+                        break;
+                    }
+    
+                    else if ((dateobjects4[i] > dateobjects[0] && dateobjects4[i] < dateobjects[1]) && (empst[i] == true)){
+                        hemp[1] -= 1;
+                        break;
+                    }
+                }
+    
+                else if ((dateobjects4[i].getTime() == dateobjects[j].getTime()) && (empst[i] == true)){
+                    hemp[j] -= 1;
+                    console.log("HIi"); 
+                    break;
+                }
+    
+        
+                else if ((dateobjects4[i] > dateobjects[j-1] && dateobjects4[i] < dateobjects[j]) && (empst[i] == true)){
+                    hemp[j] -= 1;          
+                    console.log("HI"); 
+                    break;    
+                }
+            }
+        }
+    
+        // fourth for loop
+        for (i = 0; i < pemped.length; i++){
+    
+            for(j = 0; j < dateobjects.length; j++){
+    
+                if (j == 0){
+    
+                    if (dateobjects5[i].getTime() == dateobjects[0].getTime()){
+                        pemp[0] -= 1;
+                        break;
+                        
+                    }
+    
+                    else if (dateobjects5[i] > dateobjects[0] && dateobjects5[i] < dateobjects[1]){
+                        pemp[1] -= 1;
+                        break;
+                        
+                    }
+                }
+    
+                else if (dateobjects5[i].getTime() == dateobjects[j].getTime()){
+                    pemp[j] -= 1;
+                    break;
+                    
+                }
+    
+        
+    
+                else if ((dateobjects5[i] > dateobjects[j-1] && dateobjects5[i] < dateobjects[j])){
+                    pemp[j] -= 1;    
+                    break;           
+                }
+            }
+        }
+        
+        
+        /*
+        for (i = 0; i < emped.length; i++){
+            for(j = 0; j < daysOfYear.length; j++){
+                if ((emped[i] == daysOfYear[j]) && (empst[i] == true)){
+                    hemp[j] -= 1;
+                    
+                }
+            }
+        }
+        for (i = 0; i < pemped.length; i++){
+            for(j = 0; j < daysOfYear.length; j++){
+                if ((pemped[i] == daysOfYear[j])){
+                    pemp[j] -= 1;
+                    
+                }
+            }
+        }
+        */
+        
+        /*
+        console.log("printing test 2 after adding");
+        for (i = 0; i < hemp.length; i++){
+            console.log(hemp[i]);
+        }
+        */
+        for (i = 0; i < hemp.length; i++){
+            if (i == 0){
+                hemp[0] = hemp[0];
+            }
+            else{
+                hemp[i] = hemp[i-1] + hemp[i];
+            }
+            
+        }
+        for (i = 0; i < pemp.length; i++){
+            if (i == 0){
+                pemp[0] = pemp[0];
+            }
+            else{
+                pemp[i] = pemp[i-1] + pemp[i];
+            }
+            
+        }
+        console.log("PRINTING HEMP");
+        for (i = 0; i < hemp.length; i++){
+            console.log(hemp[i]);
+        }
+    
+    
+    
+        /*
+        console.log("TEST[0] " + test[0]);
+        console.log("DAYSOFYEAR[0] " + daysOfYear[0]);
+        if (test[0] == daysOfYear[0]){
+            console.log("YAYYY");
+            
+        }
+        console.log(typeof test[0]);
+        console.log(typeof daysOfYear[0]);
+        console.log("BELOW IS START DATE");
+        console.log(theList[0].start);
+        console.log(theList[0].role);
+        */
+        let headcount = document.getElementById('headcount').getContext('2d');
+        let myChart = new Chart(headcount, {
+            //type of line we want to create
+            type: 'line',
+             //the data of our dataset
+            data: {
+                labels: daysOfYear, //[july 3, jan 10, july 17, jan 22],
+                datasets: [{
+                    label: 'Headcount: Planning',
+                    
+                    data: pemp, //[3,3,3,4]
+                    backgroundColor:'orange',
+                    borderColor: 'orange',
+                    fill: false,
+                    pointRadius: 5
+                },
+                {
+                    label: 'Headcount: Confirmed',
+                    data: hemp,
+                    backgroundColor:'blue',
+                    borderColor: 'blue',
+                    fill: false,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                scales:{
+                    yAxes:{
+                        suggestedMin: 0,
+                        title: {
+                            display: true,
+                            text: "Headcount",
+                            font: {
+                                size: 25
+                            },
+                        }
+                    },
+                    xAxes:{
+                        title: {
+                            display: true,
+                            text: "Date",
+                            font: {
+                                size: 25
+                            }                      
+                        }
+                    }
+                },
+                plugins:{
+                    legend:{
+                        position: 'bottom',
+                        labels:{
+                            padding:50
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Headcount View',
+                        font: {
+                                size: 50
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 
-              {
-                  label: 'Headcount: Confirmed',
-                  data: [20,35,40,60,50],
-                  backgroundColor:'blue',
-                  borderColor: 'blue',
-                  fill: false,
-                  pointRadius: 5
-              }]
-          },
-          options: {
-              scales:{
-                  yAxes:{
-                      title: {
-                          display: true,
-                          text: "Headcount",
-                          font: {
-                              size: 25
-                          },
-                      }
-                  },
-                  xAxes:{
-                      title: {
-                          display: true,
-                          text: "Date",
-                          font: {
-                              size: 25
-                          }                      
-                      }
-                  }
-              },
-              plugins:{
-                  legend:{
-                      position: 'bottom',
-                      labels:{
-                          padding:50
-                      }
-                  },
-                  title: {
-                      display: true,
-                      text: 'Headcount View',
-                      font: {
-                              size: 50
-                      }
-                  }
-              }
-          }
-      });
-
-
-  </script>
-
+    
 
 </body>
 </html>
