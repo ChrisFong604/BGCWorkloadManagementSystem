@@ -223,16 +223,22 @@ public class Main {
       //System.out.println(end);
 
       /*** setting up the range of dates ***/
+      LocalDate startRange = start.minusWeeks(2);
       LocalDate endOfRange = end.plusWeeks(1);
       LocalDate localDate = start;
       ArrayList<LocalDate> listOfDates = new ArrayList<>();
-      ArrayList<LocalDate> listOfDates2 = new ArrayList<>();
+      ArrayList<LocalDate> listOfDatesAll = new ArrayList<>();
       while (localDate.isBefore(endOfRange)) {
-        listOfDates2.add(localDate);
+        listOfDatesAll.add(localDate);
         localDate = localDate.plusWeeks(1);
       }
-      for (int i = 0; i < listOfDates2.size()-1; i++) {
-        listOfDates.add(listOfDates2.get(i));
+      /*for (int i = 0; i < listOfDatesAll.size()-1; i++) {
+        if (i > 1) {
+          listOfDates.add(listOfDatesAll.get(i));
+        }
+      }*/
+      for (int i = 0; i < listOfDatesAll.size()-1; i++) {
+        listOfDates.add(listOfDatesAll.get(i));
       }
       model.put("listOfDates", listOfDates);
     
@@ -249,7 +255,7 @@ public class Main {
         //startDates.add(strsDate);
         //System.out.println(strsDate);
         //System.out.println(streDate);
-        boolean isBefore = LocalDate.parse(strsDate).isBefore(start);
+        boolean isBefore = LocalDate.parse(strsDate).isBefore(startRange);
         boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
         if (!isBefore && !isAfter) {
           empInRange.add(employee);
@@ -275,10 +281,22 @@ public class Main {
 
           boolean flag = false;
           int week = 0;
+          int wk = 0;
           for (int i = 0; i < listOfDates.size(); i++) {
-            if (flag && week >= 1 && week <= 4) {
-              if (LocalDate.parse(streDate).isBefore(listOfDates2.get(i)) ||
-              LocalDate.parse(streDate).equals(listOfDates2.get(i))) {
+            // check if emp starts <2 weeks before start of range
+            if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))) {
+              empRampUp.add(empRU.getWeek3());
+              flag = true;
+              week = 3;
+            }
+            else if (!flag && LocalDate.parse(strsDate).isBefore(start)) {
+              empRampUp.add(empRU.getWeek2());
+              flag = true;
+              week = 2;
+            }
+            else if (flag && week >= 1 && week <= 4) {
+              if (LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i)) ||
+              LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
                 if (week == 1) {
                   empRampUp.add(0.0);
                   week++;
@@ -315,17 +333,17 @@ public class Main {
                 }
               }
             }
-            else if (!flag && (LocalDate.parse(strsDate).equals(listOfDates.get(i)) ||
-                     LocalDate.parse(strsDate).isBefore(listOfDates2.get(i+1)))) {
-              //System.out.println(listOfDates2.get(i));
-              //System.out.println(listOfDates2.get(i+1));
+            else if (!flag && (LocalDate.parse(strsDate).equals(listOfDatesAll.get(i)) ||
+                     LocalDate.parse(strsDate).isBefore(listOfDatesAll.get(i+1)))) {
+              //System.out.println(listOfDatesAll.get(i));
+              //System.out.println(listOfDatesAll.get(i+1));
               empRampUp.add(empRU.getWeek1());
               flag = true;
               week++;
             }
-            else if (LocalDate.parse(strsDate).isAfter(listOfDates.get(i)) || 
-                     LocalDate.parse(streDate).isBefore(listOfDates2.get(i)) ||
-                     LocalDate.parse(streDate).equals(listOfDates2.get(i))) {
+            else if (LocalDate.parse(strsDate).isAfter(listOfDatesAll.get(i)) || 
+                     LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i)) ||
+                     LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
               empRampUp.add(0.0);
             }
             else {
@@ -516,16 +534,18 @@ public class Main {
       }
 
       /*** setting up the range of dates ***/
+      LocalDate startRange = start.minusWeeks(2);
       LocalDate endOfRange = end.plusWeeks(1);
       LocalDate localDate = start;
       ArrayList<LocalDate> listOfDates = new ArrayList<>();
-      ArrayList<LocalDate> listOfDates2 = new ArrayList<>();
+      ArrayList<LocalDate> listOfDatesAll = new ArrayList<>();
       while (localDate.isBefore(endOfRange)) {
-        listOfDates2.add(localDate);
+        listOfDatesAll.add(localDate);
         localDate = localDate.plusWeeks(1);
       }
-      for (int i = 0; i < listOfDates2.size()-1; i++) {
-        listOfDates.add(listOfDates2.get(i));
+
+      for (int i = 0; i < listOfDatesAll.size()-1; i++) {
+        listOfDates.add(listOfDatesAll.get(i));
       }
       model.put("listOfDates", listOfDates);
     
@@ -540,7 +560,7 @@ public class Main {
         Date edate = employee.getEnd();
         String streDate = dateFormat.format(edate);  
 
-        boolean isBefore = LocalDate.parse(strsDate).isBefore(start);
+        boolean isBefore = LocalDate.parse(strsDate).isBefore(startRange);
         boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
         if (!isBefore && !isAfter) {
           empInRange.add(employee);
@@ -566,10 +586,22 @@ public class Main {
 
           boolean flag = false;
           int week = 0;
+          int wk = 0;
           for (int i = 0; i < listOfDates.size(); i++) {
-            if (flag && week >= 1 && week <= 4) {
-              if (LocalDate.parse(streDate).isBefore(listOfDates2.get(i)) ||
-              LocalDate.parse(streDate).equals(listOfDates2.get(i))) {
+            // check if emp starts <2 weeks before start of range
+            if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))) {
+              empRampUp.add(empRU.getWeek3());
+              flag = true;
+              week = 3;
+            }
+            else if (!flag && LocalDate.parse(strsDate).isBefore(start)) {
+              empRampUp.add(empRU.getWeek2());
+              flag = true;
+              week = 2;
+            }
+            else if (flag && week >= 1 && week <= 4) {
+              if (LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i)) ||
+              LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
                 if (week == 1) {
                   empRampUp.add(0.0);
                   week++;
@@ -606,15 +638,15 @@ public class Main {
                 }
               }
             }
-            else if (!flag && (LocalDate.parse(strsDate).equals(listOfDates.get(i)) ||
-                     LocalDate.parse(strsDate).isBefore(listOfDates2.get(i+1)))) {
+            else if (!flag && (LocalDate.parse(strsDate).equals(listOfDatesAll.get(i)) ||
+                     LocalDate.parse(strsDate).isBefore(listOfDatesAll.get(i+1)))) {
               empRampUp.add(empRU.getWeek1());
               flag = true;
               week++;
             }
-            else if (LocalDate.parse(strsDate).isAfter(listOfDates.get(i)) || 
-                     LocalDate.parse(streDate).isBefore(listOfDates2.get(i)) ||
-                     LocalDate.parse(streDate).equals(listOfDates2.get(i))) {
+            else if (LocalDate.parse(strsDate).isAfter(listOfDatesAll.get(i)) || 
+                     LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i)) ||
+                     LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
               empRampUp.add(0.0);
             }
             else {
