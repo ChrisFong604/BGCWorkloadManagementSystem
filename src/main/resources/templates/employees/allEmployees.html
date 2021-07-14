@@ -76,6 +76,7 @@
       </table>
     </div>
 
+  <button onclick="addColour()">Add Color!</button>
 
   <div class="visual">
     <table id="tableVisual">
@@ -164,27 +165,26 @@
       }
     }
 
+  function addColour() {
+    var td = document.querySelectorAll('td')
+    for (let cell of td) {
+      if (cell.innerHTML === '0.1'){
+        cell.style.backgroundColor = '#C0CFF7'
+      }
+      if (cell.innerHTML === '0.25'){
+        cell.style.backgroundColor = '#5881EA'
+      }
+      if (cell.innerHTML === '0.5' || cell.innerHTML === '0.4'){
+        cell.style.backgroundColor = '#3537DB'
+        cell.style.color = '#e6e6e6'
 
-/*var coll = document.getElementsByClassName("collapsible");
-var i;
-
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
+      }
+      if (cell.innerHTML === '0.875' || cell.innerHTML === '0.65' ){
+        cell.style.backgroundColor = '#03045E'
+        cell.style.color = '#e6e6e6'
+      }
     }
-  });
-}
-
-document.ready(function() {
-	'[data-toggle="toggle"]'.change(function(){
-		this.parents().next('.hide').toggle();
-	});
-}*/
+  }
 </script>
 
 </body>

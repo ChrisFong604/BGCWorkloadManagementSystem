@@ -32,7 +32,8 @@
     <canvas id = "headcount"></canvas>
   </div>
 
-  
+  <button onclick="addColour()">Add Color!</button>
+
   <div class="visual">
     <table id="tableVisual">
         <thead>
@@ -72,7 +73,11 @@
     // Date: y/m/d
     
     var now = new Date(y[0],y[1]-1,y[2]);
+    var foralert = new Date(st[0], st[1]-1, st[2]);
 
+    if (foralert > now){
+        alert("Start date is later than end date!");
+    }
     console.log("Y -------------> " + y);
     console.log("NOW -------------> " + now);
 
@@ -91,6 +96,7 @@
     
     var daysOfYear = [];
     for (var d = new Date(st[0], st[1]-1, st[2]); d <= now; d.setDate(d.getDate() + parseInt(7))) {
+        
         console.log("D " + d);
         let x = d.getDate();
         let y = d.getMonth(); // 0
@@ -104,6 +110,8 @@
         console.log("C " + c);
         console.log("DAYS OF YEAR " + c3 + "-" + parseInt(c2+1).toString() + "-" + c1);
     }
+
+
 
 
     let empsd = [];
@@ -383,6 +391,7 @@
         options: {
             scales:{
                 yAxes:{
+                    beginAtZero: true,
                     suggestedMin: 0,
                     title: {
                         display: true,
@@ -419,11 +428,38 @@
             }
         }
     });
+
+    // visual colours
+    function addColour() {
+        var td = document.querySelectorAll('td')
+        for (let cell of td) {
+            if (cell.innerHTML === '0.1') {
+                cell.style.backgroundColor = '#C0CFF7'
+            }
+            if (cell.innerHTML === '0.25') {
+                cell.style.backgroundColor = '#5881EA'
+            }
+            if (cell.innerHTML === '0.5' || cell.innerHTML === '0.4') {
+                cell.style.backgroundColor = '#3537DB'
+                cell.style.color = '#e6e6e6'
+            }
+            if (cell.innerHTML === '0.875' || cell.innerHTML === '0.65') {
+                cell.style.backgroundColor = '#03045E'
+                cell.style.color = '#e6e6e6'
+            }
+            /*if (cell.innerHTML === '0.4') {
+                cell.style.backgroundColor = '#5254e0'
+                cell.style.color = '#e6e6e6'
+            }
+            if (cell.innerHTML === '0.65') {
+                cell.style.backgroundColor = '#0609c6'
+                cell.style.color = '#e6e6e6'
+            }*/
+        }
+    } 
     </script>
 
     <form action="#" method="post" th:action="@{/deletetabledata}">   
-    
-
         <input type="submit" value="Delete all data">
     </form>
     
