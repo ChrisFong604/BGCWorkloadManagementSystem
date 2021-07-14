@@ -33,7 +33,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.sql.DataSource;
-import javax.swing.plaf.synth.SynthSplitPaneUI;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,7 +40,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.UUID;
 import java.time.*;
