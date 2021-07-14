@@ -1,7 +1,6 @@
 package com.example;
 
 public class RampUp {
-    private boolean permanent = false;
     private double week1;
     private double week2;
     private double week3;
@@ -11,25 +10,12 @@ public class RampUp {
     // ft --> 0.1 0.25 0.5 0.875 0.875
     // coop --> 0.1 0.25 0.4 0.65 0.65
 
-   /* public RampUp(boolean permanent, double w1, double w2, double w3, double w4, double w5) {
-        this.permanent = permanent;
-        this.week1 = w1;
-        this.week2 = w2;
-        this.week3 = w3;
-        this.week4 = w4;
-        this.week5 = w5;
-    }*/
-
-    public void setPermanent(boolean permanent) {
-        this.permanent = permanent;
-    }
-
     public void setWeek1(double w1) {
-        this.week1 = 0.1;
+        this.week1 = w1;
     }
 
     public void setWeek2(double w2) {
-        this.week2 = 0.25;
+        this.week2 = w2;
     }
 
     public void setWeek3(double w3) {
@@ -42,10 +28,6 @@ public class RampUp {
 
     public void setWeek5(double w5) {
         this.week5 = w5;
-    }
-
-    public boolean getPermanent() {
-        return this.permanent;
     }
 
     public double getWeek1() {

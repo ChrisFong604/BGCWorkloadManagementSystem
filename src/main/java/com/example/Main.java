@@ -41,6 +41,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.UUID;
 import java.time.*;
@@ -212,7 +213,6 @@ public class Main {
       //System.out.println(end);
 
       /*** setting up the range of dates ***/
-      LocalDate startofRange = start;
       LocalDate endOfRange = end.plusWeeks(1);
       LocalDate localDate = start;
       ArrayList<LocalDate> listOfDates = new ArrayList<>();
@@ -247,7 +247,6 @@ public class Main {
           RampUp empRU =  new RampUp();
           String st = "permanent";
           if (position.equals(st)) {
-            //empRU.setPermanent(true);
             empRU.setWeek1(0.1);
             empRU.setWeek2(0.25);
             empRU.setWeek3(0.5);
@@ -255,7 +254,6 @@ public class Main {
             empRU.setWeek5(0.875);
           }
           else {
-            //empRU.setPermanent(false);
             empRU.setWeek1(0.1);
             empRU.setWeek2(0.25);
             empRU.setWeek3(0.4);
@@ -458,6 +456,102 @@ public class Main {
         output.add(emp);
       }
       model.put("employees", output);
+      
+      /*** visual ***/
+      Statement stmt4 = connection.createStatement();
+      String sql4 = "SELECT * FROM range";
+      ResultSet rs4 = stmt.executeQuery(sql4);
+
+      LocalDate start = LocalDate.now();
+      LocalDate end = LocalDate.now();
+      while (rs4.next()) {
+        start = LocalDate.parse(rs4.getString("startdate"));
+        end = LocalDate.parse(rs4.getString("enddate"));
+      }
+      //System.out.println(start);
+      //System.out.println(end);
+
+      /*** setting up the range of dates ***/
+      LocalDate endOfRange = end.plusWeeks(1);
+      LocalDate localDate = start;
+      ArrayList<LocalDate> listOfDates = new ArrayList<>();
+      ArrayList<LocalDate> listOfDates2 = new ArrayList<>();
+      while (localDate.isBefore(endOfRange)) {
+        listOfDates2.add(localDate);
+        localDate = localDate.plusWeeks(1);
+      }
+      for (int i = 0; i < listOfDates2.size()-1; i++) {
+        listOfDates.add(listOfDates2.get(i));
+      }
+      model.put("listOfDates", listOfDates);
+    
+      /*** getting employees that start within the range ***/
+      ArrayList<Employee> empInRange = new ArrayList<>();
+      for (Employee employee : output) {
+        ArrayList<Double> empRampUp = new ArrayList<>();
+        //ArrayList<Double> empRampUp2 = new ArrayList<>();
+    
+        Date date = employee.getStart();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        String strDate = dateFormat.format(date);  
+        //startDates.add(strDate);
+        //System.out.println(strDate);
+        boolean isBefore = LocalDate.parse(strDate).isBefore(start);
+        boolean isAfter = LocalDate.parse(strDate).isAfter(end);
+        if (!isBefore && !isAfter) {
+          empInRange.add(employee);
+
+          /*** ramp up ***/
+          String position = employee.getPosition();
+          RampUp empRU =  new RampUp();
+          String st = "permanent";
+          if (position.equals(st)) {
+            empRU.setWeek1(0.1);
+            empRU.setWeek2(0.25);
+            empRU.setWeek3(0.5);
+            empRU.setWeek4(0.875);
+            empRU.setWeek5(0.875);
+          }
+          else {
+            empRU.setWeek1(0.1);
+            empRU.setWeek2(0.25);
+            empRU.setWeek3(0.4);
+            empRU.setWeek4(0.65);
+            empRU.setWeek5(0.65);
+          }
+
+          boolean flag = false;
+          for (int i = 0; i < listOfDates.size(); i++) {
+            if (!flag && (LocalDate.parse(strDate).equals(listOfDates.get(i)) ||
+                LocalDate.parse(strDate).isBefore(listOfDates2.get(i+1)))) {
+              //System.out.println(listOfDates2.get(i));
+              //System.out.println(listOfDates2.get(i+1));
+              empRampUp.add(empRU.getWeek1());
+              empRampUp.add(empRU.getWeek2());
+              empRampUp.add(empRU.getWeek3());
+              empRampUp.add(empRU.getWeek4());
+              empRampUp.add(empRU.getWeek5());
+              flag = true;
+            }
+            else if (LocalDate.parse(strDate).isAfter(listOfDates.get(i))) {
+              empRampUp.add(0.0);
+            }
+            else {
+              empRampUp.add(empRU.getWeek5());
+            }
+          }
+
+          for (int i = 0; i < 4; i++) {
+            empRampUp.remove(empRampUp.size()-1);
+          }
+          employee.setRampUp(empRampUp);
+        }
+        //System.out.println(empRampUp.size());
+        /*for (double r : empRampUp) {
+          System.out.println(r);
+        }*/
+      }
+      model.put("empInRange", empInRange);
 
       if (flag && edit) {
         return "employees/allEmployees";
