@@ -26,13 +26,36 @@
 
         <input type="submit" value="Apply">
     </form>
-
   </div>
   
   <div class = "container"> 
     <canvas id = "headcount"></canvas>
   </div>
+
   
+  <div class="visual">
+    <table id="tableVisual">
+        <thead>
+            <tr>
+                <th>Name/Resource</th>
+                <th:block th:each="d : ${listOfDates}">
+                    <th th:text="${d}"></th>
+                </th:block>
+            </tr>
+        </thead>
+
+        <tbody>
+        	<tr th:each="employee : ${empInRange}">
+                <td th:text="${employee.name}"></td>
+                <th:block th:each="ru : ${employee.rampUp}">
+                    <td th:text="${ru}"></td>
+                </th:block>
+			</tr>
+        </tbody>
+    </table>
+  </div> 
+  
+
   <script th:inline="javascript">  
 
     var str = [[${range}]]
@@ -48,7 +71,11 @@
     
     // Date: y/m/d
     
-    var now = new Date(y[0],y[1],y[2]);
+    var now = new Date(y[0],y[1]-1,y[2]);
+
+    console.log("Y -------------> " + y);
+    console.log("NOW -------------> " + now);
+
 
     let dateobjects = [];
     // emp start date
@@ -67,23 +94,7 @@
         console.log("D " + d);
         let x = d.getDate();
         let y = d.getMonth(); // 0
-        let z = d.getFullYear();
-        /*
-        if (y == 0){
-            y = "12";
-        }
-        
-        else if (y < 10){
-            y = "0" + y;
-        } 
-        
-
-        if (x < 10){
-            x = "0" + x.toString();
-        }
-        let abc = z + "-" + y + "-" + x;
-        //daysOfYear.push(abc);
-        */
+        let z = d.getFullYear();        
         let c = new Date(z,y,x);
         dateobjects.push(c);
         let c1 = c.getDate();
@@ -107,17 +118,11 @@
     var theList2 = [[${employees2}]]
 
 
-
-
-
-
-
     for (i = 0; i < theList.length; i++) {
         empsd.push(theList[i].start);
         empst.push(theList[i].status);
         emped.push(theList[i].end);
         //console.log(test[i]);
-
     }
     /*
     let st = str.start.split("-");
@@ -136,7 +141,6 @@
         let p = new Date(o[0],o[1]-1,o[2]);
         dateobjects4.push(p);
     }
-
 
 
     for (i = 0; i < theList2.length; i++){
@@ -184,7 +188,6 @@
     }
 
     // first for loop
-
     for (i = 0; i < empsd.length; i++){
 
         for(j = 0; j < dateobjects.length; j++){
@@ -208,8 +211,6 @@
                 break;
             }
 
-            
-
             else if ((dateobjects2[i] > dateobjects[j-1] && dateobjects2[i] < dateobjects[j]) && (empst[i] == true)){
                 hemp[j] += 1;          
                 console.log("HI");  
@@ -219,7 +220,6 @@
     }
 
     // second for loop
-
     for (i = 0; i < pempsd.length; i++){
 
         for(j = 0; j < dateobjects.length; j++){
@@ -250,6 +250,7 @@
             }
         }
     }
+    
     // third for loop
     for (i = 0; i < emped.length; i++){
 
@@ -318,32 +319,6 @@
         }
     }
     
-    
-    /*
-    for (i = 0; i < emped.length; i++){
-        for(j = 0; j < daysOfYear.length; j++){
-            if ((emped[i] == daysOfYear[j]) && (empst[i] == true)){
-                hemp[j] -= 1;
-                
-            }
-        }
-    }
-    for (i = 0; i < pemped.length; i++){
-        for(j = 0; j < daysOfYear.length; j++){
-            if ((pemped[i] == daysOfYear[j])){
-                pemp[j] -= 1;
-                
-            }
-        }
-    }
-    */
-    
-    /*
-    console.log("printing test 2 after adding");
-    for (i = 0; i < hemp.length; i++){
-        console.log(hemp[i]);
-    }
-    */
     for (i = 0; i < hemp.length; i++){
         if (i == 0){
             hemp[0] = hemp[0];
@@ -366,8 +341,6 @@
     for (i = 0; i < hemp.length; i++){
         console.log(hemp[i]);
     }
-
-
 
     /*
     console.log("TEST[0] " + test[0]);
@@ -446,12 +419,13 @@
             }
         }
     });
-</script>
+    </script>
 
     <form action="#" method="post" th:action="@{/deletetabledata}">   
     
 
         <input type="submit" value="Delete all data">
     </form>
+    
 </body>
 </html>

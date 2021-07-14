@@ -20,7 +20,7 @@
             <input type="text" th:field=*{name} id="name" required> <br>
 
             <label>Select employee type</label>
-            <select name="position" id="position">
+            <select name="position" id="position" required>
                 <optgroup th:field=*{position}>
                     <option value="">Select...</option>
                     <option value="permanent">Permanent Hire</option>
@@ -53,7 +53,7 @@
 
             <div class="buttons">
                 <input type="submit" value="Save">
-                <button class="cancel"><a th:href="@{/employees}">Cancel</a></button>
+                <button class="cancel"><a th:href="@{/employees}" required>Cancel</a></button>
             </div>
         </form>
     </div>
