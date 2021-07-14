@@ -32,48 +32,30 @@
     <canvas id = "headcount"></canvas>
   </div>
 
-  <!--
-  <div class="container">
-    <table id="visual">
+  
+  <div class="visual">
+    <table id="tableVisual">
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Employee Type</th>
-            <th>Role</th>
-            <th>Team</th>
-            <th>Hired</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th></th>
-            <th></th>
-          </tr>
+            <tr>
+                <th>Name/Resource</th>
+                <th:block th:each="d : ${listOfDates}">
+                    <th th:text="${d}"></th>
+                </th:block>
+            </tr>
         </thead>
 
         <tbody>
-        	<tr th:each="employee : ${employees}">
-            <td th:text="${employee.name}"></td>
-            <td th:text="${employee.position}"></td>
-            <td th:text="${employee.role}"></td>
-            <td th:text="${employee.team}"></td>
-            <td th:text="${employee.status}"></td>
-            <td th:text="${employee.start}"></td>
-            <td th:text="${employee.end}"></td>
-            
-            <td>
-              <button><a th:href="@{/employees/edit?rid={id}(id = ${employee.getId()})}">Edit</a></button>
-            </td>
-            <td>
-              <button><a th:href="@{/employees/deleted?e_id={id}(id=${employee.id})}"><i class="bi bi-trash"></i>Delete</a></button>
-            </td>
+        	<tr th:each="employee : ${empInRange}">
+                <td th:text="${employee.name}"></td>
+                <th:block th:each="ru : ${employee.rampUp}">
+                    <td th:text="${ru}"></td>
+                </th:block>
 			</tr>
-		
         </tbody>
     </table>
-  </div
-  -->
-
+  </div> 
   
-
+  
   <script th:inline="javascript">  
 
     var str = [[${range}]]
@@ -437,7 +419,7 @@
             }
         }
     });
-</script>
+    </script>
 
     <form action="#" method="post" th:action="@{/deletetabledata}">   
     
@@ -445,7 +427,7 @@
         <input type="submit" value="Delete all data">
     </form>
 
-     
+     <!--
     <script th:inline="javascript">
         function GenerateTable() {
            //Build an array containing Customer records.
@@ -590,6 +572,7 @@
     <input type="button" value="Generate Table" onclick="GenerateTable()" />
     <hr />
     <div id="dvTable"></div>
+    -->
     
 </body>
 </html>
