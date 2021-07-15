@@ -1,42 +1,69 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::header})}"
+></html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Project</title>
-</head>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+		<title>Create New Project</title>
+	</head>
 
-<header></header>
+	<header></header>
 
-<body>""
-    <div class="container">
-        <h1 class="heading">Project</h1>
-
-        <form action="#" method="post" th:action="@{/projects/create}" th:object="${project}">
-            <h1>Form here</h1>
-            
-            <label for="name">Project Name</label> <br>
-            <input type="text" th:field=*{name} id="name" required> <br>
-
-            <label>Start Date</label>
-            <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd" required> <br>
-        
-            <br>
-            <label>End Date</label>
-            <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end" required> <br>
-
-            <!-- <label for="workload">Workload</label> <br>
+	<body>
+		<form
+			action="#"
+			method="post"
+			th:action="@{/projects/create}"
+			th:object="${project}"
+			class="formtemplate"
+		>
+			<h1>New Project</h1>
+			<ul>
+				<li>
+					<label for="name">Project Name</label> <br />
+					<input type="text" th:field="*{name}" id="name" required /> <br />
+				</li>
+				<li>
+					<label>Start Date</label>
+					<input
+						type="date"
+						th:field="*{start}"
+						placeholder="yyyy-mm-dd"
+						required
+					/>
+					<br />
+				</li>
+				<li>
+					<label>End Date</label>
+					<input
+						type="date"
+						th:field="*{end}"
+						placeholder="yyyy-mm-dd"
+						id="end"
+						required
+					/>
+					<br />
+				</li>
+				<!-- <label for="workload">Workload</label> <br>
             <input type="text" th:field="*{workload}" id="workload" required> <br> -->
 
-            <div class="buttons">
-                <input type="submit" value="Save">
-                <button class="cancel"><a th:href="@{/projects}" required>Cancel</a></button>
-            </div>
-
-        </form>
-    </div>
-</body>
+				<div class="buttons">
+					<li>
+						<input type="submit" value="Save" />
+					</li>
+					<li>
+						<button class="cancel">
+							<a th:href="@{/projects}" required>Cancel</a>
+						</button>
+					</li>
+				</div>
+			</ul>
+		</form>
+	</body>
 </html>
