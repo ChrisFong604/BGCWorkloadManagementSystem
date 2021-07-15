@@ -892,49 +892,58 @@ public class Main {
     }
   }
 
-  /*
-   * Checks each day at 5:00 a.m the current capacity for all employees based on
-   * their start date, and adjusts it in the database accordingly
-   */
-  @Scheduled(cron = "0 6 * * * *", zone = "Canada/Pacific")
-  public void scheduledRampCheck() {
 
-    System.out.println("\n----NEW SCHEDULED CHECK\n\n");
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
+  /************ PROJECTS ************/
 
-      while (rs.next()) {
-        String name = rs.getString("name");
-        System.out.println("EMPLOYEE: " + name);
-        java.sql.Date grab = rs.getDate("startdate");
-
-        LocalDate start = grab.toLocalDate();
-        LocalDate current = LocalDate.now(ZoneId.of("Canada/Pacific"));
-
-        Period period = Period.between(start, current);
-
-        int daysWorked = period.getYears() * 365 + period.getMonths() * 30 + period.getDays();
-
-        System.out.println("daysWorked: " + daysWorked);
-        if (daysWorked < 0) {
-          stmt.executeUpdate("UPDATE employees SET capacity = 0 WHERE id = '" + rs.getString("id") + "'");
-        } else if (daysWorked < 7) {
-          stmt.executeUpdate("UPDATE employees SET capacity = 0.100 WHERE id = '" + rs.getString("id") + "'");
-        } else if (daysWorked < 14) {
-          stmt.executeUpdate("UPDATE employees SET capacity = 0.25 WHERE id = '" + rs.getString("id") + "'");
-        } else if (daysWorked < 21) {
-          stmt.executeUpdate("UPDATE employees SET capacity = 0.5 WHERE id = '" + rs.getString("id") + "'");
-        } else if (daysWorked < 28) {
-          stmt.executeUpdate("UPDATE employees SET capacity = 0.875 WHERE id = '" + rs.getString("id") + "'");
-        } else {
-          stmt.executeUpdate("UPDATE employees SET capacity = 0.875 WHERE id = '" + rs.getString("id") + "'");
-        }
+  @GetMapping("/projects")
+  String returnProjectHomepage(Map<String, Object> model) {
+    try {
+      if (flag && edit) {
+        return "projects/allProjects";
+      } else if (flag && !edit) {
+        return "readOnly/allProjects_r";
+      } else {
+        return "userNotFound";
       }
-
     } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
     }
   }
+
+  @GetMapping("/projects/create")
+  public String returnProjectCreate(Map<String, Object> model) throws Exception {
+    Project project = new Project();
+    model.put("project", project);
+    if (flag && edit) {
+      return "projects/createProject";
+    } else {
+      return "userNotFound";
+    }
+  }
+  @PostMapping(path = "/projects/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String handleProjectSubmit(Map<String, Object> model,Project project) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+
+            stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), start date, end date, workload float)");
+
+      // Creates a universally unique ID for each employee (Only exists in Database)
+
+      String sql = "INSERT INTO projects ( name, start, end, workload ) VALUES ('" + project.getName() + "','" 
+      + project.getStart() + "','" + project.getEnd() + "','" + project.getWorkLoad() +"')";
+
+      stmt.executeUpdate(sql);
+
+      return "redirect:/projects"; // Directly returns to project homepage
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+  
 
   @Bean
   public DataSource dataSource() throws SQLException {
