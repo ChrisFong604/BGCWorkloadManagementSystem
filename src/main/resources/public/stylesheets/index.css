@@ -17,12 +17,12 @@
 table {
     border-collapse: collapse;
     width: 99%;
-    padding: 20px;
+    padding: 10px;
     margin: 10px;
 }
 
 th, td {
-    padding: 8px 16px;
+    padding: 8px;
 }
 
 th {
