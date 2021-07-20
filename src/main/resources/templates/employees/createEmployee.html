@@ -21,13 +21,7 @@
 	<header></header>
 
 	<body>
-		<form
-			action="#"
-			method="post"
-			th:action="@{/employees/create}"
-			th:object="${employee}"
-			class="formtemplate"
-		>
+		<form action="#" method="post" th:action="@{/employees/create}" th:object="${employee}" class="formtemplate">
 			<h1>Add Profile</h1>
 			<ul>
 				<li>
@@ -65,24 +59,13 @@
 				<li>
 					<br />
 					<label>Start Date</label>
-					<input
-						type="date"
-						th:field="*{start}"
-						placeholder="yyyy-mm-dd"
-						required
-					/>
+					<input type="date" th:field="*{start}" placeholder="yyyy-mm-dd" required />
 					<br />
 				</li>
 				<li>
 					<br />
 					<label>End Date (Co-op/Intern)</label>
-					<input
-						type="date"
-						th:field="*{end}"
-						placeholder="yyyy-mm-dd"
-						id="end"
-						required
-					/>
+					<input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end" required />
 					<br />
 				</li>
 				<li>

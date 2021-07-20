@@ -9,6 +9,8 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
 		<title>Create New Project</title>
 	</head>
@@ -16,13 +18,7 @@
 	<header></header>
 
 	<body>
-		<form
-			action="#"
-			method="post"
-			th:action="@{/projects/create}"
-			th:object="${project}"
-			class="formtemplate"
-		>
+		<form action="#" method="post" th:action="@{/projects/create}" th:object="${project}" class="formtemplate">
 			<h1>New Project</h1>
 			<ul>
 				<li>
@@ -31,28 +27,82 @@
 				</li>
 				<li>
 					<label>Start Date</label>
-					<input
-						type="date"
-						th:field="*{start}"
-						placeholder="yyyy-mm-dd"
-						required
-					/>
+					<input type="date" th:field="*{start}" placeholder="yyyy-mm-dd" required/>
 					<br />
 				</li>
 				<li>
 					<label>End Date</label>
-					<input
-						type="date"
-						th:field="*{end}"
-						placeholder="yyyy-mm-dd"
-						id="end"
-						required
-					/>
+					<input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end" required/>
 					<br />
 				</li>
 
 				<!-- <label for="workload">Workload</label> <br>
             <input type="text" th:field="*{workload}" id="workload" required> <br> -->
+
+				<table id="myTable">
+					<thead>
+						<tr>
+							<td>Name/Resource</td>
+							<td>Role</td>
+							<td>Team</td>
+							<td>Start Date</td>
+							<td>End Date</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+					Add Employee
+				</button>
+
+
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div th:object="${employee}">
+								
+								<label for="name">Name/Resource</label> <br />
+								<input type="text" th:field="*{name}" id="name" required /> <br />
+		
+								
+								<label for="role">Role</label> <br />
+								<input type="text" th:field="*{role}" id="role" required /> <br />
+				
+								<label for="team">Team</label> <br />
+								<input type="text" th:field="*{team}" id="team" required /> <br />
+		
+				
+								<label>Start Date</label> <br />
+								<input type="date" th:field="*{start}" placeholder="yyyy-mm-dd" required/>
+								<br />
+							
+								<label>End Date</label> <br />
+								<input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end" required/>
+								<br />
+		
+								<div class="buttons">
+									<button type="button" id="addButton" >Add</button>
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>						
+								</div>
+						
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>
+
+				
 
 				<div class="buttons">
 					<li>
@@ -66,5 +116,64 @@
 				</div>
 			</ul>
 		</form>
+		
+		<!-- Modal -->
+		<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="#" method="post" th:action="@{/projects/create}" th:object="${employee}">
+						
+						<label for="name">Name/Resource</label> <br />
+						<input type="text" th:field="*{name}" id="name" required /> <br />
+
+						
+						<label for="role">Role</label> <br />
+						<input type="text" th:field="*{role}" id="role" required /> <br />
+		
+						<label for="team">Team</label> <br />
+						<input type="text" th:field="*{team}" id="team" required /> <br />
+
+		
+						<label>Start Date</label> <br />
+						<input type="date" th:field="*{start}" placeholder="yyyy-mm-dd" required/>
+						<br />
+					
+						<label>End Date</label> <br />
+						<input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end" required/>
+						<br />
+
+						<div class="buttons">
+							<input type="submit" value="Add" />
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>						
+						</div>
+				
+					</form>
+				</div>
+			</div>
+			</div>
+		</div> -->
+
+		<script th:inline="javascript">
+			let addButton = document.getElementById("addButton");
+			addButton.addEventListener('click', addEmployee);
+
+			function addEmplyee() {
+				let table = document.getElementsByTagName("table")[0];
+				let row = table.insertRow(-1);
+
+				// Name/Resource
+				let col1 = row.insertCell(0);
+				let elem1 = document.createElement("input");
+				elem1.type = "text";
+				col1.appendChild(elem1);
+			}
+		</script>
+
+
 	</body>
 </html>

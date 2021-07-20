@@ -978,6 +978,8 @@ public class Main {
   public String returnProjectCreate(Map<String, Object> model) throws Exception {
     Project project = new Project();
     model.put("project", project);
+    Employee employee = new Employee();
+    model.put("employee", employee);
     if (flag && edit) {
       return "projects/createProject";
     } else {
@@ -986,17 +988,16 @@ public class Main {
   }
   
   @PostMapping(path = "/projects/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String handleProjectSubmit(Map<String, Object> model, Project project) throws Exception {
+  public String handleProjectSubmit(Map<String, Object> model, Project project, Employee employee, @RequestParam(value="action", required=true) String action) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
 
       stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date)");
+        "CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date)");
 
       String sql = "INSERT INTO projects (name, startdate, enddate) VALUES ('"
           + project.getName() + "','" + project.getStart() + "','" + project.getEnd() + "')";
 
-      //stmt.executeUpdate(sql);
       stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 
       ResultSet rs = stmt.getGeneratedKeys();
@@ -1005,6 +1006,23 @@ public class Main {
         project.setId(id);
       }
 
+      // create database for each project (keeps track of ppl working on the project)
+      String proj = "project" + project.getId();
+
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS " + proj + " (id varchar(40), name varchar(40), role varchar(40),"
+          + "team varchar(40), startdate date, enddate date)");
+
+      // Creates a universally unique ID for each project (Only exists in Database)
+      final String UniqueID = UUID.randomUUID().toString().replace("-", "");
+
+      String sql2 = "INSERT INTO " + proj + " (id, name, role, team, startdate, enddate) VALUES ('"
+          + UniqueID + "','" + employee.getName() +  "','" + employee.getRole() + "','"
+          + employee.getTeam() + "','" + employee.getStart() + "','"
+          + employee.getEnd() + "')";
+
+      stmt.executeUpdate(sql2);
+
       return "redirect:/projects"; // Directly returns to project homepage
     } catch (Exception e) {
       model.put("message", e.getMessage());
@@ -1012,8 +1030,52 @@ public class Main {
     }
   }
 
+  // add employee to project
+  /*@GetMapping("/projects/create/employee")
+  public String addEmployeeToProject(Map<String, Object> model, @RequestParam String e_id) {
+    try (Connection connection = dataSource.getConnection()) {
+      String sql = "DELETE FROM employees WHERE id =?";
+      PreparedStatement ps = connection.prepareStatement(sql);
+      PreparedStatement ps2 = connection.prepareStatement(sql2);
+      ps.setString(1, e_id);
+      ps2.setString(1, e_id);
+      ps.executeUpdate();
+      ps2.executeUpdate();
+
+      return "redirect:/employees";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }*/
+
   // viewing projects
-  
+  /*@GetMapping("/projects/view")
+  public String getSpecificProject(Map<String, Object> model, @RequestParam String p_id) {
+
+    try (Connection connection = dataSource.getConnection()) {
+      String sql = "SELECT * FROM projects WHERE id =?";
+      PreparedStatement ps = connection.prepareStatement(sql);
+      ps.setInt(1, Integer.parseInt(p_id));
+      ResultSet rs = ps.executeQuery();
+      
+      Project proj = new Project();
+      if (rs.next()) {
+        rect.setId(rs.getInt("id"));
+        rect.setName(rs.getString("name"));
+        rect.setColour(rs.getString("colour"));
+        rect.setWidth(rs.getInt("width"));
+        rect.setHeight(rs.getInt("height"));
+      }
+      model.put("rectangle", rect);
+
+      return "projects/viewProject";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }*/
+
 
   // deleting projects
   @GetMapping("/projects/deleted")
@@ -1023,6 +1085,10 @@ public class Main {
       PreparedStatement ps = connection.prepareStatement(sql);
       ps.setInt(1, Integer.parseInt(p_id));
       ps.executeUpdate();
+
+      Statement stmt = connection.createStatement();
+      String sql2 = "DROP TABLE project" + p_id;
+      stmt.executeUpdate(sql2);
 
       return "redirect:/projects";
     } catch (Exception e) {
