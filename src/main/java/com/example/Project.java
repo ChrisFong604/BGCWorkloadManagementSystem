@@ -9,6 +9,8 @@ public class Project {
     private Date end;
     private Double workload;
     private ArrayList<Date> Weeks;
+    //number of weeks is the size of the array 
+    //which holds the number of employees per week (e.g. [5,7,5] means 5 in week 1, 7 in week 2, 5 in week 3)
 
     public Project() {}
 
