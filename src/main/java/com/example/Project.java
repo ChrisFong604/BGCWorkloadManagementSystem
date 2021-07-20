@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Project {
     private String name;
-    private Date start;
+    private Date start;  
     private Date end;
     private Double workload;
     private ArrayList<Date> Weeks;
