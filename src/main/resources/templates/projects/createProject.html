@@ -53,16 +53,17 @@
 				<!-- <label for="workload">Workload</label> <br>
             <input type="text" th:field="*{workload}" id="workload" required> <br> -->
 
-				<div class="buttons">
-					<li>
+				<li>
+					<span>
 						<input type="submit" value="Save" />
-					</li>
-					<li>
-						<button class="cancel">
-							<a th:href="@{/projects}" required>Cancel</a>
-						</button>
-					</li>
-				</div>
+						<input
+							type="button"
+							value="Cancel"
+							th:href="@{/projects}"
+							required
+						/>
+					</span>
+				</li>
 			</ul>
 		</form>
 	</body>
