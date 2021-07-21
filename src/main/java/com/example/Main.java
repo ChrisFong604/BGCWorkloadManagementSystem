@@ -329,7 +329,7 @@ public class Main {
       }
       model.put("empInRange", empInRange);
       if (flag && edit) {
-      return "workload";
+        return "workload";
       } else if (flag && !edit) {
         return "readOnly/workload_r";
       } else {
@@ -459,7 +459,7 @@ public class Main {
         //System.out.println(streDate);
         boolean isBefore = LocalDate.parse(strsDate).isBefore(startRange);
         boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
-        if (/*!isBefore &&*/ !isAfter) {
+        if (!isBefore && !isAfter) {
           empInRange.add(employee);
 
           /*** ramp up ***/
@@ -486,12 +486,7 @@ public class Main {
           int wk = 0;
           for (int i = 0; i < listOfDates.size(); i++) {
             // check if emp starts <2 weeks before start of range
-            if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(2))) {
-              empRampUp.add(empRU.getWeek4());
-              flag = true;
-              week = 4;
-            }
-            else if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))) {
+            if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))) {
               empRampUp.add(empRU.getWeek3());
               flag = true;
               week = 3;
