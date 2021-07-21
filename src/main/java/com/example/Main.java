@@ -735,6 +735,7 @@ public class Main {
       /*** setting up the range of dates ***/
       LocalDate startRange = start.minusWeeks(2);
       LocalDate endOfRange = end.plusWeeks(1);
+      LocalDate ending = end.minusWeeks(1);  
       LocalDate localDate = start;
       ArrayList<LocalDate> listOfDates = new ArrayList<>();
       ArrayList<LocalDate> listOfDatesAll = new ArrayList<>();
@@ -761,7 +762,8 @@ public class Main {
 
         boolean isBefore = LocalDate.parse(strsDate).isBefore(startRange);
         boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
-        if (!isBefore && !isAfter) {
+        boolean endsBeforeRange = LocalDate.parse(streDate).isBefore(ending);
+        if (!isBefore && !isAfter || isBefore && endsBeforeRange) {
           empInRange.add(employee);
 
           /*** ramp up ***/
@@ -788,7 +790,12 @@ public class Main {
           int wk = 0;
           for (int i = 0; i < listOfDates.size(); i++) {
             // check if emp starts <2 weeks before start of range
-            if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))) {
+            if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(2))) {
+              empRampUp.add(empRU.getWeek4());
+              flag = true;
+              week = 4;
+            }
+            else if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))  ) {
               empRampUp.add(empRU.getWeek3());
               flag = true;
               week = 3;
