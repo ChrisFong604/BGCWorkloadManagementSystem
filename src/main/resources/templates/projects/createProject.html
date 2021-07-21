@@ -46,7 +46,7 @@
 					<label>Start Date</label>
 					<input
 						type="date"
-						th:field="*{start}"
+						th:field="*{projectStart}"
 						placeholder="yyyy-mm-dd"
 						required
 					/>
@@ -56,7 +56,7 @@
 					<label>End Date</label>
 					<input
 						type="date"
-						th:field="*{end}"
+						th:field="*{projectEnd}"
 						placeholder="yyyy-mm-dd"
 						id="end"
 						required
@@ -83,6 +83,5 @@
 
 	<script>
 		//receives start and end date then displays inputs for each week on the same page
-		const weeksCalculator = (event) => {};
 	</script>
 </html>

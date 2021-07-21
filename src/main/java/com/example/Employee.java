@@ -17,7 +17,6 @@ public class Employee {
     private String role; // eg. QA analyst, SW Dev, etc
     private String team;
     private Boolean status; // True -> confirmed, False -> projected
-    private Float capacity;
     private Date start;
     private Date end;
 
@@ -35,15 +34,14 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String id, String name, String position, String role, String team, Boolean status, Float capacity,
-            Date start, Date end) {
+    public Employee(String id, String name, String position, String role, String team, Boolean status, Date start,
+            Date end) {
         this.id = id;
         this.name = name;
         this.position = position;
         this.role = role;
         this.team = team;
         this.status = status;
-        this.capacity = capacity;
         this.start = start;
         this.end = end;
     }
@@ -70,10 +68,6 @@ public class Employee {
 
     public void setStatus(Boolean status) {
         this.status = status;
-    }
-
-    public void setCapacity(Float capacity) {
-        this.capacity = capacity;
     }
 
     public void setStart(Date start) {
@@ -112,10 +106,6 @@ public class Employee {
         return this.status;
     }
 
-    public Float getCapacity() {
-        return this.capacity;
-    }
-
     public Date getStart() {
         return this.start;
     }
@@ -124,8 +114,7 @@ public class Employee {
         return this.end;
     }
 
-    public ArrayList getRampUp() {
+    public ArrayList<Double> getRampUp() {
         return this.rampUp;
     }
-
 }

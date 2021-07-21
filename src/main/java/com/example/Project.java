@@ -5,18 +5,13 @@ import java.util.ArrayList;
 
 public class Project {
     private String name;
-<<<<<<< HEAD
-    private Date start;  
-    private Date end;
-    private ArrayList<Integer> workers;
-=======
     private Date projectStart;
     private Date projectEnd;
-    private Double workload;
-    private ArrayList<Date> Weeks;
->>>>>>> e33863c76ee7afed94031fb6ac330d89b95e14dd
-    //number of weeks is the size of the array 
-    //which holds the number of employees per week (e.g. [5,7,5] means 5 in week 1, 7 in week 2, 5 in week 3)
+    private ArrayList<Employee> assignedEmployees;
+
+    // number of weeks is the size of the array
+    // which holds the number of employees per week (e.g. [5,7,5] means 5 in week 1,
+    // 7 in week 2, 5 in week 3)
 
     public Project() {
     }
@@ -25,21 +20,16 @@ public class Project {
         this.name = name;
     }
 
-    public void setStart(Date start) {
-        this.projectStart = start;
+    public void setProjectStart(Date projectStart) {
+        this.projectStart = projectStart;
     }
 
-<<<<<<< HEAD
-    public void setWorkers(ArrayList<Integer> workers) {
-        this.workers = workers;
-=======
-    public void setEnd(Date end) {
-        this.projectEnd = end;
->>>>>>> e33863c76ee7afed94031fb6ac330d89b95e14dd
+    public void setProjectEnd(Date projectEnd) {
+        this.projectEnd = projectEnd;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setAssignedEmployees(ArrayList<Employee> assignedEmployees) {
+        this.assignedEmployees = assignedEmployees;
     }
 
     public String getName() {
@@ -50,12 +40,11 @@ public class Project {
         return this.projectStart;
     }
 
-    public Date getEnd() {
+    public Date getProjectEnd() {
         return this.projectEnd;
     }
 
-    public ArrayList<Integer> getWorkers() {
-        return this.workers;
+    public ArrayList<Employee> getAssignedEmployees() {
+        return this.assignedEmployees;
     }
-
 }
