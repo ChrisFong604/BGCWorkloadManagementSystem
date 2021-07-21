@@ -18,12 +18,12 @@
 table {
     border-collapse: collapse;
     width: 99%;
-    padding: 20px;
+    padding: 10px;
     margin: 10px;
 }
 
 th, td {
-    padding: 8px 16px;
+    padding: 8px;
 }
 
 th {
@@ -36,6 +36,10 @@ th {
 
 .data-table th {
     box-shadow: inset 1px 1px rgb(255, 255, 255), 0 1px #000;
+}
+
+.visual {
+    overflow-x: auto;
 }
 
 
