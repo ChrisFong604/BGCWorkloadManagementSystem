@@ -1,64 +1,66 @@
 h1 {
-    font-size: 50px;
-    margin-bottom: 25px;
+	font-size: 50px;
+	margin-bottom: 25px;
 }
 
 .container {
-    /*text-align: center;*/
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px 100px 120px 100px;
-    margin: 5% 20%;
-    
+	/*text-align: center;*/
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px 100px 120px 100px;
+	margin: 5% 20%;
 }
 
-input[type=text], input[type=date], select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0 25px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+input[type="text"],
+input[type="date"],
+select {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0 25px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
 }
 
 input[type=text]:hover, /*input[type=radio]:hover,*/ input[type=date]:hover, select:hover {
-    box-shadow: 0 0 5pt 0.5pt #D3D3D3;
+	box-shadow: 0 0 5pt 0.5pt #d3d3d3;
 }
 
 .status {
-    margin: 8px 0 30px 0px;
+	margin: 8px 0 30px 0px;
 }
 
 #h {
-    margin-left: 50px;
+	margin-left: 50px;
 }
 
-input[type=submit], .cancel {
-    width: 100px;
-    background-color: rgb(21, 21, 151);
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    float: right;
+input[type="submit"],
+.cancel {
+	width: 100px;
+	background-color: rgb(21, 21, 151);
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 5px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	float: right;
 }
 
 .cancel {
-    background-color: rgb(175, 170, 170);
+	background-color: rgb(175, 170, 170);
 }
 
 a {
-    color: white;
-    text-decoration: none;
+	color: white;
+	text-decoration: none;
 }
 
 .cancel:hover {
-    background-color: rgb(153, 149, 149);
+	background-color: rgb(153, 149, 149);
 }
 
-input[type=submit]:hover {
-    background-color: rgb(14, 14, 122);
+input[type="submit"]:hover {
+	background-color: rgb(14, 14, 122);
 }
