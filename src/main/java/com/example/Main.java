@@ -988,7 +988,7 @@ public class Main {
   }
   
   @PostMapping(path = "/projects/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String handleProjectSubmit(Map<String, Object> model, Project project, Employee employee, @RequestParam(value="action", required=true) String action) throws Exception {
+  public String handleProjectSubmit(Map<String, Object> model, Project project, Employee employee) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
 
