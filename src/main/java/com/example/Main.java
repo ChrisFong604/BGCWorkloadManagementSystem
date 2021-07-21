@@ -1074,6 +1074,9 @@ public class Main {
           + "enddate = '" + employee.getEnd() + "' " + "WHERE id = '" + employee.getId() + "';";
       System.out.println(rid);
 
+      String sql2 = "UPDATE employees2 SET " + "startdate = '" + employee.getStart() + "', "
+          + "enddate = '" + employee.getEnd() + "' " + "WHERE id = '" + employee.getId() + "';";
+      
       /*
        * String sql =
        * "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
@@ -1084,6 +1087,7 @@ public class Main {
        */
 
       stmt.executeUpdate(sql);
+      stmt.executeUpdate(sql2);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
       model.put("message", e.getMessage());
