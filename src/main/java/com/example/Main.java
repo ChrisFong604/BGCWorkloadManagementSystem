@@ -339,8 +339,6 @@ public class Main {
       model.put("message", e.getMessage());
       return "error";
     }
-      
-    
   }
 
 
@@ -360,7 +358,6 @@ public class Main {
 
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
 
-      
       String sql = "SELECT * FROM employees ORDER BY startdate ASC";
       ResultSet rs = stmt.executeQuery(sql);
 
