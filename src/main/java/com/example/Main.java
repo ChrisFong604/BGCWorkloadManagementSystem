@@ -82,7 +82,7 @@ public class Main {
       UserLogin user = new UserLogin();
       model.put("user", user);
       return "login";
-    }catch (Exception e) {
+    } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
     }
@@ -134,6 +134,7 @@ public class Main {
   String workload(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
+<<<<<<< HEAD
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
               + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
@@ -166,6 +167,13 @@ public class Main {
       String sql3 = "SELECT * FROM range";
       ResultSet rs3 = stmt.executeQuery(sql3);
 
+=======
+
+      Statement stmt3 = connection.createStatement();
+      String sql3 = "SELECT * FROM range";
+      ResultSet rs3 = stmt.executeQuery(sql3);
+  
+>>>>>>> b759fe4ebae71fbffda40f5521440b40ff815c8d
       RangeInput output3 = new RangeInput();
       while (rs3.next()) {
         output3.setStart(rs3.getString("startdate"));
@@ -173,6 +181,7 @@ public class Main {
       }
       model.put("range", output3);
 
+<<<<<<< HEAD
       /*** visual ****/ 
       Statement stmt4 = connection.createStatement();
       String sql4 = "SELECT * FROM range";
@@ -328,6 +337,8 @@ public class Main {
         }*/
       }
       model.put("empInRange", empInRange);
+=======
+>>>>>>> b759fe4ebae71fbffda40f5521440b40ff815c8d
       if (flag && edit) {
         return "workload";
       } else if (flag && !edit) {
@@ -335,11 +346,22 @@ public class Main {
       } else {
         return "userNotFound";
       }
+<<<<<<< HEAD
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
+=======
+>>>>>>> b759fe4ebae71fbffda40f5521440b40ff815c8d
     }
+
+    catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+
+   
   }
+
 
 
   @GetMapping("/dashboard")
@@ -1106,7 +1128,7 @@ public class Main {
   /************ PROJECTS ************/
 
   @GetMapping("/projects")
-  String returnProjectHomepage(Map<String, Object> model) {
+  String returnProjectHomepage(Map<String, Object> model, ) {
     try {
       if (flag && edit) {
         return "projects/allProjects";
@@ -1131,20 +1153,27 @@ public class Main {
       return "userNotFound";
     }
   }
+
   @PostMapping(path = "/projects/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String handleProjectSubmit(Map<String, Object> model,Project project) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
 
             stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), start date, end date, workload float)");
+          "CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), start date, end date, workers integer[])");
 
       // Creates a universally unique ID for each employee (Only exists in Database)
 
-      String sql = "INSERT INTO projects ( name, start, end, workload ) VALUES ('" + project.getName() + "','" 
-      + project.getStart() + "','" + project.getEnd() + "','" + project.getWorkLoad() +"')";
+      String sql = "INSERT INTO projects ( name, start, end, workers) VALUES ('" + project.getName() + "','" 
+      + project.getStart() + "','" + project.getEnd() + "'," + project.getWorkers() + "')";
 
       stmt.executeUpdate(sql);
+
+      /* -- WORKS ON --
+        Project Relation (Name will be unique)
+        Employee Relation (UID since names can be indistinct)
+        Work Period (array[Week #][Work Capacity])
+      */
 
       return "redirect:/projects"; // Directly returns to project homepage
     } catch (Exception e) {
