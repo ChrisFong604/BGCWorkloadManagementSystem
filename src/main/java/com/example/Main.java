@@ -82,7 +82,7 @@ public class Main {
       UserLogin user = new UserLogin();
       model.put("user", user);
       return "login";
-    }catch (Exception e) {
+    } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
     }
@@ -132,14 +132,37 @@ public class Main {
 
   @GetMapping("/dashboard/workload")
   String workload(Map<String, Object> model) {
-    if (flag && edit) {
-      return "workload";
-    } else if (flag && !edit) {
-      return "readOnly/workload_r";
-    } else {
-      return "userNotFound";
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+
+      Statement stmt3 = connection.createStatement();
+      String sql3 = "SELECT * FROM range";
+      ResultSet rs3 = stmt.executeQuery(sql3);
+  
+      RangeInput output3 = new RangeInput();
+      while (rs3.next()) {
+        output3.setStart(rs3.getString("startdate"));
+        output3.setEnd(rs3.getString("enddate"));
+      }
+      model.put("range", output3);
+
+      if (flag && edit) {
+        return "workload";
+      } else if (flag && !edit) {
+        return "readOnly/workload_r";
+      } else {
+        return "userNotFound";
+      }
     }
+
+    catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+
+   
   }
+
 
 
   @GetMapping("/dashboard")
@@ -896,7 +919,7 @@ public class Main {
   /************ PROJECTS ************/
 
   @GetMapping("/projects")
-  String returnProjectHomepage(Map<String, Object> model) {
+  String returnProjectHomepage(Map<String, Object> model, ) {
     try {
       if (flag && edit) {
         return "projects/allProjects";
@@ -921,20 +944,27 @@ public class Main {
       return "userNotFound";
     }
   }
+
   @PostMapping(path = "/projects/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String handleProjectSubmit(Map<String, Object> model,Project project) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
 
             stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), start date, end date, workload float)");
+          "CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), start date, end date, workers integer[])");
 
       // Creates a universally unique ID for each employee (Only exists in Database)
 
-      String sql = "INSERT INTO projects ( name, start, end, workload ) VALUES ('" + project.getName() + "','" 
-      + project.getStart() + "','" + project.getEnd() + "','" + project.getWorkLoad() +"')";
+      String sql = "INSERT INTO projects ( name, start, end, workers) VALUES ('" + project.getName() + "','" 
+      + project.getStart() + "','" + project.getEnd() + "'," + project.getWorkers() + "')";
 
       stmt.executeUpdate(sql);
+
+      /* -- WORKS ON --
+        Project Relation (Name will be unique)
+        Employee Relation (UID since names can be indistinct)
+        Work Period (array[Week #][Work Capacity])
+      */
 
       return "redirect:/projects"; // Directly returns to project homepage
     } catch (Exception e) {

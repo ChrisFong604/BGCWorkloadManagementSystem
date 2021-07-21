@@ -7,8 +7,7 @@ public class Project {
     private String name;
     private Date start;  
     private Date end;
-    private Double workload;
-    private ArrayList<Date> Weeks;
+    private ArrayList<Integer> workers;
     //number of weeks is the size of the array 
     //which holds the number of employees per week (e.g. [5,7,5] means 5 in week 1, 7 in week 2, 5 in week 3)
 
@@ -22,12 +21,12 @@ public class Project {
         this.start = start;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setWorkers(ArrayList<Integer> workers) {
+        this.workers = workers;
     }
 
-    public void setWorkLoad(Double workload) {
-        this.workload = workload;
+    public void setEnd(Date end) {
+        this.end = end;
     }
 
     public String getName() {
@@ -42,8 +41,8 @@ public class Project {
         return this.end;
     }
 
-    public Double getWorkLoad() {
-        return this.workload;
+    public ArrayList<Integer> getWorkers() {
+        return this.workers;
     }
 
 }
