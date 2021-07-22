@@ -339,8 +339,6 @@ public class Main {
       model.put("message", e.getMessage());
       return "error";
     }
-      
-    
   }
 
 
@@ -360,7 +358,6 @@ public class Main {
 
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
 
-      
       String sql = "SELECT * FROM employees ORDER BY startdate ASC";
       ResultSet rs = stmt.executeQuery(sql);
 
@@ -738,6 +735,7 @@ public class Main {
       /*** setting up the range of dates ***/
       LocalDate startRange = start.minusWeeks(2);
       LocalDate endOfRange = end.plusWeeks(1);
+      LocalDate ending = end.minusWeeks(1);  
       LocalDate localDate = start;
       ArrayList<LocalDate> listOfDates = new ArrayList<>();
       ArrayList<LocalDate> listOfDatesAll = new ArrayList<>();
@@ -764,7 +762,8 @@ public class Main {
 
         boolean isBefore = LocalDate.parse(strsDate).isBefore(startRange);
         boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
-        if (!isBefore && !isAfter) {
+        boolean endsBeforeRange = LocalDate.parse(streDate).isBefore(ending);
+        if (!isBefore && !isAfter || isBefore && endsBeforeRange) {
           empInRange.add(employee);
 
           /*** ramp up ***/
@@ -791,7 +790,12 @@ public class Main {
           int wk = 0;
           for (int i = 0; i < listOfDates.size(); i++) {
             // check if emp starts <2 weeks before start of range
-            if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))) {
+            if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(2))) {
+              empRampUp.add(empRU.getWeek4());
+              flag = true;
+              week = 4;
+            }
+            else if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))  ) {
               empRampUp.add(empRU.getWeek3());
               flag = true;
               week = 3;
@@ -1077,6 +1081,9 @@ public class Main {
           + "enddate = '" + employee.getEnd() + "' " + "WHERE id = '" + employee.getId() + "';";
       System.out.println(rid);
 
+      String sql2 = "UPDATE employees2 SET " + "startdate = '" + employee.getStart() + "', "
+          + "enddate = '" + employee.getEnd() + "' " + "WHERE id = '" + employee.getId() + "';";
+      
       /*
        * String sql =
        * "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
@@ -1087,6 +1094,7 @@ public class Main {
        */
 
       stmt.executeUpdate(sql);
+      stmt.executeUpdate(sql2);
       return "redirect:/employees"; // Directly returns to employee homepage
     } catch (Exception e) {
       model.put("message", e.getMessage());
