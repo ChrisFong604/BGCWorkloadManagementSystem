@@ -59,9 +59,11 @@ public class Main {
 
   @Autowired
   private DataSource dataSource;
+  CreateManagerComponent createManagerComponent;
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
+    //SpringApplication.run(createManager.class, args);
   }
 
   @RequestMapping("/")
@@ -615,7 +617,10 @@ public class Main {
 
   @GetMapping("/manager/create")
   public String createManager(Map<String, Object> model) {
-    UserLogin user = new UserLogin();
+	  System.out.println("-- pre create --");
+	  return createManagerComponent.createManagerClass(model, flag, edit);
+  }
+    /*UserLogin user = new UserLogin();
     model.put("user", user);
 
     try (Connection connection = dataSource.getConnection()) {
@@ -647,11 +652,15 @@ public class Main {
       model.put("message", e.getMessage());
       return "error";
     }
-  }
+  }*/
 
   // adding users
   @PostMapping(path = "/manager/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
+	  System.out.println("-- post --");
+	  return createManagerComponent.addManagerToDatabaseClass(model, user);
+  }
+  /*public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate(
@@ -666,7 +675,7 @@ public class Main {
       model.put("message", e.getMessage());
       return "error";
     }
-  }
+  }*/
 
   // deleting managers
   @GetMapping("/manager/deleted")
