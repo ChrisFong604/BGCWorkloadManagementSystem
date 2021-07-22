@@ -55,11 +55,12 @@ public class Main {
   boolean edit = false;
 
   @Value("${spring.datasource.url}")
-  private String dbUrl;
+  private String dbUrl; 
 
   @Autowired
   private DataSource dataSource;
-  CreateManagerComponent createManagerComponent;
+  @Autowired
+  private CreateManagerComponent createManagerComponent;
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
@@ -658,6 +659,7 @@ public class Main {
   @PostMapping(path = "/manager/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
 	  System.out.println("-- post --");
+	  //createManagerComponent.setDatasource(dataSource);
 	  return createManagerComponent.addManagerToDatabaseClass(model, user);
   }
   /*public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
