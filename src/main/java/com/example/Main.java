@@ -942,10 +942,10 @@ public class Main {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+              + "team varchar(40), status boolean, capacity float, startdate date, enddate date, CONSTRAINT employeePK PRIMARY KEY(id)");
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+              + "team varchar(40), status boolean, capacity float, startdate date, enddate date, CONSTRAINT employeePK PRIMARY KEY(id))");
 
       // Creates a universally unique ID for each employee (Only exists in Database)
       final String UniqueID = UUID.randomUUID().toString().replace("-", "");
@@ -1078,6 +1078,9 @@ public class Main {
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(50), projectstart date, projectend date, assignedemployees string[])");
 
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS employees_to_projects (employee_id varchar(40) NOT NULL, "
+          + "CONSTRAINT fk_employee_id FOREIGN KEY(id) REFERENCES employees(id) [ON DELETE CASCADE]");
+
       // Creates a universally unique ID for each employee (Only exists in Database)
 
       String sql = "INSERT INTO projects ( name, start, end, workload ) VALUES ('" + project.getName() + "','"
@@ -1102,5 +1105,4 @@ public class Main {
       return new HikariDataSource(config);
     }
   }
-
 }
