@@ -676,10 +676,9 @@ public class Main {
     return employeesComponent.editEmployeeComponent(model, rid);
   }
 
-  @PostMapping(path = "/employees/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE }) {
-	  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid) {
-		  return employeesComponent.handleEmployeeEditSubmitComponent(model, employee, rid);
-	  }
+  @PostMapping(path = "/employees/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE }) 
+  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid) throws Exception {
+	  return employeesComponent.handleEmployeeEditSubmitComponent(model, employee, rid);
   }
 
 
