@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
-public class CreateManagerComponent {
+public class ManagerComponent {
 	
 	@Autowired
 	private DataSource dataSource;
@@ -40,7 +40,7 @@ public class CreateManagerComponent {
 	//@Value("${spring.datasource.url}")
 	//private String dbUrl; 
 	  
-  public String createManagerClass(Map<String, Object> model, boolean flag, boolean edit) {
+  public String createManagerComponent(Map<String, Object> model, boolean flag, boolean edit) {
     UserLogin user = new UserLogin();
     model.put("user", user);
     System.out.println("-- 2 --");
@@ -76,21 +76,35 @@ public class CreateManagerComponent {
     }
   }
   
-  public String addManagerToDatabaseClass(Map<String, Object> model, UserLogin user) throws Exception {
+  public String addManagerToDatabaseComponent(Map<String, Object> model, UserLogin user) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
+      String sql = "INSERT INTO login (username, password, access) VALUES ('" + user.getUsername() + "','"
+          + user.getPassword() + "','" + user.getAccess() + "')";
+      System.out.println(user.getAccess());
+      stmt.executeUpdate(sql);
+
+      return "redirect:/manager/create";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+  
+  public String deleteManagerComponent(Map<String, Object> model, @RequestParam String m_id) {
 	    try (Connection connection = dataSource.getConnection()) {
-	      Statement stmt = connection.createStatement();
-	      stmt.executeUpdate(
-	          "CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
-	      String sql = "INSERT INTO login (username, password, access) VALUES ('" + user.getUsername() + "','"
-	          + user.getPassword() + "','" + user.getAccess() + "')";
-	      System.out.println(user.getAccess());
-	      stmt.executeUpdate(sql);
+	      String sql = "DELETE FROM login WHERE id =?";
+	      PreparedStatement ps = connection.prepareStatement(sql);
+	      ps.setInt(1, Integer.parseInt(m_id));
+	      ps.executeUpdate();
 
 	      return "redirect:/manager/create";
 	    } catch (Exception e) {
 	      model.put("message", e.getMessage());
 	      return "error";
 	    }
-  }
+	  }
 	  
 }
