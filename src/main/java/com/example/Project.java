@@ -10,8 +10,6 @@ public class Project {
     private Double workload;
     private ArrayList<Date> Weeks;
 
-    public Project() {}
-
     public void setName(String name) {
         this.name = name;
     }
