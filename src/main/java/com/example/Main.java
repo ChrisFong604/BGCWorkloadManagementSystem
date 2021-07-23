@@ -55,14 +55,25 @@ public class Main {
   boolean edit = false;
 
   @Value("${spring.datasource.url}")
-  private String dbUrl;
+  private String dbUrl; 
 
   @Autowired
   private DataSource dataSource;
+  @Autowired
+  private ManagerComponent managerComponent;
+  @Autowired
+  private EmployeesComponent employeesComponent;
+  @Autowired
+  private DashboardComponent dashboardComponent;
+  @Autowired
+  private ProjectsComponent projectsComponent;
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
+    //SpringApplication.run(createManager.class, args);
   }
+  
+  /************ LOGIN ************/
 
   @RequestMapping("/")
   String index(Map<String, Object> model) {
@@ -129,1053 +140,122 @@ public class Main {
       return "error";
     }
   }
+  
+  /************ DASHBOARD ************/
 
   @GetMapping("/dashboard/workload")
   String workload(Map<String, Object> model) {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, startdate date, enddate date)");
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, startdate date, enddate date)");
-
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
-
-      String sql = "SELECT * FROM employees ORDER BY startdate ASC";
-      ResultSet rs = stmt.executeQuery(sql);
-      ArrayList<Employee> output = new ArrayList<Employee>();
-      while (rs.next()) {
-        Employee emp = new Employee();
-        emp.setName(rs.getString("name"));
-        emp.setPosition(rs.getString("position"));
-        emp.setRole(rs.getString("role"));
-        emp.setTeam(rs.getString("team"));
-        emp.setStatus(rs.getBoolean("status"));
-        emp.setStart(rs.getDate("startdate"));
-        emp.setEnd(rs.getDate("enddate"));
-        output.add(emp);
-      }
-      model.put("employees", output);
-
-      Statement stmt3 = connection.createStatement();
-      String sql3 = "SELECT * FROM range";
-      ResultSet rs3 = stmt.executeQuery(sql3);
-
-      RangeInput output3 = new RangeInput();
-      while (rs3.next()) {
-        output3.setStart(rs3.getString("startdate"));
-        output3.setEnd(rs3.getString("enddate"));
-      }
-      model.put("range", output3);
-
-      /*** visual ****/
-      Statement stmt4 = connection.createStatement();
-      String sql4 = "SELECT * FROM range";
-      ResultSet rs4 = stmt.executeQuery(sql4);
-
-      LocalDate start = LocalDate.now();
-      LocalDate end = LocalDate.now();
-      while (rs4.next()) {
-        start = LocalDate.parse(rs4.getString("startdate"));
-        end = LocalDate.parse(rs4.getString("enddate"));
-      }
-      // System.out.println(start);
-      // System.out.println(end);
-
-      /*** setting up the range of dates ***/
-      LocalDate startRange = start.minusWeeks(2);
-      LocalDate endOfRange = end.plusWeeks(1);
-      LocalDate localDate = start;
-      ArrayList<LocalDate> listOfDates = new ArrayList<>();
-      ArrayList<LocalDate> listOfDatesAll = new ArrayList<>();
-      while (localDate.isBefore(endOfRange)) {
-        listOfDatesAll.add(localDate);
-        localDate = localDate.plusWeeks(1);
-      }
-      /*
-       * for (int i = 0; i < listOfDatesAll.size()-1; i++) { if (i > 1) {
-       * listOfDates.add(listOfDatesAll.get(i)); } }
-       */
-      for (int i = 0; i < listOfDatesAll.size() - 1; i++) {
-        listOfDates.add(listOfDatesAll.get(i));
-      }
-      model.put("listOfDates", listOfDates);
-
-      /*** getting employees that start within the range ***/
-      ArrayList<Employee> empInRange = new ArrayList<>();
-      for (Employee employee : output) {
-        ArrayList<Double> empRampUp = new ArrayList<>();
-
-        Date date = employee.getStart();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String strsDate = dateFormat.format(date);
-        Date edate = employee.getEnd();
-        String streDate = dateFormat.format(edate);
-        // startDates.add(strsDate);
-        // System.out.println(strsDate);
-        // System.out.println(streDate);
-        boolean isBefore = LocalDate.parse(strsDate).isBefore(startRange);
-        boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
-        if (!isAfter) {
-          empInRange.add(employee);
-
-          /*** ramp up ***/
-          String position = employee.getPosition();
-          RampUp empRU = new RampUp();
-          String st = "permanent";
-          if (position.equals(st)) {
-            empRU.setWeek1(0.1);
-            empRU.setWeek2(0.25);
-            empRU.setWeek3(0.5);
-            empRU.setWeek4(0.875);
-            empRU.setWeek5(0.875);
-          } else {
-            empRU.setWeek1(0.1);
-            empRU.setWeek2(0.25);
-            empRU.setWeek3(0.4);
-            empRU.setWeek4(0.65);
-            empRU.setWeek5(0.65);
-          }
-
-          boolean flag = false;
-          int week = 0;
-          int wk = 0;
-          for (int i = 0; i < listOfDates.size(); i++) {
-            // check if emp starts <2 weeks before start of range
-            if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(2))) {
-              empRampUp.add(empRU.getWeek4());
-              flag = true;
-              week = 4;
-            } else if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))) {
-              empRampUp.add(empRU.getWeek3());
-              flag = true;
-              week = 3;
-            } else if (!flag && LocalDate.parse(strsDate).isBefore(start)) {
-              empRampUp.add(empRU.getWeek2());
-              flag = true;
-              week = 2;
-            } else if (flag && week >= 1 && week <= 4) {
-              if (LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i))
-                  || LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
-                if (week == 1) {
-                  empRampUp.add(0.0);
-                  week++;
-                } else if (week == 2) {
-                  empRampUp.add(0.0);
-                  week++;
-                } else if (week == 3) {
-                  empRampUp.add(0.0);
-                  week++;
-                } else if (week == 4) {
-                  empRampUp.add(0.0);
-                  week = 0;
-                }
-              } else {
-                if (week == 1) {
-                  empRampUp.add(empRU.getWeek2());
-                  week++;
-                } else if (week == 2) {
-                  empRampUp.add(empRU.getWeek3());
-                  week++;
-                } else if (week == 3) {
-                  empRampUp.add(empRU.getWeek4());
-                  week++;
-                } else if (week == 4) {
-                  empRampUp.add(empRU.getWeek5());
-                  week = 0;
-                }
-              }
-            } else if (!flag && (LocalDate.parse(strsDate).equals(listOfDatesAll.get(i))
-                || LocalDate.parse(strsDate).isBefore(listOfDatesAll.get(i + 1)))) {
-              // System.out.println(listOfDatesAll.get(i));
-              // System.out.println(listOfDatesAll.get(i+1));
-              empRampUp.add(empRU.getWeek1());
-              flag = true;
-              week++;
-            } else if (LocalDate.parse(strsDate).isAfter(listOfDatesAll.get(i))
-                || LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i))
-                || LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
-              empRampUp.add(0.0);
-            } else {
-              empRampUp.add(empRU.getWeek5());
-            }
-          }
-          employee.setRampUp(empRampUp);
-        }
-        // System.out.println(empRampUp.size());
-        /*
-         * for (double r : empRampUp) { System.out.println(r); }
-         */
-      }
-      model.put("empInRange", empInRange);
-      if (flag && edit) {
-        return "workload";
-      } else if (flag && !edit) {
-        return "readOnly/workload_r";
-      } else {
-        return "userNotFound";
-      }
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+    return dashboardComponent.workloadComponent(model, flag, edit);
   }
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
-    /*
-     * RangeInput range = new RangeInput(); model.put("rangeEmpty", range);
-     */
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, startdate date, enddate date)");
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, startdate date, enddate date)");
-
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
-
-      String sql = "SELECT * FROM employees ORDER BY startdate ASC";
-      ResultSet rs = stmt.executeQuery(sql);
-
-      ArrayList<Employee> output = new ArrayList<Employee>();
-      while (rs.next()) {
-        Employee emp = new Employee();
-        emp.setName(rs.getString("name"));
-        emp.setPosition(rs.getString("position"));
-        emp.setRole(rs.getString("role"));
-        emp.setTeam(rs.getString("team"));
-        emp.setStatus(rs.getBoolean("status"));
-        emp.setStart(rs.getDate("startdate"));
-        emp.setEnd(rs.getDate("enddate"));
-        output.add(emp);
-      }
-      model.put("employees", output);
-
-      Statement stmt2 = connection.createStatement();
-      String sql2 = "SELECT * FROM employees2 ORDER BY startdate ASC";
-      ResultSet rs2 = stmt.executeQuery(sql2);
-
-      ArrayList<Employee> output2 = new ArrayList<Employee>();
-      while (rs2.next()) {
-        Employee emp2 = new Employee();
-        emp2.setName(rs2.getString("name"));
-        emp2.setPosition(rs2.getString("position"));
-        emp2.setRole(rs2.getString("role"));
-        emp2.setTeam(rs2.getString("team"));
-        emp2.setStatus(rs2.getBoolean("status"));
-        emp2.setStart(rs2.getDate("startdate"));
-        emp2.setEnd(rs2.getDate("enddate"));
-        output2.add(emp2);
-      }
-      model.put("employees2", output2);
-
-      /*** range ***/
-      Statement stmt3 = connection.createStatement();
-      String sql3 = "SELECT * FROM range";
-      ResultSet rs3 = stmt.executeQuery(sql3);
-
-      RangeInput output3 = new RangeInput();
-      while (rs3.next()) {
-        output3.setStart(rs3.getString("startdate"));
-        output3.setEnd(rs3.getString("enddate"));
-      }
-      model.put("range", output3);
-
-      /*** visual ****/
-      Statement stmt4 = connection.createStatement();
-      String sql4 = "SELECT * FROM range";
-      ResultSet rs4 = stmt.executeQuery(sql4);
-
-      LocalDate start = LocalDate.now();
-      LocalDate end = LocalDate.now();
-      while (rs4.next()) {
-        start = LocalDate.parse(rs4.getString("startdate"));
-        end = LocalDate.parse(rs4.getString("enddate"));
-      }
-      // System.out.println(start);
-      // System.out.println(end);
-
-      /*** setting up the range of dates ***/
-      LocalDate startRange = start.minusWeeks(2);
-      LocalDate endOfRange = end.plusWeeks(1);
-      LocalDate localDate = start;
-      ArrayList<LocalDate> listOfDates = new ArrayList<>();
-      ArrayList<LocalDate> listOfDatesAll = new ArrayList<>();
-      while (localDate.isBefore(endOfRange)) {
-        listOfDatesAll.add(localDate);
-        localDate = localDate.plusWeeks(1);
-      }
-      /*
-       * for (int i = 0; i < listOfDatesAll.size()-1; i++) { if (i > 1) {
-       * listOfDates.add(listOfDatesAll.get(i)); } }
-       */
-      for (int i = 0; i < listOfDatesAll.size() - 1; i++) {
-        listOfDates.add(listOfDatesAll.get(i));
-      }
-      model.put("listOfDates", listOfDates);
-
-      /*** getting employees that start within the range ***/
-      ArrayList<Employee> empInRange = new ArrayList<>();
-      for (Employee employee : output) {
-        ArrayList<Double> empRampUp = new ArrayList<>();
-
-        Date date = employee.getStart();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String strsDate = dateFormat.format(date);
-        Date edate = employee.getEnd();
-        String streDate = dateFormat.format(edate);
-        // startDates.add(strsDate);
-        // System.out.println(strsDate);
-        // System.out.println(streDate);
-        boolean isBefore = LocalDate.parse(strsDate).isBefore(startRange);
-        boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
-        if (!isBefore && !isAfter) {
-          empInRange.add(employee);
-
-          /*** ramp up ***/
-          String position = employee.getPosition();
-          RampUp empRU = new RampUp();
-          String st = "permanent";
-          if (position.equals(st)) {
-            empRU.setWeek1(0.1);
-            empRU.setWeek2(0.25);
-            empRU.setWeek3(0.5);
-            empRU.setWeek4(0.875);
-            empRU.setWeek5(0.875);
-          } else {
-            empRU.setWeek1(0.1);
-            empRU.setWeek2(0.25);
-            empRU.setWeek3(0.4);
-            empRU.setWeek4(0.65);
-            empRU.setWeek5(0.65);
-          }
-
-          boolean flag = false;
-          int week = 0;
-          int wk = 0;
-          for (int i = 0; i < listOfDates.size(); i++) {
-            // check if emp starts <2 weeks before start of range
-            if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))) {
-              empRampUp.add(empRU.getWeek3());
-              flag = true;
-              week = 3;
-            } else if (!flag && LocalDate.parse(strsDate).isBefore(start)) {
-              empRampUp.add(empRU.getWeek2());
-              flag = true;
-              week = 2;
-            } else if (flag && week >= 1 && week <= 4) {
-              if (LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i))
-                  || LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
-                if (week == 1) {
-                  empRampUp.add(0.0);
-                  week++;
-                } else if (week == 2) {
-                  empRampUp.add(0.0);
-                  week++;
-                } else if (week == 3) {
-                  empRampUp.add(0.0);
-                  week++;
-                } else if (week == 4) {
-                  empRampUp.add(0.0);
-                  week = 0;
-                }
-              } else {
-                if (week == 1) {
-                  empRampUp.add(empRU.getWeek2());
-                  week++;
-                } else if (week == 2) {
-                  empRampUp.add(empRU.getWeek3());
-                  week++;
-                } else if (week == 3) {
-                  empRampUp.add(empRU.getWeek4());
-                  week++;
-                } else if (week == 4) {
-                  empRampUp.add(empRU.getWeek5());
-                  week = 0;
-                }
-              }
-            } else if (!flag && (LocalDate.parse(strsDate).equals(listOfDatesAll.get(i))
-                || LocalDate.parse(strsDate).isBefore(listOfDatesAll.get(i + 1)))) {
-              // System.out.println(listOfDatesAll.get(i));
-              // System.out.println(listOfDatesAll.get(i+1));
-              empRampUp.add(empRU.getWeek1());
-              flag = true;
-              week++;
-            } else if (LocalDate.parse(strsDate).isAfter(listOfDatesAll.get(i))
-                || LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i))
-                || LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
-              empRampUp.add(0.0);
-            } else {
-              empRampUp.add(empRU.getWeek5());
-            }
-          }
-          employee.setRampUp(empRampUp);
-        }
-        // System.out.println(empRampUp.size());
-        /*
-         * for (double r : empRampUp) { System.out.println(r); }
-         */
-      }
-      model.put("empInRange", empInRange);
-
-      // print to check
-      /*
-       * for (Employee emp : empInRange) { System.out.println(emp.getName()); }
-       */
-
-      if (flag && edit) {
-        return "index";
-      } else if (flag && !edit) {
-        return "readOnly/index_r";
-      } else {
-        return "userNotFound";
-      }
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+	  return dashboardComponent.dashboardComponent(model, flag, edit);
   }
 
   @PostMapping(path = "/dashboard", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String getRange(Map<String, Object> model, RangeInput range) throws Exception {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, startdate date, enddate date)");
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
-      String sql = "INSERT INTO range (startdate, enddate) VALUES ('" + range.getStart() + "','" + range.getEnd()
-          + "')";
-      stmt.executeUpdate(sql);
-
-      return "redirect:/dashboard";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+    return dashboardComponent.getRangeComponent(model, range);
   }
 
   @PostMapping(path = "/deletetabledata")
   public String deletetabledata(Map<String, Object> model) throws Exception {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      stmt.executeUpdate("delete from employees");
-      stmt.executeUpdate("delete from employees2");
-      return "redirect:/dashboard";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+    return dashboardComponent.deletetabledataComponent(model);
   }
+  
+  /************ MANAGER ************/
 
   @GetMapping("/manager/create")
   public String createManager(Map<String, Object> model) {
-    UserLogin user = new UserLogin();
-    model.put("user", user);
-
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-
-      String sql = "SELECT * FROM login";
-      ResultSet rs = stmt.executeQuery(sql);
-
-      ArrayList<UserLogin> output = new ArrayList<UserLogin>();
-      while (rs.next()) {
-        if (rs.getInt("id") == 1) {
-          continue;
-        }
-        UserLogin manager = new UserLogin();
-        manager.setID(rs.getInt("id"));
-        manager.setUsername(rs.getString("username"));
-        manager.setPassword(rs.getString("password"));
-        manager.setAccess(rs.getString("access"));
-        output.add(manager);
-      }
-      model.put("managers", output);
-
-      if (flag && edit) {
-        return "manager";
-      } else {
-        return "userNotFound";
-      }
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+	  System.out.println("-- pre create --");
+	  return managerComponent.createManagerComponent(model, flag, edit);
   }
 
   // adding users
   @PostMapping(path = "/manager/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
-      String sql = "INSERT INTO login (username, password, access) VALUES ('" + user.getUsername() + "','"
-          + user.getPassword() + "','" + user.getAccess() + "')";
-      System.out.println(user.getAccess());
-      stmt.executeUpdate(sql);
-
-      return "redirect:/manager/create";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+	  System.out.println("-- post --");
+	  //createManagerComponent.setDatasource(dataSource);
+	  return managerComponent.addManagerToDatabaseComponent(model, user);
   }
 
   // deleting managers
   @GetMapping("/manager/deleted")
   public String deleteManager(Map<String, Object> model, @RequestParam String m_id) {
-    try (Connection connection = dataSource.getConnection()) {
-      String sql = "DELETE FROM login WHERE id =?";
-      PreparedStatement ps = connection.prepareStatement(sql);
-      ps.setInt(1, Integer.parseInt(m_id));
-      ps.executeUpdate();
-
-      return "redirect:/manager/create";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+	  return managerComponent.deleteManagerComponent(model, m_id);
   }
 
+  /************ EMPLOYEES ************/
+  
   // filter by attributes
   @GetMapping("/employees")
   String returnEmployeeHomepage(Map<String, Object> model) {
-    Property prop = new Property();
-    model.put("property", prop);
-
-    try (Connection connection = dataSource.getConnection()) {
-
-      Statement stmt = connection.createStatement();
-
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, startdate date, enddate date)");
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, startdate date, enddate date)");
-      String sql = "SELECT * FROM employees ORDER BY startdate ASC";
-      ResultSet rs = stmt.executeQuery(sql);
-
-      ArrayList<Employee> output = new ArrayList<Employee>();
-      while (rs.next()) {
-        Employee emp = new Employee();
-        emp.setId(rs.getString("id"));
-        emp.setName(rs.getString("name"));
-        emp.setPosition(rs.getString("position"));
-        emp.setRole(rs.getString("role"));
-        emp.setTeam(rs.getString("team"));
-        emp.setStatus(rs.getBoolean("status"));
-        emp.setStart(rs.getDate("startdate"));
-        emp.setEnd(rs.getDate("enddate"));
-
-        output.add(emp);
-      }
-      model.put("employees", output);
-
-      /*** visual ****/
-      Statement stmt4 = connection.createStatement();
-      String sql4 = "SELECT * FROM range";
-      ResultSet rs4 = stmt.executeQuery(sql4);
-
-      LocalDate start = LocalDate.now();
-      LocalDate end = LocalDate.now();
-      while (rs4.next()) {
-        start = LocalDate.parse(rs4.getString("startdate"));
-        end = LocalDate.parse(rs4.getString("enddate"));
-      }
-
-      /*** setting up the range of dates ***/
-      LocalDate startRange = start.minusWeeks(2);
-      LocalDate endOfRange = end.plusWeeks(1);
-      LocalDate ending = end.minusWeeks(1);
-      LocalDate localDate = start;
-      ArrayList<LocalDate> listOfDates = new ArrayList<>();
-      ArrayList<LocalDate> listOfDatesAll = new ArrayList<>();
-      while (localDate.isBefore(endOfRange)) {
-        listOfDatesAll.add(localDate);
-        localDate = localDate.plusWeeks(1);
-      }
-
-      for (int i = 0; i < listOfDatesAll.size() - 1; i++) {
-        listOfDates.add(listOfDatesAll.get(i));
-      }
-      model.put("listOfDates", listOfDates);
-
-      /*** getting employees that start within the range ***/
-      ArrayList<Employee> empInRange = new ArrayList<>();
-      for (Employee employee : output) {
-        ArrayList<Double> empRampUp = new ArrayList<>();
-
-        Date date = employee.getStart();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String strsDate = dateFormat.format(date);
-        Date edate = employee.getEnd();
-        String streDate = dateFormat.format(edate);
-
-        boolean isBefore = LocalDate.parse(strsDate).isBefore(startRange);
-        boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
-        boolean endsBeforeRange = LocalDate.parse(streDate).isBefore(ending);
-        if (!isBefore && !isAfter || isBefore && endsBeforeRange) {
-          empInRange.add(employee);
-
-          /*** ramp up ***/
-          String position = employee.getPosition();
-          RampUp empRU = new RampUp();
-          String st = "permanent";
-          if (position.equals(st)) {
-            empRU.setWeek1(0.1);
-            empRU.setWeek2(0.25);
-            empRU.setWeek3(0.5);
-            empRU.setWeek4(0.875);
-            empRU.setWeek5(0.875);
-          } else {
-            empRU.setWeek1(0.1);
-            empRU.setWeek2(0.25);
-            empRU.setWeek3(0.4);
-            empRU.setWeek4(0.65);
-            empRU.setWeek5(0.65);
-          }
-
-          boolean flag = false;
-          int week = 0;
-          int wk = 0;
-          for (int i = 0; i < listOfDates.size(); i++) {
-            // check if emp starts <2 weeks before start of range
-            if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(2))) {
-              empRampUp.add(empRU.getWeek4());
-              flag = true;
-              week = 4;
-            } else if (!flag && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))) {
-              empRampUp.add(empRU.getWeek3());
-              flag = true;
-              week = 3;
-            } else if (!flag && LocalDate.parse(strsDate).isBefore(start)) {
-              empRampUp.add(empRU.getWeek2());
-              flag = true;
-              week = 2;
-            } else if (flag && week >= 1 && week <= 4) {
-              if (LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i))
-                  || LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
-                if (week == 1) {
-                  empRampUp.add(0.0);
-                  week++;
-                } else if (week == 2) {
-                  empRampUp.add(0.0);
-                  week++;
-                } else if (week == 3) {
-                  empRampUp.add(0.0);
-                  week++;
-                } else if (week == 4) {
-                  empRampUp.add(0.0);
-                  week = 0;
-                }
-              } else {
-                if (week == 1) {
-                  empRampUp.add(empRU.getWeek2());
-                  week++;
-                } else if (week == 2) {
-                  empRampUp.add(empRU.getWeek3());
-                  week++;
-                } else if (week == 3) {
-                  empRampUp.add(empRU.getWeek4());
-                  week++;
-                } else if (week == 4) {
-                  empRampUp.add(empRU.getWeek5());
-                  week = 0;
-                }
-              }
-            } else if (!flag && (LocalDate.parse(strsDate).equals(listOfDatesAll.get(i))
-                || LocalDate.parse(strsDate).isBefore(listOfDatesAll.get(i + 1)))) {
-              empRampUp.add(empRU.getWeek1());
-              flag = true;
-              week++;
-            } else if (LocalDate.parse(strsDate).isAfter(listOfDatesAll.get(i))
-                || LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i))
-                || LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
-              empRampUp.add(0.0);
-            } else {
-              empRampUp.add(empRU.getWeek5());
-            }
-          }
-          employee.setRampUp(empRampUp);
-        }
-      }
-      model.put("empInRange", empInRange);
-
-      if (flag && edit) {
-        return "employees/allEmployees";
-      } else if (flag && !edit) {
-        return "readOnly/allEmployees_r";
-      } else {
-        return "userNotFound";
-      }
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+    return employeesComponent.returnEmployeeHomepageComponent(model, flag, edit);
   }
 
   // filtered results
   @PostMapping(path = "/employees", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String filterByProperty(Map<String, Object> model, Property prop) {
-    String filterBy = prop.getFilterBy();
-    String value = prop.getValue();
-
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      String sql = "SELECT * FROM employees WHERE " + filterBy + " = '" + value + "' ";
-      // System.out.println(sql);
-
-      ResultSet rs = stmt.executeQuery(sql);
-
-      ArrayList<Employee> output = new ArrayList<Employee>();
-      while (rs.next()) {
-        Employee emp = new Employee();
-        emp.setId(rs.getString("id"));
-        emp.setName(rs.getString("name"));
-        emp.setPosition(rs.getString("position"));
-        emp.setRole(rs.getString("role"));
-        emp.setTeam(rs.getString("team"));
-        emp.setStatus(rs.getBoolean("status"));
-        emp.setStart(rs.getDate("startdate"));
-        emp.setEnd(rs.getDate("enddate"));
-
-        output.add(emp);
-      }
-      model.put("employees", output);
-
-      if (flag && edit) {
-        return "employees/allEmployees";
-      } else {
-        return "readOnly/allEmployees_r";
-      }
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+    return employeesComponent.filterByPropertyComponent(model, prop, flag, edit);
   }
 
   // deleting employees
   @GetMapping("/employees/deleted")
   public String deleteEmployee(Map<String, Object> model, @RequestParam String e_id) {
-    try (Connection connection = dataSource.getConnection()) {
-      String sql = "DELETE FROM employees WHERE id =?";
-      String sql2 = "DELETE FROM employees2 WHERE id =?";
-      PreparedStatement ps = connection.prepareStatement(sql);
-      PreparedStatement ps2 = connection.prepareStatement(sql2);
-      ps.setString(1, e_id);
-      ps2.setString(1, e_id);
-      ps.executeUpdate();
-      ps2.executeUpdate();
-
-      return "redirect:/employees";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+    return employeesComponent.deleteEmployeeComponent(model, e_id);
   }
 
   @GetMapping("/employees/metrics")
   String returnEmployeeMetrics(Map<String, Object> model) {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      String sql = "SELECT * FROM employees ORDER BY startdate ASC";
-      ResultSet rs = stmt.executeQuery(sql);
-
-      ArrayList<Employee> output = new ArrayList<Employee>();
-      while (rs.next()) {
-        Employee emp = new Employee();
-        emp.setName(rs.getString("name"));
-        emp.setPosition(rs.getString("position"));
-        emp.setRole(rs.getString("role"));
-        emp.setTeam(rs.getString("team"));
-        emp.setStatus(rs.getBoolean("status"));
-        emp.setStart(rs.getDate("startdate"));
-        emp.setEnd(rs.getDate("enddate"));
-        output.add(emp);
-      }
-      model.put("employees", output);
-
-      String sql2 = "SELECT * FROM employees2 ORDER BY startdate ASC";
-      ResultSet rs2 = stmt.executeQuery(sql2);
-
-      ArrayList<Employee> output2 = new ArrayList<Employee>();
-      while (rs2.next()) {
-        Employee emp2 = new Employee();
-        emp2.setName(rs2.getString("name"));
-        emp2.setPosition(rs2.getString("position"));
-        emp2.setRole(rs2.getString("role"));
-        emp2.setTeam(rs2.getString("team"));
-        emp2.setStatus(rs2.getBoolean("status"));
-        emp2.setStart(rs2.getDate("startdate"));
-        emp2.setEnd(rs2.getDate("enddate"));
-        output2.add(emp2);
-      }
-      model.put("employees2", output2);
-
-      return "employees/employeemetrics";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+    return employeesComponent.returnEmployeeMetricsComponent(model);
   }
 
   @GetMapping("/employees/create")
   public String returnEmployeeCreate(Map<String, Object> model) throws Exception {
-    Employee employee = new Employee();
-    model.put("employee", employee);
-    if (flag && edit) {
-      return "employees/createEmployee";
-    } else {
-      return "userNotFound";
-    }
+    return employeesComponent.returnEmployeeCreateComponent(model, flag, edit);
   }
 
   @PostMapping(path = "/employees/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String handleEmployeeProfileSubmit(Map<String, Object> model, Employee employee) throws Exception {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, startdate date, enddate date)");
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, startdate date, enddate date)");
-
-      // Creates a universally unique ID for each employee (Only exists in Database)
-      final String UniqueID = UUID.randomUUID().toString().replace("-", "");
-
-      String sql = "INSERT INTO employees (id, name, position, role, team, status, startdate, enddate) VALUES ('"
-          + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
-          + employee.getTeam() + "'," + employee.getStatus() + ",'" + employee.getStart() + "','" + employee.getEnd()
-          + "')";
-
-      String sql2 = "INSERT INTO employees2 (id, name, position, role, team, status, startdate, enddate) VALUES ('"
-          + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
-          + employee.getTeam() + "'," + employee.getStatus() + ",'" + employee.getStart() + "','" + employee.getEnd()
-          + "')";
-
-      stmt.executeUpdate(sql);
-      stmt.executeUpdate(sql2);
-      return "redirect:/employees"; // Directly returns to employee homepage
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+    return employeesComponent.handleEmployeeProfileSubmitComponent(model, employee);
   }
 
   @GetMapping("/employees/edit")
   public String editEmployee(Map<String, Object> model, @RequestParam String rid) throws Exception {
-    try (Connection connection = dataSource.getConnection()) {
-      String sql = "SELECT * FROM employees WHERE id = ?";
-      PreparedStatement pstmt = connection.prepareStatement(sql);
-      pstmt.setString(1, rid);
-      ResultSet rs = pstmt.executeQuery();
-      Employee emp = new Employee();
-      if (rs.next()) {
-        emp.setId(rs.getString("id"));
-        emp.setName(rs.getString("name"));
-        System.out.println(emp.getName());
-        emp.setPosition(rs.getString("position"));
-        System.out.println(emp.getPosition());
-        emp.setRole(rs.getString("role"));
-        emp.setTeam(rs.getString("team"));
-        emp.setStatus(rs.getBoolean("status"));
-        emp.setStart(rs.getDate("startdate"));
-        emp.setEnd(rs.getDate("enddate"));
-      }
-
-      model.put("employee", emp);
-      return "employees/editEmployee";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+    return employeesComponent.editEmployeeComponent(model, rid);
   }
 
-  @PostMapping(path = "/employees/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid)
-      throws Exception {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      /*
-       * stmt.executeUpdate(
-       * "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-       * +
-       * "team varchar(40), status boolean, capacity float, startdate date, enddate date)"
-       * );
-       * 
-       * // Creates a universally unique ID for each employee (Only exists in
-       * Database) final String UniqueID = UUID.randomUUID().toString().replace("-",
-       * "");
-       */
-      String sql = "UPDATE employees SET " + "name = '" + employee.getName() + "', " + "position = '"
-          + employee.getPosition() + "', " + "role = '" + employee.getRole() + "', " + "team = '" + employee.getTeam()
-          + "', " + "status = " + employee.getStatus() + ", " + "startdate = '" + employee.getStart() + "', "
-          + "enddate = '" + employee.getEnd() + "' " + "WHERE id = '" + employee.getId() + "';";
-      System.out.println(rid);
-
-      String sql2 = "UPDATE employees2 SET " + "startdate = '" + employee.getStart() + "', " + "enddate = '"
-          + employee.getEnd() + "' " + "WHERE id = '" + employee.getId() + "';";
-
-      /*
-       * String sql =
-       * "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
-       * + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() +
-       * "','" + employee.getRole() + "','" + employee.getTeam() + "'," +
-       * employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','" +
-       * employee.getEnd() + "')";
-       */
-
-      stmt.executeUpdate(sql);
-      stmt.executeUpdate(sql2);
-      return "redirect:/employees"; // Directly returns to employee homepage
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+  @PostMapping(path = "/employees/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE }) 
+  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid) throws Exception {
+	  return employeesComponent.handleEmployeeEditSubmitComponent(model, employee, rid);
   }
 
   /************ PROJECTS ************/
 
-    // filter by attributes
-    @GetMapping("/projects")
-    String returnProjectsHomepage(Map<String, Object> model) {
-      Property prop = new Property();
-      model.put("property", prop);
+  @GetMapping("/projects")
+  String returnProjectHomepage(Map<String, Object> model) {
+    return projectsComponent.returnProjectHomepageComponent(model, flag, edit);
+  }
   
-      try (Connection connection = dataSource.getConnection()) {
-        
-        Statement stmt = connection.createStatement();
-        
-        stmt.executeUpdate(
-            "CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date)");
-  
-        String sql = "SELECT * FROM projects ORDER BY startdate ASC";
-        ResultSet rs = stmt.executeQuery(sql);
-  
-        ArrayList<Project> output = new ArrayList<>();
-        while (rs.next()) {
-          Project proj = new Project();
-          proj.setId(rs.getInt("id"));
-          proj.setName(rs.getString("name"));
-          proj.setStart(rs.getDate("startdate"));
-          proj.setEnd(rs.getDate("enddate"));
-  
-          output.add(proj);
-        }
-        model.put("projects", output);
-        
-        /*** visual ****/ 
-  
-        if (flag && edit) {
-          return "projects/allProjects";
-        } else if (flag && !edit) {
-          return "readOnly/allProjects_r";
-        } else {
-          return "userNotFound";
-        }
-      } catch (Exception e) {
-        model.put("message", e.getMessage());
-        return "error";
-      }
-    }
-  
-    // filtered results
-    @PostMapping(path = "/projects", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-    public String filterByPropertyProj(Map<String, Object> model, Property prop) {
-      String filterBy = prop.getFilterBy();
-      String value = prop.getValue();
-  
-      try (Connection connection = dataSource.getConnection()) {
-        Statement stmt = connection.createStatement();
-        String sql = "SELECT * FROM projects WHERE " + filterBy + " = '" + value + "' ";
-        // System.out.println(sql);
-  
-        ResultSet rs = stmt.executeQuery(sql);
-  
-        ArrayList<Project> output = new ArrayList<>();
-        while (rs.next()) {
-          Project proj = new Project();
-          proj.setId(rs.getInt("id"));
-          proj.setName(rs.getString("name"));
-          proj.setStart(rs.getDate("startdate"));
-          proj.setEnd(rs.getDate("enddate"));
-  
-          output.add(proj);
-        }
-        model.put("projects", output);
-  
-        if (flag && edit) {
-          return "projects/allProjects";
-        } else {
-          return "readOnly/allProjects_r";
-        }
-      } catch (Exception e) {
-        model.put("message", e.getMessage());
-        return "error";
-      }
-    }
-  
-    @GetMapping("/projects/create")
-    public String returnProjectCreate(Map<String, Object> model) throws Exception {
-      Project project = new Project();
-      model.put("project", project);
-      if (flag && edit) {
-        return "projects/createProject";
-      } else {
-        return "userNotFound";
-      }
-    }
-    
-
-  @PostMapping(path = "/projects/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String handleProjectSubmit(Map<String, Object> model, Project project) throws Exception {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-
-      stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date)");
-      // Creates a universally unique ID for each employee (Only exists in Database)
-
-      String sql = "INSERT INTO projects ( name, startdate, enddate ) VALUES ('" + project.getName() + "','"
-          + project.getStart() + "','" + project.getEnd() + "')";
-      stmt.executeUpdate(sql);
-
-      return "redirect:/projects"; // Directly returns to project homepage
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+  @PostMapping(path = "/projects", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String filterByPropertyProj(Map<String, Object> model, Property prop) {
+    return projectsComponent.filterByPropertyProjComponent(model, prop, flag, edit);
   }
 
-  // deleting projects
+  @GetMapping("/projects/create")
+  public String returnProjectCreate(Map<String, Object> model) throws Exception {
+    return projectsComponent.returnProjectCreateComponent(model, flag, edit);
+  }
+  
+  @PostMapping(path = "/projects/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String handleProjectSubmit(Map<String, Object> model,Project project) throws Exception {
+    return projectsComponent.handleProjectSubmitComponent(model, project);
+  }
+  
   @GetMapping("/projects/deleted")
   public String deleteProject(Map<String, Object> model, @RequestParam String p_id) {
-    try (Connection connection = dataSource.getConnection()) {
-      String sql = "DELETE FROM projects WHERE id =?";
-      PreparedStatement ps = connection.prepareStatement(sql);
-      ps.setInt(1, Integer.parseInt(p_id));
-      ps.executeUpdate();
-
-      return "redirect:/projects";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+	  return projectsComponent.deleteProjectComponent(model, p_id);
   }
-
-  
-  
 
   @Bean
   public DataSource dataSource() throws SQLException {
