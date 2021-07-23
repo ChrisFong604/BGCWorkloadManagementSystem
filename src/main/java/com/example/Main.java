@@ -86,11 +86,10 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate(
-    		  "CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
+          "CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
       flag = false;
       edit = false;
-    
-      
+
       UserLogin user = new UserLogin();
       model.put("user", user);
       return "login";
@@ -230,7 +229,6 @@ public class Main {
   public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid) throws Exception {
 	  return employeesComponent.handleEmployeeEditSubmitComponent(model, employee, rid);
   }
-
 
   /************ PROJECTS ************/
 

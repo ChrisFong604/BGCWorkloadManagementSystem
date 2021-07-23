@@ -102,5 +102,4 @@ public class Employee {
     public ArrayList<Double> getRampUp() {
         return this.rampUp;
     }
-
 }
