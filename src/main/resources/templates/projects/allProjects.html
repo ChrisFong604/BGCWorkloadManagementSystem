@@ -14,24 +14,25 @@
 <header></header>
 
 <body>
-    <div class="container">
-      <form action="#" method="post" th:action="@{/projects}" th:object="${property}">
-        <label>Search by</label> 
-        <select name="filterBy" id="filterBy">
-            <optgroup th:field=*{filterBy}>
-              <option value="">Select...</option>
-                <option value="name">Name</option>
-                <option value="startdate">Start Date</option>
-                <option value="enddate">End Date</option>
-            </optgroup>
-        </select>
-
-        <label>Search value</label>
-        <input type="text" th:field="*{value}" id="value">
-
-        <input type="submit" value="Search">
-        <button class="cancel"><a th:href="@{/projects}">Unfilter</a></button>   
-      </form>
+    <div class="search-content">
+        <div class ="search-form">
+            <div class="search">
+                <label>Search by</label> 
+                <select name="filterBy" id="filterBy" required>
+                  <option selected disabled value="">Select...</option>
+                  <option value="name">Name</option>
+                  <option value="startdate">Start Date</option>
+                  <option value="enddate">End Date</option>
+                </select>
+            </div>
+            
+            <div class="value">
+                <label>Search value</label>
+                <input type="text" id="value">
+            </div>
+    
+            <button class="clear"><a th:href="@{/projects}">Clear</a></button> 
+        </div>
     </div>
   
     
@@ -42,7 +43,6 @@
               <th>Name of Project</th>     
               <th>Start Date</th>
               <th>End Date</th>
-              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -55,15 +55,10 @@
               
               <td>
                 <button>View</button>
-              </td>
-              <td>
                 <button>Edit</button>
-              </td>
-              <td>
                 <button><a th:href="@{/projects/deleted?p_id={id}(id=${project.id})}"><i class="bi bi-trash"></i>Delete</a></button>
               </td>
             </tr>
-      
           </tbody>
       </table>
     </div>
@@ -94,6 +89,7 @@
         attr = 3;    
       }
       //console.log(attr);
+      filterBy.addEventListener("click", getFilter);
     }
 
     function getFilter() {

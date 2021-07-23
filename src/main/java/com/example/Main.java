@@ -646,11 +646,9 @@ public class Main {
     }
   }
 
-  // filter by attributes
+  // employees display
   @GetMapping("/employees")
   String returnEmployeeHomepage(Map<String, Object> model) {
-    Property prop = new Property();
-    model.put("property", prop);
 
     try (Connection connection = dataSource.getConnection()) {
 
@@ -817,46 +815,6 @@ public class Main {
         return "readOnly/allEmployees_r";
       } else {
         return "userNotFound";
-      }
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
-  }
-
-  // filtered results
-  @PostMapping(path = "/employees", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String filterByProperty(Map<String, Object> model, Property prop) {
-    String filterBy = prop.getFilterBy();
-    String value = prop.getValue();
-
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      String sql = "SELECT * FROM employees WHERE " + filterBy + " = '" + value + "' ";
-      // System.out.println(sql);
-
-      ResultSet rs = stmt.executeQuery(sql);
-
-      ArrayList<Employee> output = new ArrayList<Employee>();
-      while (rs.next()) {
-        Employee emp = new Employee();
-        emp.setId(rs.getString("id"));
-        emp.setName(rs.getString("name"));
-        emp.setPosition(rs.getString("position"));
-        emp.setRole(rs.getString("role"));
-        emp.setTeam(rs.getString("team"));
-        emp.setStatus(rs.getBoolean("status"));
-        emp.setStart(rs.getDate("startdate"));
-        emp.setEnd(rs.getDate("enddate"));
-
-        output.add(emp);
-      }
-      model.put("employees", output);
-
-      if (flag && edit) {
-        return "employees/allEmployees";
-      } else {
-        return "readOnly/allEmployees_r";
       }
     } catch (Exception e) {
       model.put("message", e.getMessage());
@@ -1047,12 +1005,10 @@ public class Main {
 
   /************ PROJECTS ************/
 
-    // filter by attributes
+    // projects display
     @GetMapping("/projects")
     String returnProjectsHomepage(Map<String, Object> model) {
-      Property prop = new Property();
-      model.put("property", prop);
-  
+
       try (Connection connection = dataSource.getConnection()) {
         
         Statement stmt = connection.createStatement();
@@ -1083,42 +1039,6 @@ public class Main {
           return "readOnly/allProjects_r";
         } else {
           return "userNotFound";
-        }
-      } catch (Exception e) {
-        model.put("message", e.getMessage());
-        return "error";
-      }
-    }
-  
-    // filtered results
-    @PostMapping(path = "/projects", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-    public String filterByPropertyProj(Map<String, Object> model, Property prop) {
-      String filterBy = prop.getFilterBy();
-      String value = prop.getValue();
-  
-      try (Connection connection = dataSource.getConnection()) {
-        Statement stmt = connection.createStatement();
-        String sql = "SELECT * FROM projects WHERE " + filterBy + " = '" + value + "' ";
-        // System.out.println(sql);
-  
-        ResultSet rs = stmt.executeQuery(sql);
-  
-        ArrayList<Project> output = new ArrayList<>();
-        while (rs.next()) {
-          Project proj = new Project();
-          proj.setId(rs.getInt("id"));
-          proj.setName(rs.getString("name"));
-          proj.setStart(rs.getDate("startdate"));
-          proj.setEnd(rs.getDate("enddate"));
-  
-          output.add(proj);
-        }
-        model.put("projects", output);
-  
-        if (flag && edit) {
-          return "projects/allProjects";
-        } else {
-          return "readOnly/allProjects_r";
         }
       } catch (Exception e) {
         model.put("message", e.getMessage());

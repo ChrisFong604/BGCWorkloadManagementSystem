@@ -14,33 +14,28 @@
 
 <body>
     <div class="search-content">
-        <form action="#" method="post" th:action="@{/employees}" th:object="${property}">
-          
-          <div class="search">
-            <label>Search by</label> 
-            <select name="filterBy" id="filterBy">
-                <optgroup th:field=*{filterBy}>
-                  <option value="">Select...</option>
-                    <option value="name">Name</option>
-                    <option value="position">Employee Type</option>
-                    <option value="role">Role</option>
-                    <option value="team">Team</option>
-                    <option value="status">Hired</option>
-                    <option value="startdate">Start Date</option>
-                    <option value="enddate">End Date</option>
-                </optgroup>
-            </select>
-          </div>
-  
-          <div class="value">
-            <label>Search value</label>
-            <input type="text" th:field="*{value}" id="value">
-          </div>
-  
-          <input type="submit" value="Search">
-          <button class="clear"><a th:href="@{/employees}">Clear</a></button> 
+        <div class ="search-form">
+            <div class="search">
+                <label>Search by</label> 
+                <select name="filterBy" id="filterBy" required>
+                        <option selected disabled value="">Select...</option>
+                        <option value="name">Name</option>
+                        <option value="position">Employee Type</option>
+                        <option value="role">Role</option>
+                        <option value="team">Team</option>
+                        <option value="status">Hired</option>
+                        <option value="startdate">Start Date</option>
+                        <option value="enddate">End Date</option>
+                </select>
+            </div>
             
-          </form>
+            <div class="value">
+                <label>Search value</label>
+                <input type="text" id="value">
+            </div>
+    
+            <button class="clear"><a th:href="@{/employees}">Clear</a></button> 
+        </div>
     </div>
 
     <div class="data-table">
@@ -125,13 +120,13 @@
         //let str = "2999-12-31";
         //str.replace(/2999-12-31/g, "Permanent");
     
-        let attr;
+        let attr = 7;
         let filterBy = document.getElementById("filterBy");  
         filterBy.addEventListener("click", getAttribute);
 
         let value = document.getElementById("value");
-        value.addEventListener("keyup", getFilter)
-        
+        value.addEventListener("keyup", getFilter);
+  
         function getAttribute() {
             let val = filterBy.value;
             //console.log(val);
@@ -160,10 +155,12 @@
                 attr = 7;    
             }
             //console.log(attr);
-            }
+            filterBy.addEventListener("click", getFilter);
+        }
 
             function getFilter() {
             if (attr == 7) {
+                //alert("Please select a value to filter results.");
                 return;
             }
             var input, filter, table, tr, td, i, txtValue;
@@ -188,21 +185,21 @@
         function addColour() {
             var td = document.querySelectorAll('td')
             for (let cell of td) {
-            if (cell.innerHTML === '0.1'){
-                cell.style.backgroundColor = '#C0CFF7'
-            }
-            if (cell.innerHTML === '0.25'){
-                cell.style.backgroundColor = '#5881EA'
-            }
-            if (cell.innerHTML === '0.5' || cell.innerHTML === '0.4'){
-                cell.style.backgroundColor = '#3537DB'
-                cell.style.color = '#e6e6e6'
+                if (cell.innerHTML === '0.1'){
+                    cell.style.backgroundColor = '#C0CFF7'
+                }
+                if (cell.innerHTML === '0.25'){
+                    cell.style.backgroundColor = '#5881EA'
+                }
+                if (cell.innerHTML === '0.5' || cell.innerHTML === '0.4'){
+                    cell.style.backgroundColor = '#3537DB'
+                    cell.style.color = '#e6e6e6'
 
-            }
-            if (cell.innerHTML === '0.875' || cell.innerHTML === '0.65' ){
-                cell.style.backgroundColor = '#03045E'
-                cell.style.color = '#e6e6e6'
-            }
+                }
+                if (cell.innerHTML === '0.875' || cell.innerHTML === '0.65' ){
+                    cell.style.backgroundColor = '#03045E'
+                    cell.style.color = '#e6e6e6'
+                }
             }
         }
 
