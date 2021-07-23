@@ -16,12 +16,12 @@ public class Project {
         this.name = name;
     }
 
-    public void setProjectStart(Date projectStart) {
-        this.projectStart = projectStart;
+    public void setStart(Date start) {
+        this.start = start;
     }
 
-    public void setProjectEnd(Date projectEnd) {
-        this.projectEnd = projectEnd;
+    public void setEnd(Date end) {
+        this.end = end;
     }
 
     public int getId() {
@@ -32,11 +32,11 @@ public class Project {
         return this.name;
     }
 
-    public Date getProjectStart() {
-        return this.projectStart;
+    public Date getStart() {
+        return this.start;
     }
 
-    public Date getProjectEnd() {
-        return this.projectEnd;
+    public Date getEnd() {
+        return this.end;
     }
 }
