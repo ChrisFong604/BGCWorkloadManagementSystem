@@ -89,8 +89,8 @@ public class DashboardComponent {
 	        start = LocalDate.parse(rs4.getString("startdate"));
 	        end = LocalDate.parse(rs4.getString("enddate"));
 	      }
-	      //System.out.println(start);
-	      //System.out.println(end);
+	      // System.out.println(start);
+	      // System.out.println(end);
 
 	      /*** setting up the range of dates ***/
 	      LocalDate startRange = start.minusWeeks(2);
@@ -102,12 +102,11 @@ public class DashboardComponent {
 	        listOfDatesAll.add(localDate);
 	        localDate = localDate.plusWeeks(1);
 	      }
-	      /*for (int i = 0; i < listOfDatesAll.size()-1; i++) {
-	        if (i > 1) {
-	          listOfDates.add(listOfDatesAll.get(i));
-	        }
-	      }*/
-	      for (int i = 0; i < listOfDatesAll.size()-1; i++) {
+	      /*
+	       * for (int i = 0; i < listOfDatesAll.size()-1; i++) { if (i > 1) {
+	       * listOfDates.add(listOfDatesAll.get(i)); } }
+	       */
+	      for (int i = 0; i < listOfDatesAll.size() - 1; i++) {
 	        listOfDates.add(listOfDatesAll.get(i));
 	      }
 	      model.put("listOfDates", listOfDates);
@@ -118,13 +117,13 @@ public class DashboardComponent {
 	        ArrayList<Double> empRampUp = new ArrayList<>();
 	    
 	        Date date = employee.getStart();
-	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-	        String strsDate = dateFormat.format(date);  
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+	        String strsDate = dateFormat.format(date); 
 	        Date edate = employee.getEnd();
-	        String streDate = dateFormat.format(edate);  
-	        //startDates.add(strsDate);
-	        //System.out.println(strsDate);
-	        //System.out.println(streDate);
+	        String streDate = dateFormat.format(edate); 
+	        // startDates.add(strsDate);
+	        // System.out.println(strsDate);
+	        // System.out.println(streDate);
 	        boolean isBefore = LocalDate.parse(strsDate).isBefore(startRange);
 	        boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
 	        if (!isAfter) {
@@ -132,7 +131,7 @@ public class DashboardComponent {
 
 	          /*** ramp up ***/
 	          String position = employee.getPosition();
-	          RampUp empRU =  new RampUp();
+	          RampUp empRU = new RampUp();
 	          String st = "permanent";
 	          if (position.equals(st)) {
 	            empRU.setWeek1(0.1);
@@ -140,8 +139,7 @@ public class DashboardComponent {
 	            empRU.setWeek3(0.5);
 	            empRU.setWeek4(0.875);
 	            empRU.setWeek5(0.875);
-	          }
-	          else {
+	          } else {
 	            empRU.setWeek1(0.1);
 	            empRU.setWeek2(0.25);
 	            empRU.setWeek3(0.4);
@@ -158,79 +156,66 @@ public class DashboardComponent {
 	              empRampUp.add(empRU.getWeek4());
 	              flag1 = true;
 	              week = 4;
-	            }
-	            else if (!flag1 && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))) {
+	            } else if (!flag1 && LocalDate.parse(strsDate).isBefore(start.minusWeeks(1))) {
 	              empRampUp.add(empRU.getWeek3());
 	              flag1 = true;
 	              week = 3;
-	            }
-	            else if (!flag1 && LocalDate.parse(strsDate).isBefore(start)) {
+	            } else if (!flag1 && LocalDate.parse(strsDate).isBefore(start)) {
 	              empRampUp.add(empRU.getWeek2());
 	              flag1 = true;
 	              week = 2;
-	            }
-	            else if (flag1 && week >= 1 && week <= 4) {
+	            } else if (flag1 && week >= 1 && week <= 4) {
 	              if (LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i)) ||
 	              LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
 	                if (week == 1) {
 	                  empRampUp.add(0.0);
 	                  week++;
-	                }
-	                else if (week == 2) {
+	                } else if (week == 2) {
 	                  empRampUp.add(0.0);
 	                  week++;
-	                }
-	                else if (week == 3) {
+	                } else if (week == 3) {
 	                  empRampUp.add(0.0);
 	                  week++;
-	                }
-	                else if (week == 4) {
+	                } else if (week == 4) {
 	                  empRampUp.add(0.0);
 	                  week = 0;
 	                }
-	              }
-	              else {
+	              } else {
 	                if (week == 1) {
 	                  empRampUp.add(empRU.getWeek2());
 	                  week++;
-	                }
-	                else if (week == 2) {
+	                } else if (week == 2) {
 	                  empRampUp.add(empRU.getWeek3());
 	                  week++;
-	                }
-	                else if (week == 3) {
+	                } else if (week == 3) {
 	                  empRampUp.add(empRU.getWeek4());
 	                  week++;
-	                }
-	                else if (week == 4) {
+	                } else if (week == 4) {
 	                  empRampUp.add(empRU.getWeek5());
 	                  week = 0;
 	                }
 	              }
-	            }
-	            else if (!flag1 && (LocalDate.parse(strsDate).equals(listOfDatesAll.get(i)) ||
+	            } else if (!flag1 && (LocalDate.parse(strsDate).equals(listOfDatesAll.get(i)) ||
 	                     LocalDate.parse(strsDate).isBefore(listOfDatesAll.get(i+1)))) {
 	              //System.out.println(listOfDatesAll.get(i));
 	              //System.out.println(listOfDatesAll.get(i+1));
 	              empRampUp.add(empRU.getWeek1());
 	              flag1 = true;
 	              week++;
-	            }
-	            else if (LocalDate.parse(strsDate).isAfter(listOfDatesAll.get(i)) || 
+	            } else if (LocalDate.parse(strsDate).isAfter(listOfDatesAll.get(i)) || 
 	                     LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i)) ||
 	                     LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
 	              empRampUp.add(0.0);
-	            }
-	            else {
+	            } else {
 	              empRampUp.add(empRU.getWeek5());
 	            }
 	          }
 	          employee.setRampUp(empRampUp);
 	        }
-	        //System.out.println(empRampUp.size());
-	        /*for (double r : empRampUp) {
-	          System.out.println(r);
-	        }*/
+	        // System.out.println(empRampUp.size());
+	        /*
+	         * for (double r : empRampUp) { System.out.println(r); }
+	         */
 	      }
 	      model.put("empInRange", empInRange);
 	      if (flag && edit) {
@@ -247,8 +232,9 @@ public class DashboardComponent {
 	  }
 	
 	String dashboardComponent(Map<String, Object> model, boolean flag, boolean edit) {
-	    /*RangeInput range = new RangeInput();
-	    model.put("rangeEmpty", range);*/
+		/*
+	     * RangeInput range = new RangeInput(); model.put("rangeEmpty", range);
+	     */
 	    try (Connection connection = dataSource.getConnection()) {
 	      Statement stmt = connection.createStatement();
 	      
@@ -319,8 +305,8 @@ public class DashboardComponent {
 	        start = LocalDate.parse(rs4.getString("startdate"));
 	        end = LocalDate.parse(rs4.getString("enddate"));
 	      }
-	      //System.out.println(start);
-	      //System.out.println(end);
+	      // System.out.println(start);
+	      // System.out.println(end);
 
 	      /*** setting up the range of dates ***/
 	      LocalDate startRange = start.minusWeeks(2);
@@ -332,11 +318,10 @@ public class DashboardComponent {
 	        listOfDatesAll.add(localDate);
 	        localDate = localDate.plusWeeks(1);
 	      }
-	      /*for (int i = 0; i < listOfDatesAll.size()-1; i++) {
-	        if (i > 1) {
-	          listOfDates.add(listOfDatesAll.get(i));
-	        }
-	      }*/
+	      /*
+	       * for (int i = 0; i < listOfDatesAll.size()-1; i++) { if (i > 1) {
+	       * listOfDates.add(listOfDatesAll.get(i)); } }
+	       */
 	      for (int i = 0; i < listOfDatesAll.size()-1; i++) {
 	        listOfDates.add(listOfDatesAll.get(i));
 	      }
@@ -348,13 +333,13 @@ public class DashboardComponent {
 	        ArrayList<Double> empRampUp = new ArrayList<>();
 	    
 	        Date date = employee.getStart();
-	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-	        String strsDate = dateFormat.format(date);  
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+	        String strsDate = dateFormat.format(date);
 	        Date edate = employee.getEnd();
-	        String streDate = dateFormat.format(edate);  
-	        //startDates.add(strsDate);
-	        //System.out.println(strsDate);
-	        //System.out.println(streDate);
+	        String streDate = dateFormat.format(edate);
+	        // startDates.add(strsDate);
+	        // System.out.println(strsDate);
+	        // System.out.println(streDate);
 	        boolean isBefore = LocalDate.parse(strsDate).isBefore(startRange);
 	        boolean isAfter = LocalDate.parse(strsDate).isAfter(end);
 	        if (!isBefore && !isAfter) {
@@ -362,7 +347,7 @@ public class DashboardComponent {
 
 	          /*** ramp up ***/
 	          String position = employee.getPosition();
-	          RampUp empRU =  new RampUp();
+	          RampUp empRU = new RampUp();
 	          String st = "permanent";
 	          if (position.equals(st)) {
 	            empRU.setWeek1(0.1);
@@ -370,8 +355,7 @@ public class DashboardComponent {
 	            empRU.setWeek3(0.5);
 	            empRU.setWeek4(0.875);
 	            empRU.setWeek5(0.875);
-	          }
-	          else {
+	          } else {
 	            empRU.setWeek1(0.1);
 	            empRU.setWeek2(0.25);
 	            empRU.setWeek3(0.4);
@@ -388,81 +372,68 @@ public class DashboardComponent {
 	              empRampUp.add(empRU.getWeek3());
 	              flag1 = true;
 	              week = 3;
-	            }
-	            else if (!flag1 && LocalDate.parse(strsDate).isBefore(start)) {
+	            } else if (!flag1 && LocalDate.parse(strsDate).isBefore(start)) {
 	              empRampUp.add(empRU.getWeek2());
 	              flag1 = true;
 	              week = 2;
-	            }
-	            else if (flag1 && week >= 1 && week <= 4) {
+	            } else if (flag1 && week >= 1 && week <= 4) {
 	              if (LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i)) ||
 	              LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
 	                if (week == 1) {
 	                  empRampUp.add(0.0);
 	                  week++;
-	                }
-	                else if (week == 2) {
+	                } else if (week == 2) {
 	                  empRampUp.add(0.0);
 	                  week++;
-	                }
-	                else if (week == 3) {
+	                } else if (week == 3) {
 	                  empRampUp.add(0.0);
 	                  week++;
-	                }
-	                else if (week == 4) {
+	                } else if (week == 4) {
 	                  empRampUp.add(0.0);
 	                  week = 0;
 	                }
-	              }
-	              else {
+	              } else {
 	                if (week == 1) {
 	                  empRampUp.add(empRU.getWeek2());
 	                  week++;
-	                }
-	                else if (week == 2) {
+	                } else if (week == 2) {
 	                  empRampUp.add(empRU.getWeek3());
 	                  week++;
-	                }
-	                else if (week == 3) {
+	                } else if (week == 3) {
 	                  empRampUp.add(empRU.getWeek4());
 	                  week++;
-	                }
-	                else if (week == 4) {
+	                } else if (week == 4) {
 	                  empRampUp.add(empRU.getWeek5());
 	                  week = 0;
 	                }
 	              }
-	            }
-	            else if (!flag1 && (LocalDate.parse(strsDate).equals(listOfDatesAll.get(i)) ||
+	            } else if (!flag1 && (LocalDate.parse(strsDate).equals(listOfDatesAll.get(i)) ||
 	                     LocalDate.parse(strsDate).isBefore(listOfDatesAll.get(i+1)))) {
 	              //System.out.println(listOfDatesAll.get(i));
 	              //System.out.println(listOfDatesAll.get(i+1));
 	              empRampUp.add(empRU.getWeek1());
 	              flag1 = true;
 	              week++;
-	            }
-	            else if (LocalDate.parse(strsDate).isAfter(listOfDatesAll.get(i)) || 
+	            } else if (LocalDate.parse(strsDate).isAfter(listOfDatesAll.get(i)) || 
 	                     LocalDate.parse(streDate).isBefore(listOfDatesAll.get(i)) ||
 	                     LocalDate.parse(streDate).equals(listOfDatesAll.get(i))) {
 	              empRampUp.add(0.0);
-	            }
-	            else {
+	            } else {
 	              empRampUp.add(empRU.getWeek5());
 	            }
 	          }
 	          employee.setRampUp(empRampUp);
 	        }
-	        //System.out.println(empRampUp.size());
-	        /*for (double r : empRampUp) {
-	          System.out.println(r);
-	        }*/
+	        // System.out.println(empRampUp.size());
+	        /*
+	         * for (double r : empRampUp) { System.out.println(r); }
+	         */
 	      }
 	      model.put("empInRange", empInRange);
 	      
-	      // print to check
-	      /*for (Employee emp : empInRange) {
-	        System.out.println(emp.getName());
-	      }*/
+	      /*
+	       * for (Employee emp : empInRange) { System.out.println(emp.getName()); }
+	       */
 	      
 	      if (flag && edit) {
 	        return "index";
@@ -498,12 +469,8 @@ public class DashboardComponent {
 	public String deletetabledataComponent(Map<String, Object> model) throws Exception {
 	    try (Connection connection = dataSource.getConnection()) {
 	      Statement stmt = connection.createStatement();
-	      stmt.executeUpdate(
-	        "delete from employees"
-	      );
-	      stmt.executeUpdate(
-	        "delete from employees2"
-	      );
+	      stmt.executeUpdate("delete from employees");
+	      stmt.executeUpdate("delete from employees2");
 	      return "redirect:/dashboard";
 	    } catch (Exception e) {
 	      model.put("message", e.getMessage());

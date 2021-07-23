@@ -85,7 +85,8 @@ public class Main {
   String loginPageHandler(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
+      stmt.executeUpdate(
+    		  "CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
       flag = false;
       edit = false;
     
@@ -93,7 +94,7 @@ public class Main {
       UserLogin user = new UserLogin();
       model.put("user", user);
       return "login";
-    }catch (Exception e) {
+    } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
     }
@@ -105,7 +106,7 @@ public class Main {
     String pw = user.getPassword();
     String access = user.getAccess();
 
-    if (username.equals("admin") && pw.equals("123")){
+    if (username.equals("admin") && pw.equals("123")) {
       flag = true;
       edit = true;
       return "redirect:/dashboard";
@@ -237,6 +238,11 @@ public class Main {
   String returnProjectHomepage(Map<String, Object> model) {
     return projectsComponent.returnProjectHomepageComponent(model, flag, edit);
   }
+  
+  @PostMapping(path = "/projects", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String filterByPropertyProj(Map<String, Object> model, Property prop) {
+    return projectsComponent.filterByPropertyProjComponent(model, prop, flag, edit);
+  }
 
   @GetMapping("/projects/create")
   public String returnProjectCreate(Map<String, Object> model) throws Exception {
@@ -246,6 +252,11 @@ public class Main {
   @PostMapping(path = "/projects/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String handleProjectSubmit(Map<String, Object> model,Project project) throws Exception {
     return projectsComponent.handleProjectSubmitComponent(model, project);
+  }
+  
+  @GetMapping("/projects/deleted")
+  public String deleteProject(Map<String, Object> model, @RequestParam String p_id) {
+	  return projectsComponent.deleteProjectComponent(model, p_id);
   }
 
   @Bean
