@@ -78,10 +78,9 @@ public class Main {
           "CREATE TABLE IF NOT EXISTS login (id serial, username varchar(20), password varchar(20), access varchar(20))");
       flag = false;
       edit = false;
-
       UserLogin user = new UserLogin();
       model.put("user", user);
-      return "login";
+      return login;
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
@@ -136,10 +135,10 @@ public class Main {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+              + "team varchar(40), status boolean, startdate date, enddate date)");
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+              + "team varchar(40), status boolean, startdate date, enddate date)");
 
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
 
@@ -545,7 +544,7 @@ public class Main {
 
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+              + "team varchar(40), status boolean, startdate date, enddate date)");
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
       String sql = "INSERT INTO range (startdate, enddate) VALUES ('" + range.getStart() + "','" + range.getEnd()
           + "')";
@@ -654,10 +653,10 @@ public class Main {
 
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+              + "team varchar(40), status boolean, startdate date, enddate date)");
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+              + "team varchar(40), status boolean, startdate date, enddate date)");
       String sql = "SELECT * FROM employees ORDER BY startdate ASC";
       ResultSet rs = stmt.executeQuery(sql);
 
@@ -950,15 +949,15 @@ public class Main {
       // Creates a universally unique ID for each employee (Only exists in Database)
       final String UniqueID = UUID.randomUUID().toString().replace("-", "");
 
-      String sql = "INSERT INTO employees (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+      String sql = "INSERT INTO employees (id, name, position, role, team, status, startdate, enddate) VALUES ('"
           + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
-          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
-          + employee.getEnd() + "')";
+          + employee.getTeam() + "'," + employee.getStatus() + ",'" + employee.getStart() + "','" + employee.getEnd()
+          + "')";
 
-      String sql2 = "INSERT INTO employees2 (id, name, position, role, team, status, capacity, startdate, enddate) VALUES ('"
+      String sql2 = "INSERT INTO employees2 (id, name, position, role, team, status, startdate, enddate) VALUES ('"
           + UniqueID + "','" + employee.getName() + "','" + employee.getPosition() + "','" + employee.getRole() + "','"
-          + employee.getTeam() + "'," + employee.getStatus() + "," + 0.1 + ",'" + employee.getStart() + "','"
-          + employee.getEnd() + "')";
+          + employee.getTeam() + "'," + employee.getStatus() + ",'" + employee.getStart() + "','" + employee.getEnd()
+          + "')";
 
       stmt.executeUpdate(sql);
       stmt.executeUpdate(sql2);
