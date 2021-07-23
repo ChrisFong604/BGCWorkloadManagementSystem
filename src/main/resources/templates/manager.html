@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
     <title>New Managers</title>
 </head>
 
@@ -13,13 +14,19 @@
 
 <body>
 
-    <form action="#" method="post" th:action="@{/manager/create}" th:object="${user}">
+    <form action="#" method="post" th:action="@{/manager/create}" th:object="${user}" class="formtemplate">
+      <h1>Create a user</h1>
+      <ul>
+      <li>
         <label for="uName">Create Username</label> <br>
         <input type="text" id="uName" required th:field="*{username}"> <br>
+      </li>
 
+      <li>
         <label for="pwd">Create Password</label> <br>
         <input type="password" id="pwd" required th:field="*{password}"> <br>
-
+      </li>
+      <li>
         <label>Type of Access</label> 
         <select name="access" id="access">
             <optgroup th:field=*{access}>
@@ -28,12 +35,16 @@
                 <option value="edit">Edit</option>
             </optgroup>
         </select>
+      </li>
 
+      <li>
         <input type="submit" value="Submit">
         <button><a th:href="@{/manager/create}">Cancel</a></button>
+      </li>
+      </ul>
     </form>
 
-    <table class="data-table">
+    <table>
 
         <thead>
           <tr>
@@ -53,7 +64,6 @@
             <td>
               <button><a th:href="@{/manager/deleted?m_id={id}(id=${manager.getID()})}"><i class="bi bi-trash"></i>Delete</a></button>
             </td> 
-  
         </tr>
     </table>
 
