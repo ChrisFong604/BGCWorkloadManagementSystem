@@ -42,10 +42,10 @@ public class DashboardComponent {
 	      Statement stmt = connection.createStatement();
 	      stmt.executeUpdate(
 	          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-	              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+	        		+ "team varchar(40), status boolean, startdate date, enddate date)");
 	      stmt.executeUpdate(
 	          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-	              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+	        		+ "team varchar(40), status boolean, startdate date, enddate date)");
 
 	      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
 
@@ -60,7 +60,6 @@ public class DashboardComponent {
 	        emp.setRole(rs.getString("role"));
 	        emp.setTeam(rs.getString("team"));
 	        emp.setStatus(rs.getBoolean("status"));
-	        emp.setCapacity(rs.getFloat("capacity"));
 	        emp.setStart(rs.getDate("startdate"));
 	        emp.setEnd(rs.getDate("enddate"));
 	        output.add(emp);
@@ -255,10 +254,10 @@ public class DashboardComponent {
 	      
 	      stmt.executeUpdate(
 	          "CREATE TABLE IF NOT EXISTS employees (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-	              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+	        		+ "team varchar(40), status boolean, startdate date, enddate date)");
 	      stmt.executeUpdate(
 	          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-	              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+	        		+ "team varchar(40), status boolean, startdate date, enddate date)");
 
 	      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
 
@@ -273,7 +272,6 @@ public class DashboardComponent {
 	        emp.setRole(rs.getString("role"));
 	        emp.setTeam(rs.getString("team"));
 	        emp.setStatus(rs.getBoolean("status"));
-	        emp.setCapacity(rs.getFloat("capacity"));
 	        emp.setStart(rs.getDate("startdate"));
 	        emp.setEnd(rs.getDate("enddate"));
 	        output.add(emp);
@@ -292,7 +290,6 @@ public class DashboardComponent {
 	        emp2.setRole(rs2.getString("role"));
 	        emp2.setTeam(rs2.getString("team"));
 	        emp2.setStatus(rs2.getBoolean("status"));
-	        emp2.setCapacity(rs2.getFloat("capacity"));
 	        emp2.setStart(rs2.getDate("startdate"));
 	        emp2.setEnd(rs2.getDate("enddate"));
 	        output2.add(emp2);
@@ -486,7 +483,7 @@ public class DashboardComponent {
 	      
 	      stmt.executeUpdate(
 	          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
-	              + "team varchar(40), status boolean, capacity float, startdate date, enddate date)");
+	        	  + "team varchar(40), status boolean, startdate date, enddate date)");
 	      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
 	      String sql = "INSERT INTO range (startdate, enddate) VALUES ('" + range.getStart() + "','" + range.getEnd() + "')";
 	      stmt.executeUpdate(sql);

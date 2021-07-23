@@ -148,7 +148,6 @@ public class Main {
     return dashboardComponent.workloadComponent(model, flag, edit);
   }
 
-
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
 	  return dashboardComponent.dashboardComponent(model, flag, edit);
