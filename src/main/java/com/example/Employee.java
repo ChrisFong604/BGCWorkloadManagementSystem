@@ -99,8 +99,7 @@ public class Employee {
         return this.end;
     }
 
-    public ArrayList getRampUp() {
+    public ArrayList<Double> getRampUp() {
         return this.rampUp;
     }
-
 }

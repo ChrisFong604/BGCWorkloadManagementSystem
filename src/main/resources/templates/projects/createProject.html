@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::header})}"
+></html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,22 +23,22 @@
             <label for="name">Project Name</label> <br>
             <input type="text" th:field=*{name} id="name" required> <br>
 
-            <label>Start Date</label>
+            <label>Start Date</label> <br>
             <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd" required> <br>
         
-            <br>
-            <label>End Date</label>
+            <label>End Date</label> <br>
             <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end" required> <br>
 
             <!-- <label for="workload">Workload</label> <br>
             <input type="text" th:field="*{workload}" id="workload" required> <br> -->
 
-            <div class="buttons">
-                <input type="submit" value="Save">
-                <button class="cancel"><a th:href="@{/projects}" required>Cancel</a></button>
-            </div>
-
-        </form>
-    </div>
+			<div class="buttons">
+				<input type="submit" value="Save" />
+				<button class="cancel">
+					<a th:href="@{/projects}" required>Cancel</a>
+				</button>
+			</div>
+		</form>
+	</div>
 </body>
 </html>
