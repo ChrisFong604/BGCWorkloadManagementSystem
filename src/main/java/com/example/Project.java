@@ -1,13 +1,16 @@
 package com.example;
 
 import java.sql.Date;
-import java.util.ArrayList;
 
 public class Project {
+    private int id;
     private String name;
-    private Date projectStart;
-    private Date projectEnd;
-    private ArrayList<Employee> assignedEmployees;
+    private Date start;
+    private Date end;
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -21,8 +24,8 @@ public class Project {
         this.projectEnd = projectEnd;
     }
 
-    public void setAssignedEmployees(ArrayList<Employee> assignedEmployees) {
-        this.assignedEmployees = assignedEmployees;
+    public int getId() {
+        return this.id;
     }
 
     public String getName() {
@@ -35,9 +38,5 @@ public class Project {
 
     public Date getProjectEnd() {
         return this.projectEnd;
-    }
-
-    public ArrayList<Employee> getAssignedEmployees() {
-        return this.assignedEmployees;
     }
 }

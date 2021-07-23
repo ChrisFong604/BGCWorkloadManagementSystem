@@ -1,33 +1,5 @@
 <!DOCTYPE html>
 
-<!--
-	Start Date: July 3
-	End Date: Jul 24th
-	Number of Workers: 5
-
-	Weeks Shown:
-	Week July 3, 5 
-	Week July 10, 4
-	Week July 17, 7
-	Week July 24, 2
-
-	project(name, startdate, enddate, array of workers per week)
--->
-<html
-	xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{fragments/layout :: layout (~{::header})}"
-></html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
-		<title>Create New Project</title>
-	</head>
-
-	<header></header>
-
 	<body>
 		<form
 			action="#"
@@ -46,7 +18,7 @@
 					<label>Start Date</label>
 					<input
 						type="date"
-						th:field="*{projectStart}"
+						th:field="*{start}"
 						placeholder="yyyy-mm-dd"
 						required
 					/>
@@ -56,7 +28,7 @@
 					<label>End Date</label>
 					<input
 						type="date"
-						th:field="*{projectEnd}"
+						th:field="*{end}"
 						placeholder="yyyy-mm-dd"
 						id="end"
 						required
