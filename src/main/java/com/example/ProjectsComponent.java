@@ -152,5 +152,6 @@ public class ProjectsComponent {
 	      model.put("message", e.getMessage());
 	      return "error";
 	    }
+	}
 	
 }
