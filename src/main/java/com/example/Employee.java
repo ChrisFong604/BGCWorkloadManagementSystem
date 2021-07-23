@@ -31,21 +31,6 @@ public class Employee {
      * all getters
      */
 
-    public Employee() {
-    }
-
-    public Employee(String id, String name, String position, String role, String team, Boolean status, Date start,
-            Date end) {
-        this.id = id;
-        this.name = name;
-        this.position = position;
-        this.role = role;
-        this.team = team;
-        this.status = status;
-        this.start = start;
-        this.end = end;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
