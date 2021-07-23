@@ -1,81 +1,105 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::header})}"
+></html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/createEmployee.css" />
-    <title>Create New Profile</title> 
-</head>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/stylesheets/createEmployee.css"
+		/>
+		<title>Create New Profile</title>
+	</head>
 
-<header></header>
+	<header></header>
 
-<body>
-    <div class="container">
-        <h1 class="heading">Profile</h1>
-        <form action="#" method="post" th:action="@{/employees/create}" th:object="${employee}">
-            <label for="name">Name/Resource</label> <br>
-            <input type="text" th:field=*{name} id="name" required> <br>
+	<body>
+		<div class="container">
+			<h1 class="heading">Profile</h1>
+			<form
+				action="#"
+				method="post"
+				th:action="@{/employees/create}"
+				th:object="${employee}"
+			>
+				<label for="name">Name/Resource</label> <br />
+				<input type="text" th:field="*{name}" id="name" required /> <br />
 
-            <label>Select employee type</label>
-            <select name="position" id="position" required>
-                <optgroup th:field=*{position}>
-                    <option value="">Select...</option>
-                    <option value="permanent">Permanent Hire</option>
-                    <option value="intern">Co-op/Intern</option>
-                </optgroup>
-            </select>
+				<label>Select employee type</label>
+				<select name="position" id="position" required>
+					<optgroup th:field="*{position}">
+						<option value="">Select...</option>
+						<option value="permanent">Permanent Hire</option>
+						<option value="intern">Co-op/Intern</option>
+					</optgroup>
+				</select>
 
-            <br><label for="role">Role</label> 
-            <input type="text" th:field=*{role} id="role" required> <br>
+				<br /><label for="role">Role</label>
+				<input type="text" th:field="*{role}" id="role" required /> <br />
 
-            <label for="team">Team</label> <br>
-            <input type="text" th:field=*{team} id="team" required> <br>
+				<label for="team">Team</label> <br />
+				<input type="text" th:field="*{team}" id="team" required /> <br />
 
-            <label for="status">Employee status</label>
-            <select name="status" id="status" required>
-                <optgroup th:field=*{status} label="status">
-                    <option value="">Select...</option>
-                    <option value="TRUE">Hired</option>
-                    <option value="FALSE">Projected</option>
-                </optgroup>
-            </select>
+				<label for="status">Employee status</label>
+				<select name="status" id="status" required>
+					<optgroup th:field="*{status}" label="status">
+						<option value="">Select...</option>
+						<option value="TRUE">Hired</option>
+						<option value="FALSE">Projected</option>
+					</optgroup>
+				</select>
 
-            <br>
-            <label>Start Date</label>
-            <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd" required> <br>
-        
-            <br>
-            <label>End Date (Co-op/Intern)</label>
-            <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end" required> <br>
+				<br />
+				<label>Start Date</label>
+				<input
+					type="date"
+					th:field="*{start}"
+					placeholder="yyyy-mm-dd"
+					required
+				/>
+				<br />
 
-            <div class="buttons">
-                <input type="submit" value="Save">
-                <button class="cancel"><a th:href="@{/employees}" required>Cancel</a></button>
-            </div>
-        </form>
-    </div>
+				<br />
+				<label>End Date (Co-op/Intern)</label>
+				<input
+					type="date"
+					th:field="*{end}"
+					placeholder="yyyy-mm-dd"
+					id="end"
+					required
+				/>
+				<br />
 
-    <script>
-        let status = document.getElementById("position");
-        let end = document.getElementById("end");
-    
-        status.addEventListener("click", displayDate);
-    
-        function displayDate() {
-            let val = status.value;
-            //console.log(val);
-            if (val == "permanent") {
-                end.valueAsDate = new Date("2999-12-31");
-            }
-            else {
-                end.valueAsDate = new Date("yyyy-mm-dd");
-            }
-        }
-    </script>
+				<div class="buttons">
+					<input type="submit" value="Save" />
+					<button class="cancel">
+						<a th:href="@{/employees}" required>Cancel</a>
+					</button>
+				</div>
+			</form>
+		</div>
 
-</body>
+		<script>
+			let status = document.getElementById("position");
+			let end = document.getElementById("end");
 
+			status.addEventListener("click", displayDate);
+
+			function displayDate() {
+				let val = status.value;
+				//console.log(val);
+				if (val == "permanent") {
+					end.valueAsDate = new Date("2999-12-31");
+				} else {
+					end.valueAsDate = new Date("yyyy-mm-dd");
+				}
+			}
+		</script>
+	</body>
 </html>
