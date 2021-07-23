@@ -6,42 +6,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/allEmployees.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/allEmpOrig.css" />
     <title>Current Employees</title>
 </head>
 
 <header></header>
 
 <body>
-    <div class="search-content">
-        <form action="#" method="post" th:action="@{/employees}" th:object="${property}">
-          
-          <div class="search">
-            <label>Search by</label> 
-            <select name="filterBy" id="filterBy">
-                <optgroup th:field=*{filterBy}>
-                  <option value="">Select...</option>
-                    <option value="name">Name</option>
-                    <option value="position">Employee Type</option>
-                    <option value="role">Role</option>
-                    <option value="team">Team</option>
-                    <option value="status">Hired</option>
-                    <option value="startdate">Start Date</option>
-                    <option value="enddate">End Date</option>
-                </optgroup>
-            </select>
-          </div>
-  
-          <div class="value">
-            <label>Search value</label>
-            <input type="text" th:field="*{value}" id="value">
-          </div>
-  
-          <input type="submit" value="Search">
-          <button class="clear"><a th:href="@{/employees}">Clear</a></button> 
-            
-          </form>
-      </div>
+    <div class="container">
+      <form action="#" method="post" th:action="@{/employees}" th:object="${property}">
+        <label>Search by</label> 
+        <select name="filterBy" id="filterBy">
+            <optgroup th:field=*{filterBy}>
+              <option value="">Select...</option>
+                <option value="name">Name</option>
+                <option value="position">Employee Type</option>
+                <option value="role">Role</option>
+                <option value="team">Team</option>
+                <option value="status">Hired</option>
+                <option value="startdate">Start Date</option>
+                <option value="enddate">End Date</option>
+            </optgroup>
+        </select>
+
+        <label>Search value</label>
+        <input type="text" th:field="*{value}" id="value">
+
+        <input type="submit" value="Search">
+        <button class="cancel"><a th:href="@{/employees}">Unfilter</a></button>   
+      </form>
+    </div>
   
     
     <div class="data-table">
@@ -55,7 +49,8 @@
               <th>Hired</th>
               <th>Start Date</th>
               <th>End Date</th>
-              <th>Action</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
 
@@ -70,16 +65,20 @@
               <td th:text="${employee.end}"></td>
               
               <td>
-                <button class="action"><a th:href="@{/employees/edit?rid={id}(id = ${employee.getId()})}"><i class="bi bi-pencil-square"></i></a></button>
-                <button class="action"><a th:href="@{/employees/deleted?e_id={id}(id=${employee.id})}"><i class="bi bi-trash"></i></a></button>
+                <button><a th:href="@{/employees/edit?rid={id}(id = ${employee.getId()})}">Edit</a></button>
               </td>
-             
+              <td>
+                <button><a th:href="@{/employees/deleted?e_id={id}(id=${employee.id})}"><i class="bi bi-trash"></i>Delete</a></button>
+              </td>
             </tr>
+      
           </tbody>
       </table>
     </div>
 
-  <div class="visual-table">
+  <button onclick="addColour()">Add Color!</button>
+
+  <div class="visual">
     <table id="tableVisual">
         <thead>
             <tr>
@@ -101,12 +100,6 @@
     </table>
   </div> 
 
-
-  <span>
-    <button onclick="addColour()">Add Color!</button>
-    <button onClick="window.location.reload();">Remove Color!</button>
-  </span>
-  
   <script>
   
   	//replace infinite date with text 

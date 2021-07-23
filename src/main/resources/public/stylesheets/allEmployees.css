@@ -1,48 +1,102 @@
-.container {
-    margin-top: 10px;
-    margin-left: 10px;
-}
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
 
-.data-table {
-    overflow-y: auto;
+.search-content {
+    width: 200px;
     margin: auto;
-    width: 90%;
-    height: 90%;
+    margin-bottom: 0;
+    display: inline;
+    padding: 20px;
+    text-align: center;
 }
 
-.data-table thead th {
+.search, 
+.value {
+    display: inline-block;
+    text-align: left;
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 7px 15px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/*** table ***/
+
+.data-table,
+.visual-table {
+    overflow-y: auto;
+    height: 300px;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+.data-table thead th,
+.visual-table thead th {
     position: sticky;
     top: 0;
+    background-color: #009879;
+    color: white;
+    text-align: left;
+    font-weight: bold;
 }
 
 table {
     border-collapse: collapse;
-    width: 99%;
-    padding: 10px;
-    margin: 10px;
+    width: 100%;
+    /*margin: 0px auto;*/
+    font-family: "Montserrat", sans-serif;
 }
 
-th, td {
-    padding: 8px;
+th, 
+td {
+    padding: 12px 8px;
 }
 
-th {
-    background: #eee;
+tbody tr {
+    border-bottom: 1px solid #dddddd;
 }
 
-.data-table, .data-table td {
-    box-shadow: inset 1px -1px rgb(255, 255, 255);
+tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
 }
 
-.data-table th {
-    box-shadow: inset 1px 1px rgb(255, 255, 255), 0 1px #000;
+/*** buttons ***/
+.bi {
+    font-size: medium;
+    color: white;
 }
 
-.visual {
-    overflow-x: auto;
+button {
+    padding: 8px 20px;
+    border-radius: 4px;
+    border: none;
+    background-color: rgb(21, 21, 151);
+    color: white;
 }
 
+input[type=submit] {
+    padding: 8px 20px;
+    border-radius: 4px;
+    border: none;
+    background-color: rgb(21, 21, 151);
+    color: white;
+}
 
+input[type=submit]:hover, button:hover {
+    background-color: rgb(14, 14, 122);
+}
 
+.action {
+    background-color: #009879;
+    padding: 5px 7px;
+}
 
-
+a {
+    color: white;
+    text-decoration: none;
+}
