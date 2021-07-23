@@ -1078,11 +1078,14 @@ public class Main {
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(50), projectstart date, projectend date, PRIMARY KEY (id))");
 
-      /*stmt.executeUpdate(
-          "CREATE TABLE IF NOT EXISTS employees_to_projects (project_id varchar(40) NOT NULL, CONSTRAINT fk_project_id FOREIGN KEY(id) REFERENCES projects(id) [ON DELETE CASCADE];");*/
+      /*
+       * stmt.executeUpdate(
+       * "CREATE TABLE IF NOT EXISTS employees_to_projects (project_id varchar(40) NOT NULL, CONSTRAINT fk_project_id FOREIGN KEY(id) REFERENCES projects(id) [ON DELETE CASCADE];"
+       * );
+       */
 
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS employees_to_projects (employee_id varchar(40) NOT NULL, "
-          + "CONSTRAINT fk_employee_id FOREIGN KEY(id) REFERENCES employees(id) [ON DELETE CASCADE]");
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS employees_to_projects (project_id int NOT NULL,"
+          + "CONSTRAINT fk_project_id FOREIGN KEY(project_id) REFERENCES projects(id) ON DELETE CASCADE)");
 
       // Creates a universally unique ID for each employee (Only exists in Database)
 
