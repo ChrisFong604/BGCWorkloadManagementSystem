@@ -20,8 +20,6 @@ public class Employee {
     private Date start;
     private Date end;
 
-    private ArrayList<Double> rampUp;
-
     /*
      * Name Role Working Capacity (time-based) Start String projected/hired full
      * time/part time/co-op Co-op end date
@@ -63,10 +61,6 @@ public class Employee {
         this.end = end;
     }
 
-    public void setRampUp(ArrayList<Double> rampUp) {
-        this.rampUp = rampUp;
-    }
-
     public String getId() {
         return this.id;
     }
@@ -97,10 +91,6 @@ public class Employee {
 
     public Date getEnd() {
         return this.end;
-    }
-
-    public ArrayList getRampUp() {
-        return this.rampUp;
     }
 
 }

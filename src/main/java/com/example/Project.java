@@ -1,14 +1,11 @@
 package com.example;
 
 import java.sql.Date;
-import java.util.ArrayList;
 
 public class Project {
     private String name;
     private Date start;
     private Date end;
-    private Double workload;
-    private ArrayList<Date> Weeks;
 
     public void setName(String name) {
         this.name = name;
@@ -22,10 +19,6 @@ public class Project {
         this.end = end;
     }
 
-    public void setWorkLoad(Double workload) {
-        this.workload = workload;
-    }
-
     public String getName() {
         return this.name;
     }
@@ -37,9 +30,4 @@ public class Project {
     public Date getEnd() {
         return this.end;
     }
-
-    public Double getWorkLoad() {
-        return this.workload;
-    }
-
 }
