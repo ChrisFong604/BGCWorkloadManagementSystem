@@ -16,7 +16,6 @@
         <h1 class="heading">Project</h1>
 
         <form action="#" method="post" th:action="@{/projects/create}" th:object="${project}">
-            <h1>Form here</h1>
             
             <label for="name">Project Name</label> <br>
             <input type="text" th:field=*{name} id="name" required> <br>

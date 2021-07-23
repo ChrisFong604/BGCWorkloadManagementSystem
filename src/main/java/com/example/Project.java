@@ -4,11 +4,16 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 public class Project {
+    private int id;
     private String name;
     private Date start;
     private Date end;
     private Double workload;
     private ArrayList<Date> Weeks;
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -24,6 +29,10 @@ public class Project {
 
     public void setWorkLoad(Double workload) {
         this.workload = workload;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public String getName() {
