@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
+
+body {
+    font-family: "Montserrat", sans-serif;
+}
+
 h1 {
     font-size: 50px;
     margin-bottom: 25px;
@@ -36,7 +42,7 @@ input[type=text]:hover, /*input[type=radio]:hover,*/ input[type=date]:hover, sel
 
 input[type=submit], .cancel {
     width: 100px;
-    background-color: rgb(21, 21, 151);
+    background-color: #0f2269;
     color: white;
     padding: 14px 20px;
     margin: 8px 5px;
@@ -60,5 +66,5 @@ a {
 }
 
 input[type=submit]:hover {
-    background-color: rgb(14, 14, 122);
+    background-color: #08174e;
 }

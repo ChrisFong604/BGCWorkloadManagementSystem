@@ -1,8 +1,15 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
+
 body {
   margin: 0;
+  font-family: "Montserrat", sans-serif;
 }
 .logo {
   font-size: 50px;
+}
+
+h1 {
+  text-align: center;
 }
 
 .navbar {
@@ -36,7 +43,7 @@ body {
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn {
-  background-color: rgb(15, 15, 180);
+  background-color: #0f2269;
 }
 
 .dropdown-content {

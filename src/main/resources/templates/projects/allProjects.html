@@ -54,9 +54,9 @@
               <td th:text="${project.end}"></td>
               
               <td>
-                <button>View</button>
-                <button>Edit</button>
-                <button><a th:href="@{/projects/deleted?p_id={id}(id=${project.id})}"><i class="bi bi-trash"></i>Delete</a></button>
+                <button class="action view"><i class="bi bi-eye-fill"></i></button>
+                <button class="action edit"><i class="bi bi-pencil-fill"></i></button>
+                <button class="trigger action delete"><a th:href="@{/projects/deleted?p_id={id}(id=${project.id})}"><i class="bi bi-trash"></i></a></button>
               </td>
             </tr>
           </tbody>

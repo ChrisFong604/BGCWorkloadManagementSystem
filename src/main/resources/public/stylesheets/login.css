@@ -1,90 +1,11 @@
-/*body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    background: linear-gradient(to right, #b92b27, #1565c0)
-	background: linear-gradient(to right, #a27aff, #060888)
-}*/
-
-/*.box {
-    width: 500px;
-    padding: 40px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: #191919;
-    text-align: center;
-    transition: 0.25s;
-    margin-top: 100px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-}
-
-.box input[type="text"],
-.box input[type="password"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 0px auto;
-    text-align: center;
-    border: 2px solid #a27aff;
-    padding: 10px 10px;
-    width: 250px;
-    outline: none;
-    color: white;
-    border-radius: 5px;
-    transition: 0.25s
-}
-
-.box h1 {
-    color: white;
-    text-transform: uppercase;
-    font-weight: 500
-}
-
-.box input[type="submit"] {
-    border: 0;
-    background: none;
-    display: block;
-    margin: 20px auto;
-    text-align: center;
-    border: 2px solid #a27aff;
-    padding: 14px 40px;
-    outline: none;
-    color: white;
-    border-radius: 5px;
-    transition: 0.25s;
-    cursor: pointer
-}
-
-.box input[type="submit"]:hover {
-    background: #28178b;
-}
-
-label {
-	color: #6C757D;
-}
-
-.cred {
-	margin-top: 25px;
-}
-
-header {
-    font-size: 50px;
-    text-align: center;
-	color: white;
-}
-
-.cred {
-    margin: auto;
-}*/
-
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
 
 body {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
-	background: linear-gradient(to right, #b8c5ff, #fcb6d9)
+	/*background: linear-gradient(to right, #b8c5ff, #fcb6d9);*/
+    background: #b8c5ff;
+    font-family: "Montserrat", sans-serif;
 }
  
 .container {
@@ -120,22 +41,19 @@ input[type=text]:hover, input[type=password]:hover {
 
 input[type=submit] {
     width: 100px;
-    background-color: rgb(21, 21, 151);
-    color: white;
+    background-color: rgb(225, 192, 255);
+    color: black;
     padding: 14px 20px;
-    margin: 8px 0;
+    margin: 8px auto;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     float: right;
+    text-align: center;
 }
 
 input[type=submit]:hover {
-    background-color: rgb(14, 14, 122);
+    background-color: rgb(206, 162, 247);
 }
 
-/** {
-    background-image: linear-gradient(135deg, rgba(0,165,221,0.2), rgba(233,154,239,0.6));
-
-}*/
 

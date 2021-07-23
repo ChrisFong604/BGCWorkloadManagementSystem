@@ -64,7 +64,7 @@
               <td th:text="${employee.end}"></td>
               
               <td>
-                <button class="action"><a th:href="@{/employees/edit?rid={id}(id = ${employee.getId()})}"><i class="bi bi-pencil-square"></i></a></button>
+                <button class="action edit"><a th:href="@{/employees/edit?rid={id}(id = ${employee.getId()})}"><i class="bi bi-pencil-fill"></i></a></button>
                 <button class="trigger action delete"><i class="bi bi-trash"></i></button>
               </td>
 
@@ -87,7 +87,7 @@
     </div>
 
     <div class="visual-table">
-        <table id="tableVisual">
+        <table id="tableVisual" class="visual">
             <thead>
                 <tr>
                     <th>Name/Resource</th>
@@ -182,7 +182,7 @@
             }
         }
 
-        function addColour() {
+        /*function addColour() {
             var td = document.querySelectorAll('td')
             for (let cell of td) {
                 if (cell.innerHTML === '0.1'){
@@ -198,6 +198,26 @@
                 }
                 if (cell.innerHTML === '0.875' || cell.innerHTML === '0.65' ){
                     cell.style.backgroundColor = '#03045E'
+                    cell.style.color = '#e6e6e6'
+                }
+            }
+        }*/
+
+        function addColour() {
+            var td = document.querySelectorAll('td')
+            for (let cell of td) {
+                if (cell.innerHTML === '0.1'){
+                    cell.style.backgroundColor = '#beb4cb'
+                }
+                if (cell.innerHTML === '0.25'){
+                    cell.style.backgroundColor = '#9787ab'
+                }
+                if (cell.innerHTML === '0.5' || cell.innerHTML === '0.4'){
+                    cell.style.backgroundColor = '#645478'
+                    cell.style.color = '#e6e6e6'
+                }
+                if (cell.innerHTML === '0.875' || cell.innerHTML === '0.65' ){
+                    cell.style.backgroundColor = '#3d344b'
                     cell.style.color = '#e6e6e6'
                 }
             }
