@@ -3,9 +3,14 @@ package com.example;
 import java.sql.Date;
 
 public class Project {
+    private int id;
     private String name;
     private Date start;
     private Date end;
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -17,6 +22,10 @@ public class Project {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public String getName() {
