@@ -65,11 +65,12 @@
               
               <td>
                 <button class="action edit"><a th:href="@{/employees/edit?rid={id}(id = ${employee.getId()})}"><i class="bi bi-pencil-fill"></i></a></button>
-                <button class="trigger action delete"><i class="bi bi-trash"></i></button>
+                <button class="action delete"><a th:href="@{/employees/deleted?e_id={id}(id=${employee.getId()})}"><i class="bi bi-trash"></i></a></button>
+                <!-- <button class="trigger action delete"><i class="bi bi-trash"></i></button>-->
               </td>
 
               <!-- modal for confirming delete -->
-              <div class="modal">
+              <!-- <div class="modal">
                     <div class="modal-content">
                         <span class="close-button">×</span>
                         <h1>Delete Employee</h1>
@@ -79,7 +80,7 @@
                             <button class="action delete"><a th:href="@{/employees/deleted?e_id={id}(id=${employee.getId()})}">Delete</a></button>
                         </span>
                     </div>
-              </div>
+              </div> -->
              
             </tr>
           </tbody>
@@ -224,16 +225,16 @@
         }
 
         // for confirming delete
-        const modal = document.querySelectorAll(".modal");
+        /*const modal = document.querySelectorAll(".modal");
         const trigger = document.querySelectorAll(".trigger");
-        const closeButton = document.querySelectorAll(".close-button");
+        const closeButton = document.querySelectorAll(".close-button");*
 
         /*function toggleModal() {
             modal.classList.toggle("show-modal");
         }*/
 
         // here
-        modal.classList.toggle("show-modal");
+        /*modal.classList.toggle("show-modal");
 
         for (i = 0; i < trigger.length; i++) {
             trigger[i].addEventListener("click", toggleModal);
@@ -241,7 +242,7 @@
 
         for (i = 0; i < closeButton.length; i++) {
             closeButton[i].addEventListener("click", toggleModal);
-        }
+        }*/
 
     </script>
 
