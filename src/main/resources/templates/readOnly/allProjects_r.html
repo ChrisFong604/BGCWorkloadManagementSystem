@@ -6,12 +6,112 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/allEmployees.css" />
     <title>Current Projects</title>
 </head>
 
 <header></header>
 
 <body>
+    <div class="search-content">
+        <div class ="search-form">
+            <div class="search">
+                <label>Search by</label> 
+                <select name="filterBy" id="filterBy" required>
+                  <option selected disabled value="">Select...</option>
+                  <option value="name">Name</option>
+                  <option value="startdate">Start Date</option>
+                  <option value="enddate">End Date</option>
+                </select>
+            </div>
+            
+            <div class="value">
+                <label>Search value</label>
+                <input type="text" id="value">
+            </div>
     
+            <button class="clear"><a th:href="@{/projects}">Clear</a></button> 
+        </div>
+    </div>
+  
+    
+    <div class="data-table">
+      <table id="myTable">
+          <thead>
+            <tr>
+              <th>Name of Project</th>     
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr th:each="project : ${projects}">
+              <td th:text="${project.name}"></td>
+              <td th:text="${project.start}"></td>
+              <td th:text="${project.end}"></td>
+              
+              <td>
+                <button class="action view"><i class="bi bi-eye-fill"></i></button>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+
+
+  <script>
+
+    let attr;
+    let filterBy = document.getElementById("filterBy");  
+    filterBy.addEventListener("click", getAttribute);
+
+    let value = document.getElementById("value");
+    value.addEventListener("keyup", getFilter)
+    
+    function getAttribute() {
+      let val = filterBy.value;
+      //console.log(val);
+      if (val == "name") {
+        attr = 0;
+      }
+      else if (val == "startdate") {
+        attr = 1;
+      }
+      else if (val == "enddate") {
+        attr = 2;
+      }
+      else {
+        attr = 3;    
+      }
+      //console.log(attr);
+      filterBy.addEventListener("click", getFilter);
+    }
+
+    function getFilter() {
+      if (attr == 3) {
+        return;
+      }
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("value");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[attr];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }       
+      }
+    }
+
+</script>
+
 </body>
 </html>

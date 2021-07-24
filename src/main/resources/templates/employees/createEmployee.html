@@ -31,12 +31,10 @@
 				</li>
 				<li>
 					<label>Select employee type</label>
-					<select name="position" id="position" required>
-						<optgroup th:field="*{position}">
-							<option value="">Select...</option>
-							<option value="permanent">Permanent Hire</option>
-							<option value="intern">Co-op/Intern</option>
-						</optgroup>
+					<select name="position" th:field="*{position}" id="position" required>
+						<option value="">Select...</option>
+						<option value="permanent">Permanent Hire</option>
+						<option value="intern">Co-op/Intern</option>
 					</select>
 				</li>
 				<li>
@@ -49,12 +47,10 @@
 				</li>
 				<li>
 					<label for="status">Employee status</label>
-					<select name="status" id="status" required>
-						<optgroup th:field="*{status}" label="status">
-							<option value="">Select...</option>
-							<option value="TRUE">Hired</option>
-							<option value="FALSE">Projected</option>
-						</optgroup>
+					<select name="status" th:field="*{status}" id="status" required>
+						<option value="">Select...</option>
+						<option value="TRUE">Hired</option>
+						<option value="FALSE">Projected</option>
 					</select>
 				</li>
 				<li>

@@ -194,10 +194,10 @@ public class Main {
   }
 
   // filtered results
-  @PostMapping(path = "/employees", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  /*@PostMapping(path = "/employees", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String filterByProperty(Map<String, Object> model, Property prop) {
     return employeesComponent.filterByPropertyComponent(model, prop, flag, edit);
-  }
+  }*/
 
   // deleting employees
   @GetMapping("/employees/deleted")
@@ -237,10 +237,10 @@ public class Main {
     return projectsComponent.returnProjectHomepageComponent(model, flag, edit);
   }
   
-  @PostMapping(path = "/projects", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  /*@PostMapping(path = "/projects", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String filterByPropertyProj(Map<String, Object> model, Property prop) {
     return projectsComponent.filterByPropertyProjComponent(model, prop, flag, edit);
-  }
+  }*/
 
   @GetMapping("/projects/create")
   public String returnProjectCreate(Map<String, Object> model) throws Exception {

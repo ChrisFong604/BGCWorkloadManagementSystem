@@ -1,15 +1,28 @@
-.main {
-    /*text-align: center;*/
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
+
+body {
+    margin: 0;
+    padding: 0;
+	/*background: linear-gradient(to right, #b8c5ff, #fcb6d9);*/
+    background: #b8c5ff;
+    font-family: "Montserrat", sans-serif;
+}
+ 
+.container {
     border-radius: 5px;
-    background-color: #f2f2f2;
+    background-color: #191919;
     padding: 50px 100px 150px 100px;
     margin: 5% 25%;
-    
 }
 
 h1 {
     font-size: 50px;
     text-align: center;
+    color: white;
+}
+
+label {
+    color: #6C757D;
 }
 
 input[type=text], input[type=password] {
@@ -28,22 +41,19 @@ input[type=text]:hover, input[type=password]:hover {
 
 input[type=submit] {
     width: 100px;
-    background-color: rgb(21, 21, 151);
-    color: white;
+    background-color: rgb(225, 192, 255);
+    color: black;
     padding: 14px 20px;
-    margin: 8px 0;
+    margin: 8px auto;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     float: right;
+    text-align: center;
 }
 
 input[type=submit]:hover {
-    background-color: rgb(14, 14, 122);
+    background-color: rgb(206, 162, 247);
 }
 
-/** {
-    background-image: linear-gradient(135deg, rgba(0,165,221,0.2), rgba(233,154,239,0.6));
-
-}*/
 
