@@ -1,44 +1,86 @@
 <!DOCTYPE html>
 
+<!--
+	Start Date: July 3
+	End Date: Jul 24th
+	Number of Workers: 5
+
+	Weeks Shown:
+	Week July 3, 5 
+	Week July 10, 4
+	Week July 17, 7
+	Week July 24, 2
+
+	project(name, startdate, enddate, array of workers per week)
+-->
 <html
 	xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{fragments/layout :: layout (~{::header})}"
 ></html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Project</title>
-</head>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+		<title>Create New Project</title>
+	</head>
 
-<header></header>
-
-<body>
-    <div class="container">
-        <h1 class="heading">Project</h1>
-
-        <form action="#" method="post" th:action="@{/projects/create}" th:object="${project}">
-            
-            <label for="name">Project Name</label> <br>
-            <input type="text" th:field=*{name} id="name" required> <br>
-
-            <label>Start Date</label> <br>
-            <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd" required> <br>
-        
-            <label>End Date</label> <br>
-            <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end" required> <br>
-
-            <!-- <label for="workload">Workload</label> <br>
+	<header></header>
+	<body>
+		<form
+			action="#"
+			method="post"
+			th:action="@{/projects/create}"
+			th:object="${project}"
+			class="formtemplate"
+		>
+			<h1>New Project</h1>
+			<ul>
+				<li>
+					<label for="name">Project Name</label> <br />
+					<input type="text" th:field="*{name}" id="name" required /> <br />
+				</li>
+				<li>
+					<label>Start Date</label>
+					<input
+						type="date"
+						th:field="*{start}"
+						placeholder="yyyy-mm-dd"
+						required
+					/>
+					<br />
+				</li>
+				<li>
+					<label>End Date</label>
+					<input
+						type="date"
+						th:field="*{end}"
+						placeholder="yyyy-mm-dd"
+						id="end"
+						required
+					/>
+					<br />
+				</li>
+				<!-- <label for="workload">Workload</label> <br>
             <input type="text" th:field="*{workload}" id="workload" required> <br> -->
 
-			<div class="buttons">
-				<input type="submit" value="Save" />
-				<button class="cancel">
-					<a th:href="@{/projects}" required>Cancel</a>
-				</button>
-			</div>
+				<li>
+					<span>
+						<input type="submit" value="Save" />
+						<input
+							type="button"
+							value="Cancel"
+							th:href="@{/projects}"
+							required
+						/>
+					</span>
+				</li>
+			</ul>
 		</form>
-	</div>
-</body>
+	</body>
+
+	<script>
+		//receives start and end date then displays inputs for each week on the same page
+	</script>
 </html>

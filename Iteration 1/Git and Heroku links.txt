@@ -1,0 +1,10 @@
+Heroku: https://bgc-workload-management.herokuapp.com/dashboard
+GitHub: https://github.com/ChrisFong604/BGCWorkloadManagementSystem
+
+Manager User Account
+	user:admin
+	password: 123
+
+Read-Only User Account
+	user: read
+	password: 123

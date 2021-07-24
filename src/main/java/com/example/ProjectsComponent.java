@@ -38,8 +38,8 @@ public class ProjectsComponent {
 	private DataSource dataSource;
 	
 	String returnProjectHomepageComponent(Map<String, Object> model, boolean flag, boolean edit) {
-		Property prop = new Property();
-		model.put("property", prop);
+		/*Property prop = new Property();
+		model.put("property", prop);*/
 	  
 	      try (Connection connection = dataSource.getConnection()) {
 	        
@@ -78,7 +78,7 @@ public class ProjectsComponent {
 	      }
 	 }
 	
-    public String filterByPropertyProjComponent(Map<String, Object> model, Property prop, boolean flag, boolean edit) {
+    /*public String filterByPropertyProjComponent(Map<String, Object> model, Property prop, boolean flag, boolean edit) {
       String filterBy = prop.getFilterBy();
       String value = prop.getValue();
   
@@ -110,7 +110,7 @@ public class ProjectsComponent {
         model.put("message", e.getMessage());
         return "error";
       }
-    }
+    }*/
 	
 	public String returnProjectCreateComponent(Map<String, Object> model, boolean flag, boolean edit) throws Exception {
 	    Project project = new Project();

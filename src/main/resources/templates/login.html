@@ -6,17 +6,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/stylesheets/login.css" />
+    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Login</title>
 </head>
 
 <header>
-    <h1>BGC</h1>
+    <h1>BGC Engineering</h1>
 </header>
 
 
 <body>
-    <section class="main">
+    <div class="container">
+        <h1>Login</h1>
+        <form action="#" method="post" th:action="@{/login}" th:object="${user}" class="box">
+            <div class="cred">
+                <label for="uName">Username</label> <br>
+                <input type="text" id="uName" th:field="*{username}" required > <br>
+                
+                <label for="pwd">Password</label> <br>
+                <input type="password" id="pwd" th:field="*{password}" required > <br>
+                
+                <input type="submit" value="Login">
+            </div>
+        </form>
+    </div>
+
+    <!--<section class="login">
         <h1>Login</h1>
         <form action="#" method="post" th:action="@{/login}" th:object="${user}">
             <div class="cred">
@@ -29,7 +45,7 @@
                 <input type="submit" value="Login">
             </div>
         </form>
-    </section>
+    </section>-->
     <!-- <span><div class="g-signin2"></div> <button onclick="signOut()">Sign out</button> </span>
     <script>
         function signOut() {
