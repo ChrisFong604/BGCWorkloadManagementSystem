@@ -127,7 +127,7 @@
 .formtemplate textarea {
 	resize: none;
 }
-.formtemplate input[type="submit"],
+/*.formtemplate input[type="submit"],
 .formtemplate input[type="button"] {
 	background: #2471ff;
 	border: none;
@@ -140,4 +140,26 @@
 .formtemplate input[type="button"]:hover {
 	background: #6b9fff;
 	color: #fff;
+}*/
+
+input[type="submit"],
+.cancel {
+	background: #2471ff;
+	border: none;
+	padding: 10px 20px 10px 20px;
+	border-radius: 3px;
+	color: #d2e2ff;
 }
+
+input[type="submit"]:hover,
+.cancel:hover {
+	background: #6b9fff;
+	color: #fff;
+}
+
+a {
+	text-decoration: none;
+	color: #d2e2ff;
+}
+
+
