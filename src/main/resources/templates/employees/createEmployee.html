@@ -23,7 +23,8 @@
 			th:object="${employee}"
 			class="formtemplate"
 		>
-			<h1>Add Profile</h1>
+			<h1>Add Employee</h1>
+			<br></br>
 			<ul>
 				<li>
 					<label for="name">Name/Resource</label> <br />
@@ -37,12 +38,13 @@
 						<option value="intern">Co-op/Intern</option>
 					</select>
 				</li>
+				<br>
 				<li>
-					<br /><label for="role">Role</label>
+					<label for="role">Role</label>
 					<input type="text" th:field="*{role}" id="role" required /> <br />
 				</li>
 				<li>
-					<label for="team">Team</label> <br />
+					<label for="team">Team</label> 
 					<input type="text" th:field="*{team}" id="team" required /> <br />
 				</li>
 				<li>
@@ -53,8 +55,8 @@
 						<option value="FALSE">Projected</option>
 					</select>
 				</li>
+				<br></br>
 				<li>
-					<br />
 					<label>Start Date</label>
 					<input
 						type="date"
@@ -62,10 +64,9 @@
 						placeholder="yyyy-mm-dd"
 						required
 					/>
-					<br />
 				</li>
+				<br></br>
 				<li>
-					<br />
 					<label>End Date (Co-op/Intern)</label>
 					<input
 						type="date"
@@ -74,17 +75,12 @@
 						id="end"
 						required
 					/>
-					<br />
 				</li>
+				<br></br>
 				<li>
 					<span>
 						<input type="submit" value="Save" />
-						<input
-							type="button"
-							value="Cancel"
-							th:href="@{/employees}"
-							required
-						/>
+						<button class="cancel"><a th:href="@{/employees}">Cancel</a></button>
 					</span>
 				</li>
 			</ul>
