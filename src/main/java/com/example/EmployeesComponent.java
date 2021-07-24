@@ -38,8 +38,8 @@ public class EmployeesComponent {
 	private DataSource dataSource;
 	
 	String returnEmployeeHomepageComponent(Map<String, Object> model, boolean flag, boolean edit) {
-	    Property prop = new Property();
-	    model.put("property", prop);
+	    /*Property prop = new Property();
+	    model.put("property", prop);*/
 
 	    try (Connection connection = dataSource.getConnection()) {
 	      
@@ -213,7 +213,7 @@ public class EmployeesComponent {
 	    }
 	  }
 	
-	public String filterByPropertyComponent(Map<String, Object> model, Property prop, boolean flag, boolean edit) {
+	/*public String filterByPropertyComponent(Map<String, Object> model, Property prop, boolean flag, boolean edit) {
 	    String filterBy = prop.getFilterBy();
 	    String value = prop.getValue();
 
@@ -249,7 +249,7 @@ public class EmployeesComponent {
 	      model.put("message", e.getMessage());
 	      return "error";
 	    }
-	  }
+	  }*/
 	
 	public String deleteEmployeeComponent(Map<String, Object> model, @RequestParam String e_id) {
 	    try (Connection connection = dataSource.getConnection()) {

@@ -1,13 +1,21 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Encode+Sans+SC:wght@500&display=swap");
 
+
 body {
-	margin: 0;
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
 }
+
 .logo {
-	font-family: "Encode Sans SC", sans-serif;
+	/*font-family: "Encode Sans SC", sans-serif;*/
 	font-size: 50px;
 	align-self: "center";
 	text-align: center;
+}
+
+h1 {
+  text-align: center;
 }
 
 .navbar {
@@ -40,9 +48,8 @@ body {
 	margin: 0;
 }
 
-.navbar a:hover,
-.dropdown:hover .dropbtn {
-	background-color: rgb(15, 15, 180);
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #0f2269;
 }
 
 .dropdown-content {
