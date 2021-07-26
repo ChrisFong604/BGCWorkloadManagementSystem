@@ -477,5 +477,17 @@ public class DashboardComponent {
 	      return "error";
 	    }
 	  }
+
+	String assignEmployeeToProjectComponent(Map<String, Object> model, Employee emp, Project proj, worksOn worksOn) throws Exception {
+		
+	    try (Connection connection = dataSource.getConnection()) {
+	      Statement stmt = connection.createStatement();
+		  model.put("employee")
+	      return "redirect:/dashboard";
+	    } catch (Exception e) {
+	      model.put("message", e.getMessage());
+	      return "error";
+	    }
+	}
 	
 }
