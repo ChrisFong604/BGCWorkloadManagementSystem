@@ -31,6 +31,7 @@ import java.time.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 @Component
 public class ProjectsComponent {
 	
@@ -139,6 +140,22 @@ public class ProjectsComponent {
 	      model.put("message", e.getMessage());
 	      return "error";
 	    }
+	}
+
+	public String returnProjectCreateWeeklyWorkloadComponent(Map<String, Object> model, boolean flag, boolean edit) throws Exception {
+		Project project = new Project;
+		model.put("project", project)
+		if (flag && edit) {
+	      return "projects/createProjectWorkload";
+	    } else {
+	      return "userNotFound";
+	    }
+	}
+
+	public String handleProjectWorkloadSubmitComponent (Map<String, Object> model, Project project, @RequestParam p_id) throws Exception {
+		try (Connection connection = dataSource.getConnection()) {
+			Statement stmt = connection.createStatement();
+			stmt.executeQuery('')
 	}
 	
 	public String deleteProjectComponent(Map<String, Object> model, @RequestParam String p_id) {

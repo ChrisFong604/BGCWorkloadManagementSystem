@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public class worksOn {
-
     /*
         Equivalent to the SQL composite type that will be implemented.
         Start of each week the employee is working is saved in WorkingWeeks[].

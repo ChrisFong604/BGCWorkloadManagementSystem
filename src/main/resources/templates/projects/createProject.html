@@ -67,15 +67,13 @@
 
 				<li>
 					<span>
-						<input type="submit" value="Save" />
-						<button class="cancel"><a th:href="@{/projects}">Cancel</a></button>
+						<input type="submit" value="Save" th:href />
+						<button class="cancel">
+							<a th:href="@{/projects/create/weekly_workload}">Cancel</a>
+						</button>
 					</span>
 				</li>
 			</ul>
 		</form>
 	</body>
-
-	<script>
-		//receives start and end date then displays inputs for each week on the same page
-	</script>
 </html>

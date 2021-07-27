@@ -8,6 +8,8 @@ public class Project {
     private Date start;
     private Date end;
 
+    private ArrayList<Double> WeeklyWorkload;
+
     public void setId(int id) {
         this.id = id;
     }
@@ -38,5 +40,9 @@ public class Project {
 
     public Date getEnd() {
         return this.end;
+    }
+
+    public ArrayList<Double> getWeeklyWorkload() {
+        return this.WeeklyWorkload;
     }
 }
