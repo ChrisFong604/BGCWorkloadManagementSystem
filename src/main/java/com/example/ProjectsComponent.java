@@ -155,7 +155,8 @@ public class ProjectsComponent {
 	public String handleProjectWorkloadSubmitComponent (Map<String, Object> model, Project project, @RequestParam p_id) throws Exception {
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			stmt.executeQuery('')
+			stmt.executeQuery('SELECT P.ProjectID, (CEILING(DATE_PART('day', P.enddate – P.startdate)/7)) AS week_num
+			FROM Projects P');
 	}
 	
 	public String deleteProjectComponent(Map<String, Object> model, @RequestParam String p_id) {
