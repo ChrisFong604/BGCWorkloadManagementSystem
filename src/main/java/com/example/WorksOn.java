@@ -13,14 +13,23 @@ public class worksOn {
         private ArrayList<Float> WorkingCapacities[];
 
         public void appendToWorkingWeeks(String date) {
-            this.WorkingWeeks.add(date)
+            this.WorkingWeeks.add(date);
         }
 
         public void appendToWorkingCapacities(Float WorkCapacity) {
-            this.WorkingCapacities.add(WorkCapacity)
+            this.WorkingCapacities.add(WorkCapacity);
+        }
+
+         public void setWorkingWeeks(ArrayList<String> WorkingWeeks) {
+            this.WorkingWeeks = WorkingWeeks;
+        }
+
+        public void setWorkingCapacities(ArrayList<Float> WorkCapacities) {
+            this.WorkingCapacities = WorkCapacity;
         }
     }
 
+    //Main 'worksOn' Bean class
     private String projectID;
     private String employeeID;
     private WeeklyCapacity AssignedWork;
@@ -33,6 +42,10 @@ public class worksOn {
         this.employeeID = employeeID
     }
 
+    public void setAssignedWork(ArrayList<String> WorkingWeeks, ArrayList<Float> WorkCapacities) {
+        this.AssignedWork.
+    }
+
     public String getProjectID() {
         return this.projectID
     }
@@ -41,5 +54,7 @@ public class worksOn {
         return this.employeeID;
     }
 
-
+    public ArrayList<String> getAssignedWork() {
+        return this.AssignedWork;
+    }
 }
