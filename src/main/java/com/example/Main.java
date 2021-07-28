@@ -262,6 +262,11 @@ public class Main {
 	  return projectsComponent.deleteProjectComponent(model, p_id);
   }
 
+  @GetMapping("/record")
+  public String record(){
+    return "record";
+  }
+
   @Bean
   public DataSource dataSource() throws SQLException {
     if (dbUrl == null || dbUrl.isEmpty()) {
