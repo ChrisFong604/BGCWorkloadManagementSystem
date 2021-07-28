@@ -257,16 +257,6 @@ public class Main {
     return projectsComponent.handleProjectSubmitComponent(model, project);
   }
 
-  @GetMapping("/projects/create/weekly_workload") 
-  public String returnProjectCreateWeeklyWorkload(Map<String, Object> model) throws Exception {
-    return projectsComponent.return 
-  }
-
-  @PostMapping(path = "/projects/create/weekly_workload", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String handleProjectSubmit(Map<String, Object> model,Project project) throws Exception {
-    return projectsComponent.handleProjectWorkloadSubmitComponent(model, project);
-  }
-  
   @GetMapping("/projects/deleted")
   public String deleteProject(Map<String, Object> model, @RequestParam String p_id) {
 	  return projectsComponent.deleteProjectComponent(model, p_id);
