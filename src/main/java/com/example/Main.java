@@ -193,6 +193,11 @@ public class Main {
     return employeesComponent.returnEmployeeHomepageComponent(model, flag, edit);
   }
 
+  @PostMapping(path = "/employees", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String getRangeForEmployees(Map<String, Object> model, RangeInput range) throws Exception {
+    return employeesComponent.getRangeComponentForEmployees(model, range);
+  }
+
   // filtered results
   /*@PostMapping(path = "/employees", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String filterByProperty(Map<String, Object> model, Property prop) {

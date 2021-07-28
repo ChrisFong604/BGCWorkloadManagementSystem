@@ -464,7 +464,7 @@ public class DashboardComponent {
 	      model.put("message", e.getMessage());
 	      return "error";
 	    }
-	  }
+	}
 	
 	public String deletetabledataComponent(Map<String, Object> model) throws Exception {
 	    try (Connection connection = dataSource.getConnection()) {

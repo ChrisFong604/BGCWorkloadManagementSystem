@@ -1,14 +1,97 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Encode+Sans+SC:wght@500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins" , sans-serif;
+}
 
 body {
+    background: #E4E9F7;
+}
+
+.logo-name {
+    color: white;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.nav {
+    background: #11101D;
+    width: 100px;
+    height: 100%;
+    position: fixed;
+    padding: 6px auto;
+}
+
+.nav-item {
+    list-style: none;
+    font-size: 28px;
+    text-align: center;
+    padding: 12px;
+	padding-top: 0;
+	cursor: pointer;
+}
+
+.nav-item-label {
+    font-size: 13px;
+    padding-top: 5px;
+    text-align: center;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+	display: block;
+}
+
+.log-out {
+    bottom: 10px;
+    position: absolute;
+    width: 100%;
+}
+
+.nav-item:hover {
+    background: #2c2b38;
+}
+
+.bi,
+.bx {
+	font-size: 20px;
+}
+
+.home-section{
+	position: relative;
+	background: #E4E9F7;
+	min-height: 100vh;
+	top: 0;
+	left: 100px;
+	width: calc(100% - 100px);
+	padding: 30px;
+	padding-top: 18px;
+}
+
+.home-section .text{
+	display: inline-block;
+	color: #11101d;
+	font-size: 25px;
+	font-weight: 500;
+	margin: 0;
+	font-family: "Poppins" , sans-serif;
+}
+
+
+  /*
+  body {
   margin: 0;
   font-family: "Montserrat", sans-serif;
 }
 
 .logo {
-	/*font-family: "Encode Sans SC", sans-serif;*/
 	font-size: 50px;
 	align-self: "center";
 	text-align: center;
@@ -81,3 +164,4 @@ h1 {
 .logout {
 	float: right;
 }
+*/

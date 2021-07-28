@@ -14,54 +14,64 @@
 <header></header>
 
 <body>
+  <section class="home-section">
+    <div class="text">Projects</div>
+
     <div class="search-content">
-        <div class ="search-form">
-            <div class="search">
-                <label>Search by</label> 
-                <select name="filterBy" id="filterBy" required>
+      <div class="search-form">
+          <span class="form">  
+              <div class="search">
+                  <label>Search by</label> 
+                  <select name="filterBy" id="filterBy" required>
                   <option selected disabled value="">Select...</option>
                   <option value="name">Name</option>
                   <option value="startdate">Start Date</option>
                   <option value="enddate">End Date</option>
-                </select>
-            </div>
-            
-            <div class="value">
-                <label>Search value</label>
-                <input type="text" id="value">
-            </div>
-    
-            <button class="clear"><a th:href="@{/projects}">Clear</a></button> 
-        </div>
+                  </select>
+              </div>
+                      
+              <div class="value">
+                  <label>Search value</label> <br/>
+                  <input type="text" id="value">
+                  <button class="clear" id="clearbtn">Clear</button>
+              </div>
+          </span>  
+      </div>
+      
+      <span class="add-project">  
+          <button class="add"><a th:href="@{/projects/create}">Add New Project</a></button> 
+      </span>    
     </div>
-  
     
+      
     <div class="data-table">
-      <table id="myTable">
-          <thead>
-            <tr>
-              <th>Name of Project</th>     
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th></th>
-            </tr>
-          </thead>
+        <table id="myTable">
+            <thead>
+              <tr>
+                <th>Name of Project</th>     
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th></th>
+              </tr>
+            </thead>
 
-          <tbody>
-            <tr th:each="project : ${projects}">
-              <td th:text="${project.name}"></td>
-              <td th:text="${project.start}"></td>
-              <td th:text="${project.end}"></td>
-              
-              <td>
-                <button class="action view"><i class="bi bi-eye-fill"></i></button>
-                <button class="action edit"><i class="bi bi-pencil-fill"></i></button>
-                <button class="trigger action delete"><a th:href="@{/projects/deleted?p_id={id}(id=${project.id})}"><i class="bi bi-trash"></i></a></button>
-              </td>
-            </tr>
-          </tbody>
-      </table>
+            <tbody>
+              <tr th:each="project : ${projects}">
+                <td th:text="${project.name}"></td>
+                <td th:text="${project.start}"></td>
+                <td th:text="${project.end}"></td>
+                
+                <td>
+                  <button class="action view"><i class="bi bi-eye-fill"></i></button>
+                  <button class="action edit"><i class="bi bi-pencil-fill"></i></button>
+                  <button class="trigger action delete"><a th:href="@{/projects/deleted?p_id={id}(id=${project.id})}"><i class="bi bi-trash"></i></a></button>
+                </td>
+              </tr>
+            </tbody>
+        </table>
     </div>
+
+  </section>
 
 
   <script>
@@ -71,7 +81,10 @@
     filterBy.addEventListener("click", getAttribute);
 
     let value = document.getElementById("value");
-    value.addEventListener("keyup", getFilter)
+    value.addEventListener("keyup", getFilter);
+
+    let clearButton = document.getElementById("clearbtn");
+    clearButton.addEventListener("click", clear);
     
     function getAttribute() {
       let val = filterBy.value;
@@ -113,6 +126,11 @@
         }       
       }
     }
+
+    function clear() {
+      document.getElementById("value").value = "";
+      getFilter();
+    } 
 
 </script>
 

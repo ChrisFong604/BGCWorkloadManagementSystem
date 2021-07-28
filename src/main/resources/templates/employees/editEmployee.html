@@ -36,122 +36,126 @@
 		        </tbody>
 		    </table>
   		</div> -->
-		<form
-			action="#"
-			method="post"
-			th:action="@{/employees/edit?rid={id}(id = ${id})}"
-			th:object="${employee}"
-			class="formtemplate"
-		>
-			<h1>Edit Profile</h1>
-			<ul>
-				<li>
-					<label for="name">Name</label>
-					<input
-						type="text"
-						th:field="*{name}"
-						th:attr="value = ${employee.name}"
-						id="name"
-					/>
-				</li>
-				<li>
-					<label>Select Employee Type</label>
-					<select name="position" id="position" label="Position">
-						<optgroup
-							th:field="*{position}"
-							th:attr="value = ${employee.position}"
-						>
-							<option th:attr="value = ${employee.position}">
-								<text th:utext="${employee.position}" />
-							</option>
-							<option value="permanent">Permanent Hire</option>
-							<option value="intern">Co-op/Intern</option>
-						</optgroup>
-					</select>
-				</li>
+		<section class="home-section">
+			<div class="text">Employees</div>
 
-				<br />
-				<li>
-					<label for="role">Role</label> <br />
-					<input
-						type="text"
-						th:field="*{role}"
-						th:attr="value = ${employee.role}"
-						id="role"
-					/>
+			<form
+				action="#"
+				method="post"
+				th:action="@{/employees/edit?rid={id}(id = ${id})}"
+				th:object="${employee}"
+				class="formtemplate"
+			>
+				<h1>Edit Profile</h1>
+				<ul>
+					<li>
+						<label for="name">Name</label>
+						<input
+							type="text"
+							th:field="*{name}"
+							th:attr="value = ${employee.name}"
+							id="name"
+						/>
+					</li>
+					<li>
+						<label>Select Employee Type</label>
+						<select name="position" id="position" label="Position">
+							<optgroup
+								th:field="*{position}"
+								th:attr="value = ${employee.position}"
+							>
+								<option th:attr="value = ${employee.position}">
+									<text th:utext="${employee.position}" />
+								</option>
+								<option value="permanent">Permanent Hire</option>
+								<option value="intern">Co-op/Intern</option>
+							</optgroup>
+						</select>
+					</li>
+
 					<br />
-				</li>
-				<br />
-
-				<li>
-					<label for="team">Team</label> <br />
-					<input
-						type="text"
-						th:field="*{team}"
-						th:attr="value = ${employee.team}"
-						id="team"
-					/>
+					<li>
+						<label for="role">Role</label> <br />
+						<input
+							type="text"
+							th:field="*{role}"
+							th:attr="value = ${employee.role}"
+							id="role"
+						/>
+						<br />
+					</li>
 					<br />
-				</li>
-				<br />
-				<li>
-					<label for="status">Employee Status</label>
-					<select name="status" id="status">
-						<optgroup
-							th:field="*{status}"
-							label="status"
-							th:attr="value = ${employee.status}"
-						>
-							<option th:attr="value = ${employee.status}">
-								<text th:utext="${employee.status}"></text>
-							</option>
-							<option value="TRUE">Hired</option>
-							<option value="FALSE">Projected</option>
-						</optgroup>
-					</select>
-				</li>
-				<br />
-				<li>
-					<label>Start Date</label>
-					<input
-						type="date"
-						th:field="*{start}"
-						th:attr="value = ${employee.start}"
-					/>
+
+					<li>
+						<label for="team">Team</label> <br />
+						<input
+							type="text"
+							th:field="*{team}"
+							th:attr="value = ${employee.team}"
+							id="team"
+						/>
+						<br />
+					</li>
 					<br />
-				</li>
-
-				<li>
-					<label>End Date (Co-op/Intern)</label><br />
-					<input
-						type="date"
-						th:field="*{end}"
-						th:attr="value = ${employee.end}"
-					/>
+					<li>
+						<label for="status">Employee Status</label>
+						<select name="status" id="status">
+							<optgroup
+								th:field="*{status}"
+								label="status"
+								th:attr="value = ${employee.status}"
+							>
+								<option th:attr="value = ${employee.status}">
+									<text th:utext="${employee.status}"></text>
+								</option>
+								<option value="TRUE">Hired</option>
+								<option value="FALSE">Projected</option>
+							</optgroup>
+						</select>
+					</li>
 					<br />
-				</li>
+					<li>
+						<label>Start Date</label>
+						<input
+							type="date"
+							th:field="*{start}"
+							th:attr="value = ${employee.start}"
+						/>
+						<br />
+					</li>
 
-				<br />
+					<li>
+						<label>End Date (Co-op/Intern)</label><br />
+						<input
+							type="date"
+							th:field="*{end}"
+							th:attr="value = ${employee.end}"
+						/>
+						<br />
+					</li>
 
-				<li>
-					<label>ID (debug)</label><br />
-					<input
-						type="text"
-						th:field="*{id}"
-						th:attr="value = ${employee.id}"
-						readonly
-					/>
 					<br />
-				</li>
-				<br />
-			</ul>
-			<div class="buttons">
-				<input type="submit" value="Save" />
-				<button class="cancel"><a th:href="@{/employees}">Cancel</a></button>
-			</div>
-		</form>
 
-		<a th:href="@{/employees}">Back to Homepage</a>
+					<li>
+						<label>ID (debug)</label><br />
+						<input
+							type="text"
+							th:field="*{id}"
+							th:attr="value = ${employee.id}"
+							readonly
+						/>
+						<br />
+					</li>
+					<br />
+				</ul>
+				<div class="buttons">
+					<input type="submit" value="Save" />
+					<button class="cancel"><a th:href="@{/employees}">Cancel</a></button>
+				</div>
+			</form>
+			
+		</section>
+
 
 		<script>
 			let status = document.getElementById("position");

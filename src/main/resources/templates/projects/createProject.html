@@ -28,50 +28,56 @@
 
 	<header></header>
 	<body>
-		<form
-			action="#"
-			method="post"
-			th:action="@{/projects/create}"
-			th:object="${project}"
-			class="formtemplate"
-		>
-			<h1>New Project</h1>
-			<ul>
-				<li>
-					<label for="name">Project Name</label> <br />
-					<input type="text" th:field="*{name}" id="name" required /> <br />
-				</li>
-				<li>
-					<label>Start Date</label>
-					<input
-						type="date"
-						th:field="*{start}"
-						placeholder="yyyy-mm-dd"
-						required
-					/>
-					<br />
-				</li>
-				<li>
-					<label>End Date</label>
-					<input
-						type="date"
-						th:field="*{end}"
-						placeholder="yyyy-mm-dd"
-						id="end"
-						required
-					/>
-					<br />
-				</li>
-				<!-- <label for="workload">Workload</label> <br>
-            <input type="text" th:field="*{workload}" id="workload" required> <br> -->
+		<section class="home-section">
+			<div class="text">Projects</div>
 
-				<li>
-					<span>
-						<input type="submit" value="Save" th:href />
-						<button class="cancel"><a th:href="@{/projects}">Cancel</a></button>
-					</span>
-				</li>
-			</ul>
-		</form>
+			<form
+				action="#"
+				method="post"
+				th:action="@{/projects/create}"
+				th:object="${project}"
+				class="formtemplate"
+			>
+				<h1>New Project</h1>
+				<ul>
+					<li>
+						<label for="name">Project Name</label> <br />
+						<input type="text" th:field="*{name}" id="name" required /> <br />
+					</li>
+					<li>
+						<label>Start Date</label>
+						<input
+							type="date"
+							th:field="*{start}"
+							placeholder="yyyy-mm-dd"
+							required
+						/>
+						<br />
+					</li>
+					<li>
+						<label>End Date</label>
+						<input
+							type="date"
+							th:field="*{end}"
+							placeholder="yyyy-mm-dd"
+							id="end"
+							required
+						/>
+						<br />
+					</li>
+					<!-- <label for="workload">Workload</label> <br>
+				<input type="text" th:field="*{workload}" id="workload" required> <br> -->
+
+					<li>
+						<span>
+							<input type="submit" value="Save" />
+							<button class="cancel">
+								<a th:href="@{/projects}">Cancel</a>
+							</button>
+						</span>
+					</li>
+				</ul>
+			</form>
+		</section>
 	</body>
 </html>

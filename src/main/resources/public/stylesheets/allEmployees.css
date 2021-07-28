@@ -1,17 +1,47 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
 
 body {
-    font-family: "Montserrat", sans-serif;
+    /*font-family: "Montserrat", sans-serif;*/
+    font-family: "Poppins" , sans-serif;
+}
+
+label {
+    font-size: 14px;
+}
+
+.range-start, 
+.range-end {
+    display: inline-block;
+    text-align: left;
 }
 
 /*** search bar ***/
 .search-content {
-    width: 200px;
+    display: flex;
+    padding: 20px 0;
+}
+
+
+.add-employee,
+.add-project {
+    display: inline-block;
+    text-align: right;
+    align-self: flex-end;
+    width: 100%;
+}
+
+.form {
+    align-self: flex-end;
+    width: 100%;
+}
+
+/*** search bar ***/
+.search-form {
     margin: auto;
-    margin-bottom: 0;
     display: inline;
-    padding: 20px;
-    text-align: center;
+    text-align: left;
 }
 
 .search, 
@@ -20,13 +50,34 @@ body {
     text-align: left;
 }
 
-input[type=text], select {
-    width: 100%;
+.search {
+    display: table-cell;
+    min-width: 150px;
+}
+
+.value {
+    display: table-cell;
+    white-space: nowrap;
+    min-width: 150px;
+}
+
+input[type=text], input[type=date], select {
+    width: 95%;
+    height: 100%;
     padding: 7px 15px;
-    margin: 8px 0;
+    margin-right: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+}
+
+/*input[type=text] {
+    height: 33px;
+}*/
+
+/*** range ***/
+.input {
+    padding-bottom: 20px;
 }
 
 /*** table ***/
@@ -35,7 +86,7 @@ input[type=text], select {
 .visual-table {
     overflow-y: auto;
     height: 300px;
-    width: 90%;
+    width: 100%;
     margin: auto;
     margin-bottom: 30px;
 }
@@ -74,6 +125,7 @@ tbody tr:nth-of-type(even) {
 /*** buttons ***/
 
 button {
+    /*height: 32px;*/
     padding: 8px 20px;
     border-radius: 4px;
     border: none;
@@ -98,8 +150,19 @@ a {
     text-decoration: none;
 }
 
+.add {
+    background-color: rgb(116, 216, 116);
+}
+
+.add:hover {
+    background-color: rgb(89, 189, 89);
+}
+
+
 /* icons */
-.bi {
+.bi-pencil-fill,
+.bi-trash,
+.bi-eye-fill {
     font-size: medium;
     color: white;
 }
@@ -174,3 +237,4 @@ a {
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
+
