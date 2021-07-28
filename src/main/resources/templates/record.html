@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <section class="home-section">
+      <div class="text">Record!</div>
+        <div>
+          <button id="start" style="margin-left: 10%;">Start</button>
+          <button id="stop" disabled style="margin-left: 10%;">Stop</button>
+          <video id="video" autoplay></video>
+        </div>
+        <style>
+          video {
+          border: 1px solid lightgray;
+          width: 75%;
+          background-color: #eee; 
+          margin-left: 10%;
+          }
+        </style>
+        <script>
+          const video = document.getElementById("video");
+          const start = document.getElementById("start");
+          const stopped = document.getElementById("stop");
+          let recorder,stream;
+          //HELLO TEST TEST TEST
+    
+          async function startRecording() {
+              stream = await navigator.mediaDevices.getDisplayMedia({
+                video: { mediaSource: "screen" }
+              });
+              recorder = new MediaRecorder(stream);
+            
+              const chunks = [];
+              recorder.ondataavailable = e => chunks.push(e.data);
+              recorder.onstop = e => {
+                const completeBlob = new Blob(chunks, { type: chunks[0].type });
+                video.src = URL.createObjectURL(completeBlob);
+              };
+            
+              recorder.start();
+            }
+          stopped.addEventListener("click", () => {
+              stopped.setAttribute("disabled", true);
+              start.removeAttribute("disabled");
+            
+              recorder.stop();
+              stream.getVideoTracks()[0].stop();
+            });
+    
+          start.addEventListener("click", () => {
+              start.setAttribute("disabled", true);
+              stopped.removeAttribute("disabled");
+            
+              startRecording();
+            });
+        </script>
+        
+    </section>
+  
+  </body>
+</html>
