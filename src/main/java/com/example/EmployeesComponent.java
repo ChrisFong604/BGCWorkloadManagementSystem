@@ -51,6 +51,9 @@ public class EmployeesComponent {
 	      stmt.executeUpdate(
 	          "CREATE TABLE IF NOT EXISTS employees2 (id varchar(40), name varchar(40), position varchar(10), role varchar(40),"
 	        		  + "team varchar(40), status boolean, startdate date, enddate date)");
+
+		  stmt.executeUpdate("CREATE TABLE IF NOT EXISTS erange (id serial, startdate varchar(20), enddate varchar(20))");  /*************here****************** */
+
 	      String sql = "SELECT * FROM employees ORDER BY startdate ASC";
 	      ResultSet rs = stmt.executeQuery(sql);
 
@@ -69,17 +72,29 @@ public class EmployeesComponent {
 	        output.add(emp);
 	      }
 	      model.put("employees", output);
+
+		  /*** range ***/
+	      Statement stmt2 = connection.createStatement();
+	      String sql2 = "SELECT * FROM erange";
+	      ResultSet rs2 = stmt.executeQuery(sql2);
+
+	      RangeInput output2 = new RangeInput();
+	      while (rs2.next()) {
+	        output2.setStart(rs2.getString("startdate"));
+	        output2.setEnd(rs2.getString("enddate"));
+	      }
+	      model.put("range", output2);
 	      
 	      /*** visual ****/ 
-	      Statement stmt4 = connection.createStatement();
-	      String sql4 = "SELECT * FROM range";
-	      ResultSet rs4 = stmt.executeQuery(sql4);
+	      Statement stmt3 = connection.createStatement();
+	      String sql3 = "SELECT * FROM erange";  /*** here ***/
+	      ResultSet rs3 = stmt.executeQuery(sql3);
 
 	      LocalDate start = LocalDate.now();
 	      LocalDate end = LocalDate.now();
-	      while (rs4.next()) {
-	        start = LocalDate.parse(rs4.getString("startdate"));
-	        end = LocalDate.parse(rs4.getString("enddate"));
+	      while (rs3.next()) {
+	        start = LocalDate.parse(rs3.getString("startdate"));
+	        end = LocalDate.parse(rs3.getString("enddate"));
 	      }
 
 	      /*** setting up the range of dates ***/
@@ -212,6 +227,21 @@ public class EmployeesComponent {
 	      return "error";
 	    }
 	  }
+
+	public String getRangeComponentForEmployees(Map<String, Object> model, RangeInput range) throws Exception {
+	    try (Connection connection = dataSource.getConnection()) {
+	      Statement stmt = connection.createStatement();
+	      
+	      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS range (id serial, startdate varchar(20), enddate varchar(20))");
+	      String sql = "INSERT INTO erange (startdate, enddate) VALUES ('" + range.getStart() + "','" + range.getEnd() + "')";
+	      stmt.executeUpdate(sql);
+	      
+	      return "redirect:/employees";
+	    } catch (Exception e) {
+	      model.put("message", e.getMessage());
+	      return "error";
+	    }
+	}
 	
 	/*public String filterByPropertyComponent(Map<String, Object> model, Property prop, boolean flag, boolean edit) {
 	    String filterBy = prop.getFilterBy();
