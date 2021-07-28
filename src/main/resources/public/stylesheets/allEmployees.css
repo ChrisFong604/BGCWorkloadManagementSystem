@@ -98,8 +98,19 @@ a {
     text-decoration: none;
 }
 
+.add {
+    background-color: rgb(116, 216, 116);
+}
+
+.add:hover {
+    background-color: rgb(89, 189, 89);
+}
+
+
 /* icons */
-.bi {
+.bi-pencil-fill,
+.bi-trash,
+.bi-eye-fill {
     font-size: medium;
     color: white;
 }

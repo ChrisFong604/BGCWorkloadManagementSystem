@@ -15,107 +15,115 @@
 
 <body>
 
-    <form action="#" method="post" th:action="@{/manager/create}" th:object="${user}" class="formtemplate">
-      <h1>Create a user</h1>
-      <ul>
-      <li>
-        <label for="uName">Create Username</label> <br>
-        <input type="text" id="uName" required th:field="*{username}"> <br>
-      </li>
+  <section class="home-section">
+    <div class="text">Users</div>
 
-      <li>
-        <label for="pwd">Create Password</label> <br>
-        <input type="password" id="pwd" required th:field="*{password}"> <br>
-      </li>
-      <li>
-        <label>Type of Access</label> 
-        <select name="access" id="access">
-            <optgroup th:field=*{access}>
-              <option value="">Select...</option>
-                <option value="read">Read only</option>
-                <option value="edit">Edit</option>
-            </optgroup>
-        </select>
-      </li>
+      <form action="#" method="post" th:action="@{/manager/create}" th:object="${user}" class="formtemplate">
+        <h1>Create a user</h1>
+        <ul>
+        <li>
+          <label for="uName">Create Username</label> <br>
+          <input type="text" id="uName" required th:field="*{username}"> <br>
+        </li>
 
-      <li>
-        <input type="submit" value="Submit">
-        <button><a th:href="@{/manager/create}">Cancel</a></button>
-      </li>
-      </ul>
-    </form>
+        <li>
+          <label for="pwd">Create Password</label> <br>
+          <input type="password" id="pwd" required th:field="*{password}"> <br>
+        </li>
+        <li>
+          <label>Type of Access</label> 
+          <select name="access" id="access">
+              <optgroup th:field=*{access}>
+                <option value="">Select...</option>
+                  <option value="read">Read only</option>
+                  <option value="edit">Edit</option>
+              </optgroup>
+          </select>
+        </li>
 
-    <table>
+        <li>
+          <input type="submit" value="Submit">
+          <button><a th:href="@{/manager/create}">Cancel</a></button>
+        </li>
+        </ul>
+      </form>
 
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type of Access</th>
-          </tr>
-        </thead>
-  
-        <tr th:each="manager : ${managers}">
-            <td th:text="${manager.username}"></td>
-            <td th:text="${manager.access}"></td>
-  
-            <!-- <td>
-              <button><a>Edit</a></button>
-            </td> -->
+      <table>
 
-            <td>
-              <button><a th:href="@{/manager/deleted?m_id={id}(id=${manager.getID()})}"><i class="bi bi-trash"></i>Delete</a></button>
-            </td> 
-        </tr>
-    </table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type of Access</th>
+            </tr>
+          </thead>
     
+          <tr th:each="manager : ${managers}">
+              <td th:text="${manager.username}"></td>
+              <td th:text="${manager.access}"></td>
+    
+              <!-- <td>
+                <button><a>Edit</a></button>
+              </td> -->
 
-    <button id="start">Start</button>
-    <button id="stop" disabled>Stop</button>
-    <video id="video" autoplay></video>
-    <style>
-      video {
-      border: 1px solid lightgray;
-      width: 75%;
-      background-color: #eee;
-      }
-    </style>
-    <script>
-      const video = document.getElementById("video");
-      const start = document.getElementById("start");
-      const stopped = document.getElementById("stop");
-      let recorder,stream;
-
-      async function startRecording() {
-          stream = await navigator.mediaDevices.getDisplayMedia({
-            video: { mediaSource: "screen" }
-          });
-          recorder = new MediaRecorder(stream);
-        
-          const chunks = [];
-          recorder.ondataavailable = e => chunks.push(e.data);
-          recorder.onstop = e => {
-            const completeBlob = new Blob(chunks, { type: chunks[0].type });
-            video.src = URL.createObjectURL(completeBlob);
-          };
-        
-          recorder.start();
+              <td>
+                <button><a th:href="@{/manager/deleted?m_id={id}(id=${manager.getID()})}"><i class="bi bi-trash"></i>Delete</a></button>
+              </td> 
+          </tr>
+      </table>
+      <div>
+        <button id="start" style="margin-left: 25%;">Start</button>
+        <button id="stop" disabled style="margin-left: 25%;">Stop</button>
+        <video id="video" autoplay></video>
+      </div>
+      <style>
+        video {
+        border: 1px solid lightgray;
+        width: 75%;
+        background-color: #eee; 
+        margin-left: 25%;
         }
-      stopped.addEventListener("click", () => {
-          stopped.setAttribute("disabled", true);
-          start.removeAttribute("disabled");
-        
-          recorder.stop();
-          stream.getVideoTracks()[0].stop();
-        });
-
-      start.addEventListener("click", () => {
-          start.setAttribute("disabled", true);
-          stopped.removeAttribute("disabled");
-        
-          startRecording();
-        });
-    </script>
+      </style>
+      <script>
+        const video = document.getElementById("video");
+        const start = document.getElementById("start");
+        const stopped = document.getElementById("stop");
+        let recorder,stream;
+  
+        async function startRecording() {
+            stream = await navigator.mediaDevices.getDisplayMedia({
+              video: { mediaSource: "screen" }
+            });
+            recorder = new MediaRecorder(stream);
+          
+            const chunks = [];
+            recorder.ondataavailable = e => chunks.push(e.data);
+            recorder.onstop = e => {
+              const completeBlob = new Blob(chunks, { type: chunks[0].type });
+              video.src = URL.createObjectURL(completeBlob);
+            };
+          
+            recorder.start();
+          }
+        stopped.addEventListener("click", () => {
+            stopped.setAttribute("disabled", true);
+            start.removeAttribute("disabled");
+          
+            recorder.stop();
+            stream.getVideoTracks()[0].stop();
+          });
+  
+        start.addEventListener("click", () => {
+            start.setAttribute("disabled", true);
+            stopped.removeAttribute("disabled");
+          
+            startRecording();
+          });
+      </script>
+      
+  </section>
 
 </body>
 </html>
+
+
 
