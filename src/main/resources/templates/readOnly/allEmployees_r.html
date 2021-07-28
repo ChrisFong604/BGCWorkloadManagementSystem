@@ -17,10 +17,11 @@
         <div class="text">Employees</div>
 
         <div class="search-content">
-            <div class ="search-form">
-                <div class="search">
-                    <label>Search by</label> 
-                    <select name="filterBy" id="filterBy" required>
+            <div class="search-form">
+                <span class="form">  
+                    <div class="search">
+                        <label>Search by</label> 
+                        <select name="filterBy" id="filterBy" required>
                         <option selected disabled value="">Select...</option>
                         <option value="name">Name</option>
                         <option value="position">Employee Type</option>
@@ -29,16 +30,20 @@
                         <option value="status">Hired</option>
                         <option value="startdate">Start Date</option>
                         <option value="enddate">End Date</option>
-                    </select>
-                </div>
-                
-                <div class="value">
-                    <label>Search value</label>
-                    <input type="text" id="value">
-                </div>
-        
-                <button class="clear" id="clearbtn">Clear</button> 
+                        </select>
+                    </div>
+                            
+                    <div class="value">
+                        <label>Search value</label> <br/>
+                        <input type="text" id="value">
+                        <button class="clear" id="clearbtn">Clear</button>
+                    </div>
+                </span>  
             </div>
+            
+            <span class="add-employee">  
+                <button class="add"><a th:href="@{/employees/create}">Add New Profile</a></button> 
+            </span>    
         </div>
 
         <div class="data-table">
@@ -67,6 +72,23 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <!-- range input for visual -->
+        <div class="input">
+            <form action="#" method="post" th:action="@{/employees}" th:object="${range}">
+                <div class="range-start">
+                    <label>Start Date</label> <br/>
+                    <input type="date" th:field="*{start}" th:attr="value = ${range.start}"> 
+                </div>
+                        
+                <div class="range-end">
+                    <label>End Date</label> <br/>
+                    <input type="date" th:field="*{end}" th:attr="value = ${range.end}">
+                </div>
+                            
+                <input type="submit" value="Apply">
+            </form>
         </div>
 
         <div class="visual-table">

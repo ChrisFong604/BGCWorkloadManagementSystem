@@ -20,14 +20,16 @@
         
         <div class="input">
             <form action="#" method="post" th:action="@{/dashboard}" th:object="${range}">
-                <label>Start Date</label>
-                <!-- <input type="date" th:field="*{start}" placeholder="yyyy-mm-dd"> -->
-                <input type="date" th:field="*{start}" th:attr="value = ${range.start}"> 
-        
-                <label>End Date</label>
-                <!-- <input type="date" th:field="*{end}" placeholder="yyyy-mm-dd">-->
-                <input type="date" th:field="*{end}" th:attr="value = ${range.end}">
-        
+                <div class="range-start">
+                    <label>Start Date</label> <br/>
+                    <input type="date" th:field="*{start}" th:attr="value = ${range.start}"> 
+                </div>
+                        
+                <div class="range-end">
+                    <label>End Date</label> <br/>
+                    <input type="date" th:field="*{end}" th:attr="value = ${range.end}">
+                </div>
+                            
                 <input type="submit" value="Apply">
             </form>
         </div>

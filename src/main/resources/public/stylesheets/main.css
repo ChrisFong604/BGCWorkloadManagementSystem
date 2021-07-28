@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
+
 .jumbotron {
 	background: #532f8c;
 	color: white;
@@ -32,15 +34,16 @@
 	max-width: 100%;
 }
 
-
 .formtemplate {
 	max-width: 400px;
 	margin: 50px auto;
 	border: solid 2px;
 	border-radius: 4px;
 	border-color: rgb(51, 51, 51);
-	padding: 20px;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	background-color: white;
+	padding: 25px;
+	font-family: "Montserrat", serif;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .formtemplate h1 {
 	display: block;
@@ -73,8 +76,10 @@
 	margin-top: -19px;
 	background: #ffffff;
 	height: 14px;
-	padding: 2px 5px 2px 5px;
-	color: #b9b9b9;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 3px;
+	color: rgb(117, 117, 117);
 	font-size: 14px;
 	overflow: hidden;
 	font-family: Arial, Helvetica, sans-serif;
@@ -101,7 +106,7 @@
 	line-height: 25px;
 	font-size: 16px;
 	padding: 0;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: "Montserrat", serif;
 }
 .formtemplate input[type="text"]:focus,
 .formtemplate input[type="date"]:focus,
@@ -149,7 +154,7 @@ input[type="submit"],
 	border: none;
 	padding: 10px 20px 10px 20px;
 	border-radius: 3px;
-	color: #d2e2ff;
+	color: white;
 }
 
 input[type="submit"]:hover,
@@ -160,7 +165,5 @@ input[type="submit"]:hover,
 
 a {
 	text-decoration: none;
-	color: #d2e2ff;
+	color: white;
 }
-
-

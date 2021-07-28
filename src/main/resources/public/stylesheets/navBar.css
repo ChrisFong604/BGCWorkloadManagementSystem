@@ -71,6 +71,8 @@ a {
 	top: 0;
 	left: 100px;
 	width: calc(100% - 100px);
+	padding: 30px;
+	padding-top: 18px;
 }
 
 .home-section .text{
@@ -78,7 +80,7 @@ a {
 	color: #11101d;
 	font-size: 25px;
 	font-weight: 500;
-	margin: 18px;
+	margin: 0;
 	font-family: "Poppins" , sans-serif;
 }
 
