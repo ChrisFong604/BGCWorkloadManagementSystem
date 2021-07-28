@@ -30,11 +30,12 @@ function nextPrev(n) {
 	// Hide the current tab:
 
 	if (currentTab == 0) {
-		startDate = new Date(document.getElementById("start").value);
-		endDate = new Date(document.getElementById("end").value);
-
-		num_weeks[0] = findweeks(startDate, endDate);
-		console.log(num_weeks);
+		console.log(
+			findweeks(
+				document.getElementById("start").value,
+				document.getElementById("end").value
+			)
+		);
 	}
 	x[currentTab].style.display = "none";
 	// Increase or decrease the current tab by 1:
@@ -85,9 +86,21 @@ function fixStepIndicator(n) {
 */
 
 function findweeks(first, second) {
-	//Receives two date objects, and performs arithmetic to find difference. The second date must ALWAYS be later
-	let daydiff = Math.round(
-		(second.getTime() - first.getTime()) / (1000 * 60 * 60 * 24)
-	);
-	return Math.floor(daydiff / 7) + (daydiff % 7);
+	//Receives two date strings, and performs arithmetic to find difference. The second date must ALWAYS be later
+	startdate = new Date(first);
+	enddate = new Date(second);
+	let day_diff =
+		Math.round(enddate.getTime() - startdate.getTime()) / (1000 * 60 * 60 * 24);
+
+	let week_dates = [];
+
+	while (day_diff >= 7) {
+		let last_day = new Date(enddate);
+		week_dates.push(last_day.setDate(last_day.getDate() - day_diff));
+		day_diff -= 7;
+	}
+	if (day_diff > 0) {
+		week_dates.push(enddate.getDate() + day_diff);
+	}
+	return week_dates;
 }
