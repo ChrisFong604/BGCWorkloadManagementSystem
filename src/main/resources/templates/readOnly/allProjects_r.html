@@ -17,24 +17,33 @@
 		<div class="text">Projects</div>
 
 		<div class="search-content">
-			<div class ="search-form">
-				<div class="search">
-					<label>Search by</label> 
-					<select name="filterBy" id="filterBy" required>
-					<option selected disabled value="">Select...</option>
-					<option value="name">Name</option>
-					<option value="startdate">Start Date</option>
-					<option value="enddate">End Date</option>
-					</select>
-				</div>
-				
-				<div class="value">
-					<label>Search value</label>
-					<input type="text" id="value">
-				</div>
-		
-				<button class="clear" id="clearbtn">Clear</button> 
+			<div class="search-form">
+				<span class="form">  
+					<div class="search">
+						<label>Search by</label> 
+						<select name="filterBy" id="filterBy" required>
+						<option selected disabled value="">Select...</option>
+						<option value="name">Name</option>
+						<option value="position">Employee Type</option>
+						<option value="role">Role</option>
+						<option value="team">Team</option>
+						<option value="status">Hired</option>
+						<option value="startdate">Start Date</option>
+						<option value="enddate">End Date</option>
+						</select>
+					</div>
+							
+					<div class="value">
+						<label>Search value</label> <br/>
+						<input type="text" id="value">
+						<button class="clear" id="clearbtn">Clear</button>
+					</div>
+				</span>  
 			</div>
+			
+			<span class="add-project">  
+				<button class="add"><a th:href="@{/projects/create}">Add New Project</a></button> 
+			</span>    
 		</div>
 	
 		
