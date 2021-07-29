@@ -47,21 +47,10 @@ function nextPrev(n) {
 		let projects = document.getElementsByClassName("project-name");
 
 		for (let i = 0; i < projects.length; i++) {
-			projects[i].innerHTML = "";
-			projects[i].appendChild(
-				document
-					.createElement("p")
-					.appendChild(document.createTextNode(project_name))
-			);
+			projects[i].innerHTML = project_name;
 		}
-		document.getElementById("weeklydistribution").innerHTML = "";
-		for (let i = 0; i < num_weeks.length; i++) {
-			const element = document.createElement("p");
-			const node = document.createTextNode(num_weeks[i]);
-			element.appendChild(node);
 
-			document.getElementById("weeklydistribution").appendChild(element);
-		}
+		create_weekly_distribution();
 	}
 
 	// if you have reached the end of the form... :
@@ -127,4 +116,34 @@ function findweeks(first, second) {
 	}
 	week_dates.push(enddate);
 	return week_dates;
+}
+
+//Creates a table with all the weeks specified as well as inputs for each employee resource
+function create_weekly_distribution() {
+	let table = document.getElementById("weeks");
+	table.innerHTML = "<th>Resource Name</th>";
+	for (let i = 0; i < num_weeks.length; i++) {
+		const week = document.createElement("TH");
+		const node = document.createTextNode(num_weeks[i]);
+
+		week.appendChild(node);
+		table.appendChild(week);
+	}
+	addResource();
+}
+
+function addResource() {
+	let table = document.getElementById("work-table");
+	let new_resource = table.insertRow(-1);
+
+	let name_input = document.createElement("th");
+
+	name_input.innerHTML = '<input placeholder="resource name"/>';
+	new_resource.appendChild(name_input);
+
+	for (let i = 0; i < num_weeks.length; i++) {
+		weekly_input = document.createElement("th");
+		weekly_input.innerHTML = "<input placeholder='week" + " " + i + 1 + "' />";
+		new_resource.appendChild(weekly_input);
+	}
 }
