@@ -126,7 +126,7 @@ function headcount() {
     }
 
     for (i = 0; i < dateobjects2.length; i++){
-        if (dateobjects2[i] < dateobjects[0] && dateobjects4[i] > dateobjects[0]){
+        if (dateobjects2[i] < dateobjects[0]){
 
             if (empst[i] == true){
                 hemp[0] += 1;
