@@ -1,0 +1,14 @@
+{
+	"configurations": [
+		{
+			"type": "java",
+			"name": "Spring Boot-Main<java-getting-started>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"console": "internalConsole",
+			"mainClass": "com.example.Main",
+			"projectName": "java-getting-started",
+			"args": ""
+		}
+	]
+}

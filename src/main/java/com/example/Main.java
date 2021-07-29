@@ -48,7 +48,6 @@ import java.util.Date;
 
 @Controller
 @SpringBootApplication
-@EnableScheduling
 public class Main {
 
   boolean flag = false;

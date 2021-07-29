@@ -178,15 +178,15 @@ a {
 	height: 15px;
 	width: 15px;
 	margin: 0 2px;
-	background-color: #bbbbbb;
+	background-color: #afafaf;
 	border: none;
 	border-radius: 50%;
-	display: inline-block;
-	opacity: 0.5;
+	display: 0.65;
 }
 
 /* Mark the active step: */
 .step.active {
+	background-color: #70ac6e;
 	opacity: 1;
 }
 

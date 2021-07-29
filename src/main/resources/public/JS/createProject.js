@@ -1,5 +1,6 @@
 var currentTab = 0;
 var num_weeks = [];
+var project_name = "";
 showTab(currentTab);
 
 function showTab(Tab) {
@@ -15,6 +16,7 @@ function showTab(Tab) {
 	if (Tab == x.length - 1) {
 		document.getElementById("nextBtn").style.display = "none";
 	} else {
+		document.getElementById("nextBtn").style.display = "inline";
 		document.getElementById("nextBtn").innerHTML = "Next";
 	}
 	// ... and run a function that displays the correct step indicator:
@@ -30,16 +32,38 @@ function nextPrev(n) {
 	// Hide the current tab:
 
 	if (currentTab == 0) {
-		console.log(
-			findweeks(
-				document.getElementById("start").value,
-				document.getElementById("end").value
-			)
+		num_weeks = findweeks(
+			document.getElementById("start").value,
+			document.getElementById("end").value
 		);
 	}
+
 	x[currentTab].style.display = "none";
 	// Increase or decrease the current tab by 1:
 	currentTab = currentTab + n;
+
+	if (currentTab == 1) {
+		project_name = document.getElementById("name").value;
+		let projects = document.getElementsByClassName("project-name");
+
+		for (let i = 0; i < projects.length; i++) {
+			projects[i].innerHTML = "";
+			projects[i].appendChild(
+				document
+					.createElement("p")
+					.appendChild(document.createTextNode(project_name))
+			);
+		}
+		document.getElementById("weeklydistribution").innerHTML = "";
+		for (let i = 0; i < num_weeks.length; i++) {
+			const element = document.createElement("p");
+			const node = document.createTextNode(num_weeks[i]);
+			element.appendChild(node);
+
+			document.getElementById("weeklydistribution").appendChild(element);
+		}
+	}
+
 	// if you have reached the end of the form... :
 	if (currentTab >= x.length) {
 		document.getElementById("regForm").submit();
@@ -92,15 +116,15 @@ function findweeks(first, second) {
 	let day_diff =
 		Math.round(enddate.getTime() - startdate.getTime()) / (1000 * 60 * 60 * 24);
 
+	console.log("day diff = " + day_diff);
 	let week_dates = [];
 
-	while (day_diff >= 7) {
+	while (day_diff > 0) {
 		let last_day = new Date(enddate);
-		week_dates.push(last_day.setDate(last_day.getDate() - day_diff));
+		last_day.setDate(last_day.getDate() - day_diff);
+		week_dates.push(last_day);
 		day_diff -= 7;
 	}
-	if (day_diff > 0) {
-		week_dates.push(enddate.getDate() + day_diff);
-	}
+	week_dates.push(enddate);
 	return week_dates;
 }
