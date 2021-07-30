@@ -1,5 +1,6 @@
 var currentTab = 0;
 var num_weeks = [];
+var num_resources = 0;
 var project_name = "";
 showTab(currentTab);
 
@@ -30,28 +31,30 @@ function nextPrev(n) {
 	// Exit the function if any field in the current tab is invalid:
 	if (n == 1 && !validateForm()) return false;
 	// Hide the current tab:
-
+	x[currentTab].style.display = "none";
+	// Increase or decrease the current tab by 1:
+	currentTab += n;
+	console.log(currentTab)
+	//Wipe html from form pt 2
 	if (currentTab == 0) {
+		document.getElementById("weeks").innerHTML = "";
+		document.getElementById("resources").innerHTML = "";
+	}
+
+	if (currentTab == 1) {
 		num_weeks = findweeks(
 			document.getElementById("start").value,
 			document.getElementById("end").value
 		);
-	}
 
-	x[currentTab].style.display = "none";
-	// Increase or decrease the current tab by 1:
-	currentTab = currentTab + n;
-
-	if (currentTab == 1) {
 		project_name = document.getElementById("name").value;
-		let projects = document.getElementsByClassName("project-name");
-
-		for (let i = 0; i < projects.length; i++) {
-			projects[i].innerHTML = project_name;
-		}
+		document.getElementById("project-name").innerHTML = project_name;
 
 		create_weekly_distribution();
+		addResource();
+		num_resources = 1;
 	}
+
 
 	// if you have reached the end of the form... :
 	if (currentTab >= x.length) {
@@ -121,29 +124,37 @@ function findweeks(first, second) {
 //Creates a table with all the weeks specified as well as inputs for each employee resource
 function create_weekly_distribution() {
 	let table = document.getElementById("weeks");
-	table.innerHTML = "<th>Resource Name</th>";
+	table.innerHTML = "<th><h1>Resource Name</h1></th>";
 	for (let i = 0; i < num_weeks.length; i++) {
 		const week = document.createElement("TH");
-		const node = document.createTextNode(num_weeks[i]);
+		week.innerHTML = "<h1>" + num_weeks[i] +"</h1>"
 
-		week.appendChild(node);
 		table.appendChild(week);
 	}
-	addResource();
 }
 
 function addResource() {
+	num_resources++;
 	let table = document.getElementById("work-table");
 	let new_resource = table.insertRow(-1);
+	new_resource.setAttribute("id", num_resources);
 
-	let name_input = document.createElement("th");
+	let name_input = document.createElement("TH");
 
 	name_input.innerHTML = '<input placeholder="resource name"/>';
 	new_resource.appendChild(name_input);
 
 	for (let i = 0; i < num_weeks.length; i++) {
-		weekly_input = document.createElement("th");
-		weekly_input.innerHTML = "<input placeholder='week" + " " + i + 1 + "' />";
+		weekly_input = document.createElement("TD");
+		weekly_input.innerHTML =
+			"<input placeholder='week" +
+			" " +
+			i +
+			1 +
+			"' id='resource-" +
+			num_resources +
+			"' />";
 		new_resource.appendChild(weekly_input);
 	}
 }
+

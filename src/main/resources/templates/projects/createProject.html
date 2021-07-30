@@ -28,7 +28,6 @@
 
 	<header></header>
 	<body>
-		<section class="home-section">
 			<div class="text">Projects</div>
 
 			<form
@@ -43,8 +42,8 @@
 					<h1>New Project</h1>
 					<ul>
 						<li>
-							<label for="name">Project Name</label> <br />
-							<input type="text" th:field="*{name}" id="name" required /> <br />
+							<label for="name">Project Name</label>
+							<input type="text" th:field="*{name}" id="name" required />
 						</li>
 						<li>
 							<label>Start Date</label>
@@ -55,7 +54,6 @@
 								id="start"
 								required
 							/>
-							<br />
 						</li>
 						<li>
 							<label>End Date</label>
@@ -66,25 +64,23 @@
 								id="end"
 								required
 							/>
-							<br />
 						</li>
+						<p style="opacity: .4;">*Can be changed later</p>
 						<p id="error"></p>
 					</ul>
 				</div>
 
 				<div class="tab">
-					<h1 class="project-name"></h1>
-					<table id="work-table">
-						<tr id="weeks"></tr>
-						<div id="resources"></div>
-					</table>
-				</div>
+					<h1 id="project-name"></h1>
+					<table id="work-table" class="container">
+						<thead><tr id="weeks"></tr></thead>
+						
+						<tbody id="resources"></tbody>
 
-				<div class="tab">
-					<div class="project-name"></div>
-					<div id="employees-assignment">
-						<p>Insert employees from database</p>
-					</div>
+						<button type="button" onclick="addResource()">
+							Add Resource
+						</button>
+					</table>
 				</div>
 
 				<div style="overflow: auto">
@@ -101,14 +97,12 @@
 				<div style="text-align: center; margin-top: 40px">
 					<span class="step"></span>
 					<span class="step"></span>
-					<span class="step"></span>
 				</div>
 			</form>
 
 			<button class="cancel">
 				<a th:href="@{/projects}">Cancel</a>
 			</button>
-		</section>
 	</body>
 
 	<script th:src="@{/JS/createProject.js}"></script>
