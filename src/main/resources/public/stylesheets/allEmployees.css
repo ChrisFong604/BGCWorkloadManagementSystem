@@ -52,14 +52,20 @@ label {
 
 .search {
     display: table-cell;
-    min-width: 150px;
+    min-width: 170px;
 }
 
 .value {
     display: table-cell;
     white-space: nowrap;
-    min-width: 150px;
+    min-width: 300px;
 }
+
+.clear {
+    position: absolute;
+    z-index: 1;
+}
+
 
 input[type=text], input[type=date], select {
     width: 95%;
@@ -91,6 +97,10 @@ input[type=text], input[type=date], select {
     margin-bottom: 30px;
 }
 
+.visual-table {
+    height: 1000px;
+}
+
 .data-table thead th,
 .visual-table thead th {
     position: sticky;
@@ -111,7 +121,7 @@ table {
 
 th, 
 td {
-    padding: 12px 8px;
+    padding: 8px 8px;
 }
 
 tbody tr {
@@ -131,6 +141,7 @@ button {
     border: none;
     background-color: #0f2269;
     color: white;
+    cursor: pointer;
 }
 
 input[type=submit] {
@@ -139,6 +150,7 @@ input[type=submit] {
     border: none;
     background-color: #0f2269;
     color: white;
+    cursor: pointer;
 }
 
 input[type=submit]:hover, button:hover {
