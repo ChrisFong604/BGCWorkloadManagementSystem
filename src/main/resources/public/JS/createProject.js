@@ -108,19 +108,32 @@ function findweeks(first, second) {
 	//Receives two date strings, and performs arithmetic to find difference. The second date must ALWAYS be later
 	startdate = new Date(first);
 	enddate = new Date(second);
+
+	offset_date = new Date();
+	const offset = offset_date.getTimezoneOffset();
+	startdate = new Date(startdate.getTime() + offset * 60 * 1000);
+	enddate = new Date(enddate.getTime() + offset * 60 * 1000);
+
 	let day_diff =
 		Math.round(enddate.getTime() - startdate.getTime()) / (1000 * 60 * 60 * 24);
 
-	console.log("day diff = " + day_diff);
 	let week_dates = [];
 
 	while (day_diff > 0) {
 		let last_day = new Date(enddate);
+		last_day.toLocaleString("en-CA", {
+			timeZone: "Canada/Pacific",
+		});
 		last_day.setDate(last_day.getDate() - day_diff);
+		last_day = last_day.toISOString().split("T")[0];
 		week_dates.push(last_day);
 		day_diff -= 7;
 	}
-	week_dates.push(enddate);
+	enddate.toLocaleString("en-CA", {
+		timeZone: "Canada/Pacific",
+	});
+
+	week_dates.push(enddate.toISOString().split("T")[0]);
 	return week_dates;
 }
 
@@ -171,5 +184,6 @@ function submitHandler() {
 		}
 		total_resources[resource_names[i].value] = work_capacities;
 	}
-	console.log(total_resources);
+	let rval = JSON.stringify(total_resources);
+	console.log(rval);
 }
