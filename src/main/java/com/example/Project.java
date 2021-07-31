@@ -1,7 +1,7 @@
 package com.example;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
 public class Project {
     private int id;
@@ -9,7 +9,8 @@ public class Project {
     private Date start;
     private Date end;
 
-    private ArrayList<Double> WeeklyWorkload;
+    // JSON in string format
+    private String resources;
 
     public void setId(int id) {
         this.id = id;
@@ -25,6 +26,10 @@ public class Project {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    public void setResources(String resources) {
+        this.resources = resources;
     }
 
     public int getId() {
@@ -43,7 +48,8 @@ public class Project {
         return this.end;
     }
 
-    public ArrayList<Double> getWeeklyWorkload() {
-        return this.WeeklyWorkload;
+    public String getResources() {
+        return this.resources;
     }
+
 }

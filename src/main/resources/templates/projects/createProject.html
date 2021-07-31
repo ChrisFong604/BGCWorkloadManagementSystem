@@ -31,7 +31,7 @@
 		<div class="text">Projects</div>
 
 		<form
-			id="regForm"
+			id="project-form"
 			action="#"
 			method="post"
 			th:action="@{/projects/create}"
@@ -80,8 +80,16 @@
 					<tbody id="resources"></tbody>
 
 					<button type="button" onclick="addResource()">Add Resource</button>
-					<button type="button" onclick="submitHandler()">test button</button>
+					<button type="button" onclick="submitHandler()">Submit</button>
 				</table>
+
+				<input
+					type="text"
+					id="answer"
+					style="display: none"
+					value=""
+					th:field="*{resources}"
+				/>
 			</div>
 
 			<div style="overflow: auto">
@@ -104,5 +112,5 @@
 		</button>
 	</body>
 
-	<script th:src="@{/JS/createProject.js}"></script>
+	<script type="text/javascript" th:src="@{/JS/createProject.js}"></script>
 </html>

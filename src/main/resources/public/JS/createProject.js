@@ -184,6 +184,6 @@ function submitHandler() {
 		}
 		total_resources[resource_names[i].value] = work_capacities;
 	}
-	let rval = JSON.stringify(total_resources);
-	console.log(rval);
+	document.getElementById("answer").value = JSON.stringify(total_resources);
+	document.getElementById("project-form").submit();
 }
