@@ -118,12 +118,13 @@ public class ProjectsComponent {
 			Statement stmt = connection.createStatement();
 
 			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date, resources text)");
+					"CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date, resources text, capacities text)");
 			// Creates a universally unique ID for each employee (Only exists in Database)
 
 			System.out.println("Added resources list: " + project.getResources());
-			String sql = "INSERT INTO projects ( name, startdate, enddate, resources ) VALUES ('" + project.getName()
-					+ "','" + project.getStart() + "','" + project.getEnd() + "',' " + project.getResources() + "')";
+			String sql = "INSERT INTO projects ( name, startdate, enddate, resources, capacities ) VALUES ('"
+					+ project.getName() + "','" + project.getStart() + "','" + project.getEnd() + "','"
+					+ project.getResources() + "','" + project.getCapacities() + "')";
 			stmt.executeUpdate(sql);
 
 			return "redirect:/projects"; // Directly returns to project homepage

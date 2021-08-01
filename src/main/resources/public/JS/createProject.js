@@ -163,7 +163,7 @@ function addResource() {
 	for (let i = 0; i < week_periods.length; i++) {
 		weekly_input = document.createElement("TD");
 		weekly_input.innerHTML =
-			"<input type='number' name='resource-capacity' placeholder='week" +
+			"<input type='number' name='resource-capacity' class='week" +
 			" " +
 			(i + 1).toString() +
 			"'/>";
@@ -184,6 +184,24 @@ function submitHandler() {
 		}
 		total_resources[resource_names[i].value] = work_capacities;
 	}
-	document.getElementById("answer").value = JSON.stringify(total_resources);
+
+	//JSON for sum of work capacity for each week
+	let weekly_capacities = {};
+	for (let i = 0; i < week_periods.length; i++) {
+		let capacity_inputs = document.getElementsByClassName(
+			"week " + (i + 1).toString()
+		);
+		let capacity_sum = 0;
+		for (let j = 0; j < capacity_inputs.length; j++) {
+			capacity_sum += parseInt(capacity_inputs[j].value);
+		}
+		weekly_capacities[week_periods[i]] = capacity_sum;
+	}
+
+	//Inserts values into invisible inputs that will be grabbed from form submission
+	document.getElementById("resource-id").value =
+		JSON.stringify(total_resources);
+	document.getElementById("weekly-capacities-id").value =
+		JSON.stringify(weekly_capacities);
 	document.getElementById("project-form").submit();
 }

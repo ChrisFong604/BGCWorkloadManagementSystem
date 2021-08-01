@@ -11,6 +11,7 @@ public class Project {
 
     // JSON in string format
     private String resources;
+    private String capacities;
 
     public void setId(int id) {
         this.id = id;
@@ -32,6 +33,10 @@ public class Project {
         this.resources = resources;
     }
 
+    public void setCapacities(String capacities) {
+        this.capacities = capacities;
+    }
+
     public int getId() {
         return this.id;
     }
@@ -50,6 +55,10 @@ public class Project {
 
     public String getResources() {
         return this.resources;
+    }
+
+    public String getCapacities() {
+        return this.capacities;
     }
 
 }
