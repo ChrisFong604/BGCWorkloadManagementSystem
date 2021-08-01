@@ -1,139 +1,148 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::header})}"
+></html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/allEmployees.css" />
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/stylesheets/allEmployees.css"
+		/>
 
-    <title>Current Projects</title>
-</head>
+		<title>Current Projects</title>
+	</head>
 
-<header></header>
+	<header></header>
 
-<body>
-  <section class="home-section">
-    <div class="text">Projects</div>
+	<body>
+		<section class="home-section">
+			<div class="text">Projects</div>
 
-    <div class="search-content">
-      <div class="search-form">
-          <span class="form">  
-              <div class="search">
-                  <label>Search by</label> 
-                  <select name="filterBy" id="filterBy" required>
-                  <option selected disabled value="">Select...</option>
-                  <option value="name">Name</option>
-                  <option value="startdate">Start Date</option>
-                  <option value="enddate">End Date</option>
-                  </select>
-              </div>
-                      
-              <div class="value">
-                  <label>Search value</label> <br/>
-                  <input type="text" id="value">
-                  <button class="clear" id="clearbtn">Clear</button>
-              </div>
-          </span>  
-      </div>
-      
-      <span class="add-project">  
-          <button class="add"><a th:href="@{/projects/create}">Add New Project</a></button> 
-      </span>    
-    </div>
-    
-      
-    <div class="data-table">
-        <table id="myTable">
-            <thead>
-              <tr>
-                <th>Name of Project</th>     
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th></th>
-              </tr>
-            </thead>
+			<div class="search-content">
+				<div class="search-form">
+					<span class="form">
+						<div class="search">
+							<label>Search by</label>
+							<select name="filterBy" id="filterBy" required>
+								<option selected disabled value="">Select...</option>
+								<option value="name">Name</option>
+								<option value="startdate">Start Date</option>
+								<option value="enddate">End Date</option>
+							</select>
+						</div>
 
-            <tbody>
-              <tr th:each="project : ${projects}">
-                <td th:text="${project.name}"></td>
-                <td th:text="${project.start}"></td>
-                <td th:text="${project.end}"></td>
-                
-                <td>
-                  <button class="action view"><i class="bi bi-eye-fill"></i></button>
-                  <button class="action edit"><i class="bi bi-pencil-fill"></i></button>
-                  <button class="trigger action delete"><a th:href="@{/projects/deleted?p_id={id}(id=${project.id})}"><i class="bi bi-trash"></i></a></button>
-                </td>
-              </tr>
-            </tbody>
-        </table>
-    </div>
+						<div class="value">
+							<label>Search value</label> <br />
+							<input type="text" id="value" />
+							<button class="clear" id="clearbtn">Clear</button>
+						</div>
+					</span>
+				</div>
 
-  </section>
+				<span class="add-project">
+					<button class="add">
+						<a th:href="@{/projects/create}">Add New Project</a>
+					</button>
+				</span>
+			</div>
 
+			<div class="data-table">
+				<table id="myTable">
+					<thead>
+						<tr>
+							<th>Name of Project</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+							<th></th>
+						</tr>
+					</thead>
 
-  <script>
+					<tbody>
+						<tr th:each="project : ${projects}">
+							<td th:text="${project.name}"></td>
+							<td th:text="${project.start}"></td>
+							<td th:text="${project.end}"></td>
 
-    let attr;
-    let filterBy = document.getElementById("filterBy");  
-    filterBy.addEventListener("click", getAttribute);
+							<td>
+								<button class="action view">
+									<i class="bi bi-eye-fill"></i>
+								</button>
+								<button class="action edit">
+									<a th:ref="@{/projects/edit?p_id={id}(id=${project.id})}"
+										><i class="bi bi-pencil-fill"></i
+									></a>
+								</button>
+								<button class="trigger action delete">
+									<a th:href="@{/projects/deleted?p_id={id}(id=${project.id})}"
+										><i class="bi bi-trash"></i
+									></a>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
 
-    let value = document.getElementById("value");
-    value.addEventListener("keyup", getFilter);
+		<script>
+			let attr;
+			let filterBy = document.getElementById("filterBy");
+			filterBy.addEventListener("click", getAttribute);
 
-    let clearButton = document.getElementById("clearbtn");
-    clearButton.addEventListener("click", clear);
-    
-    function getAttribute() {
-      let val = filterBy.value;
-      //console.log(val);
-      if (val == "name") {
-        attr = 0;
-      }
-      else if (val == "startdate") {
-        attr = 1;
-      }
-      else if (val == "enddate") {
-        attr = 2;
-      }
-      else {
-        attr = 3;    
-      }
-      //console.log(attr);
-      filterBy.addEventListener("click", getFilter);
-    }
+			let value = document.getElementById("value");
+			value.addEventListener("keyup", getFilter);
 
-    function getFilter() {
-      if (attr == 3) {
-        return;
-      }
-      var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("value");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("myTable");
-      tr = table.getElementsByTagName("tr");
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[attr];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
-        }       
-      }
-    }
+			let clearButton = document.getElementById("clearbtn");
+			clearButton.addEventListener("click", clear);
 
-    function clear() {
-      document.getElementById("value").value = "";
-      getFilter();
-    } 
+			function getAttribute() {
+				let val = filterBy.value;
+				//console.log(val);
+				if (val == "name") {
+					attr = 0;
+				} else if (val == "startdate") {
+					attr = 1;
+				} else if (val == "enddate") {
+					attr = 2;
+				} else {
+					attr = 3;
+				}
+				//console.log(attr);
+				filterBy.addEventListener("click", getFilter);
+			}
 
-</script>
+			function getFilter() {
+				if (attr == 3) {
+					return;
+				}
+				var input, filter, table, tr, td, i, txtValue;
+				input = document.getElementById("value");
+				filter = input.value.toUpperCase();
+				table = document.getElementById("myTable");
+				tr = table.getElementsByTagName("tr");
+				for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName("td")[attr];
+					if (td) {
+						txtValue = td.textContent || td.innerText;
+						if (txtValue.toUpperCase().indexOf(filter) > -1) {
+							tr[i].style.display = "";
+						} else {
+							tr[i].style.display = "none";
+						}
+					}
+				}
+			}
 
-</body>
-
+			function clear() {
+				document.getElementById("value").value = "";
+				getFilter();
+			}
+		</script>
+	</body>
 </html>

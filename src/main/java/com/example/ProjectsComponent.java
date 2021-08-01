@@ -147,4 +147,45 @@ public class ProjectsComponent {
 		}
 	}
 
+	public String editEmployeeComponent(Map<String, Object> model, @RequestParam String p_id) throws Exception {
+		try (Connection connection = dataSource.getConnection()) {
+			String sql = "SELECT * FROM project WHERE id = ?";
+			PreparedStatement pstmt = connection.prepareStatement(sql);
+			pstmt.setString(1, p_id);
+			ResultSet rs = pstmt.executeQuery();
+			Employee proj = new Project();
+			if (rs.next()) {
+				proj.setName(rs.getString("name"));
+				proj.setStart(rs.getDate("startdate"));
+				proj.setEnd(rs.getEnd("enddate"));
+				proj.setCapacities(rs.getString("capacities"));
+				proj.setResources(rs.getSTring("resources"));
+			}
+
+			model.put("projects", proj);
+			return "project/editProject";
+		} catch (Exception e) {
+			model.put("message", e.getMessage());
+			return "error";
+		}
+	}
+
+	public String handleEmployeeEditSubmitComponent(Map<String, Object> model, Project project,
+			@RequestParam String p_id) throws Exception {
+		try (Connection connection = dataSource.getConnection()) {
+			Statement stmt = connection.createStatement();
+
+			String sql = "UPDATE employees SET " + "name='" + project.getName() + "', " + "startdate='"
+					+ project.getStart() + "', " + "enddate= '" + project.getEnd() + "', " + "capacities='"
+					+ project.getCapacities() + "', " + "resources=" + project.getResources() + "' " + "WHERE id = '"
+					+ p_id + "';";
+			System.out.println(p_id);
+			stmt.executeUpdate(sql);
+			return "redirect:/projects"; // Directly returns to employee homepage
+		} catch (Exception e) {
+			model.put("message", e.getMessage());
+			return "error";
+		}
+	}
+
 }
