@@ -23,7 +23,6 @@ label {
     padding: 20px 0;
 }
 
-
 .add-employee,
 .add-project {
     display: inline-block;
@@ -37,7 +36,6 @@ label {
     width: 100%;
 }
 
-/*** search bar ***/
 .search-form {
     margin: auto;
     display: inline;
@@ -66,7 +64,6 @@ label {
     z-index: 1;
 }
 
-
 input[type=text], input[type=date], select {
     width: 95%;
     height: 100%;
@@ -77,28 +74,23 @@ input[type=text], input[type=date], select {
     box-sizing: border-box;
 }
 
-/*input[type=text] {
-    height: 33px;
-}*/
-
 /*** range ***/
 .input {
     padding-bottom: 20px;
 }
 
 /*** table ***/
-
 .data-table,
 .visual-table {
     overflow-y: auto;
-    height: 300px;
+    max-height: 700px;
     width: 100%;
     margin: auto;
     margin-bottom: 30px;
 }
 
-.visual-table {
-    height: 1000px;
+.data-table {
+    height: 300px;
 }
 
 .data-table thead th,
