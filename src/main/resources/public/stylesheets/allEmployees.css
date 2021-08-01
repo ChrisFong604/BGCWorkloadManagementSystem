@@ -23,7 +23,6 @@ label {
     padding: 20px 0;
 }
 
-
 .add-employee,
 .add-project {
     display: inline-block;
@@ -37,7 +36,6 @@ label {
     width: 100%;
 }
 
-/*** search bar ***/
 .search-form {
     margin: auto;
     display: inline;
@@ -52,13 +50,18 @@ label {
 
 .search {
     display: table-cell;
-    min-width: 150px;
+    min-width: 170px;
 }
 
 .value {
     display: table-cell;
     white-space: nowrap;
-    min-width: 150px;
+    min-width: 300px;
+}
+
+.clear {
+    position: absolute;
+    z-index: 1;
 }
 
 input[type=text], input[type=date], select {
@@ -71,24 +74,23 @@ input[type=text], input[type=date], select {
     box-sizing: border-box;
 }
 
-/*input[type=text] {
-    height: 33px;
-}*/
-
 /*** range ***/
 .input {
     padding-bottom: 20px;
 }
 
 /*** table ***/
-
 .data-table,
 .visual-table {
     overflow-y: auto;
-    height: 300px;
+    max-height: 700px;
     width: 100%;
     margin: auto;
     margin-bottom: 30px;
+}
+
+.data-table {
+    height: 300px;
 }
 
 .data-table thead th,
@@ -111,7 +113,7 @@ table {
 
 th, 
 td {
-    padding: 12px 8px;
+    padding: 8px 8px;
 }
 
 tbody tr {
@@ -131,6 +133,7 @@ button {
     border: none;
     background-color: #0f2269;
     color: white;
+    cursor: pointer;
 }
 
 input[type=submit] {
@@ -139,6 +142,7 @@ input[type=submit] {
     border: none;
     background-color: #0f2269;
     color: white;
+    cursor: pointer;
 }
 
 input[type=submit]:hover, button:hover {

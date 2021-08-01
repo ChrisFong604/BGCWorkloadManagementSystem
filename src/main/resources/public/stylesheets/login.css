@@ -1,9 +1,16 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
 
+:root {
+    --main-color: #0f2269;
+    --secondary-color: #d5def7;
+    --border-color: #8a91b8;
+
+    --normal-font-size: 16px;
+    --small-font-size: 12px;
+}
+
 body {
-    /*background: #344da5;*/
-    /*background: #728be4;*/
-    background: #E4E9F7;
+    background: #b6bde4;
     margin: 15px;
     margin-top: 150px;
     font-family: "Montserrat", sans-serif;
@@ -17,7 +24,6 @@ h1 {
 .login-form,
 .login-form * {
     box-sizing: border-box;
-    font-family: "Montserrat", sans-serif;
 }
 
 .login-form {
@@ -30,44 +36,83 @@ h1 {
 
 .logo-container {
     padding: 30px;
-    background: #0f2269;
+    background: var(--main-color);
 }
 
 .form-credentials {
     padding: 50px;
-    background: #eeeeee;
+    background: var(--secondary-color);
 }
 
 .form-header {
     margin-bottom: 15px;
+    font-size: var(--normal-font-size);
     text-align: center;
-    color: #333333;
+    color: var(--main-color);
+}
+
+/*** inputs **/
+.form-div {
+    position: relative;
+    height: 48px;
+    margin-bottom: 24px;
 }
 
 .form-input {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 2px solid #dddddd;
-    background:#ffffff;
+    height: 100%;
+    font-size: var(--normal-font-size);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
     outline: none;
-    transition: border-color 0.5s;
+    padding: 16px;
+    background: none;
+    z-index: 1;
 }
 
-.form-input:focus {
-    border-color: #728be4;
+.form-label {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    padding: 0 4px;
+    background-color: var(--secondary-color); 
+    color: var(--border-color);
+    font-size: var(--normal-font-size);
+    transition: .3s;
 }
 
-.form-input::placeholder {
-    color: #aaaaaa;
+/*input focus move label up*/
+.form-input:focus + .form-label{
+    top: -8px;
+    left: 13px;
+    color: var(--main-color);
+    font-size: var(--small-font-size);
+    font-weight: 500;
+    z-index: 10;
+}
+  
+/*input focus sticky top label*/
+.form-input:not(:placeholder-shown).form-input:not(:focus)+ .form-label{
+    top: -8px;
+    left: 13px;
+    font-size: var(--small-font-size);
+    font-weight: 500;
+    z-index: 10;
+}
+  
+.form-input:focus{
+    border: 2px solid var(--main-color);
 }
 
+/*** button ***/
 .form-button {
     padding: 10px;
+    background: var(--main-color);
     color: white; 
     font-weight: bold; 
-    background: #728be4;
     width: 100%;
     border: none;
     outline: none;
@@ -76,12 +121,13 @@ h1 {
 }
 
 .form-button:hover {
-    background: #5671d3;
+    background: #071341;
 }
 
 .form-button:active {
-    background: #728be4;
+    background: var(--main-color);
 }
+
 
 /*body {
     margin: 0;
