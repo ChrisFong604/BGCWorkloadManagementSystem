@@ -75,7 +75,7 @@ function headcount() {
     /*
     let st = str.start.split("-");
     */
-
+    
     for (i = 0; i < theList.length; i++){
         //console.log("EMPSD " + empsd[i]);
         let o = empsd[i].split("-");
@@ -125,8 +125,10 @@ function headcount() {
         //console.log(hemp[i]);
     }
 
+
+    // Adding people to graph before start date
     for (i = 0; i < dateobjects2.length; i++){
-        if (dateobjects2[i] < dateobjects[0]){
+        if (dateobjects2[i] < dateobjects[0] && dateobjects4[i] > dateobjects[0]){
 
             if (empst[i] == true){
                 hemp[0] += 1;
@@ -407,6 +409,7 @@ function headcount() {
             }]
         },
         options: {
+            
             scales:{
                 yAxes:{
                     beginAtZero: true,

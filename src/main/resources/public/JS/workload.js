@@ -137,6 +137,9 @@ let myChart = new Chart(workload, {
         }]
     },
     options: {
+        interaction: {
+            mode: 'nearest'
+        },
         scales:{
 
             yAxes:
@@ -182,7 +185,7 @@ let myChart = new Chart(workload, {
     }
 });
 
-for (i = 0; i < 3; i++){
+for (i = 0; i < 20; i++){
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
@@ -195,6 +198,8 @@ for (i = 0; i < 3; i++){
         data: [1+i, 2+i, 3+i, 4+i, 5+i, 0, 0],
         stack: 'Stack 0',
     }
+
+    console.log("PUSHING NEW GRAPHS????");
 
     // You add the newly created dataset to the list of `data`
     myChart.data.datasets.push(newDataset);
