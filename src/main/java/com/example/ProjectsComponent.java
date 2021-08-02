@@ -47,9 +47,9 @@ public class ProjectsComponent {
 			Statement stmt = connection.createStatement();
 
 			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date)");
+					"CREATE TABLE IF NOT EXISTS projects2 (id serial, name varchar(40), startdate date, enddate date, resources text, capacities text)");
 
-			String sql = "SELECT * FROM projects ORDER BY startdate ASC";
+			String sql = "SELECT * FROM projects2 ORDER BY startdate ASC";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			ArrayList<Project> output = new ArrayList<>();
@@ -60,7 +60,7 @@ public class ProjectsComponent {
 				proj.setStart(rs.getDate("startdate"));
 				proj.setEnd(rs.getDate("enddate"));
 				proj.setResources(rs.getString("resources"));
-
+				proj.setCapacities(rs.getString("capacities"));
 				output.add(proj);
 			}
 			model.put("projects", output);
@@ -118,11 +118,11 @@ public class ProjectsComponent {
 			Statement stmt = connection.createStatement();
 
 			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date, resources text, capacities text)");
+					"CREATE TABLE IF NOT EXISTS projects2 (id serial, name varchar(40), startdate date, enddate date, resources text, capacities text)");
 			// Creates a universally unique ID for each employee (Only exists in Database)
 
 			System.out.println("Added resources list: " + project.getResources());
-			String sql = "INSERT INTO projects ( name, startdate, enddate, resources, capacities ) VALUES ('"
+			String sql = "INSERT INTO projects2 ( name, startdate, enddate, resources, capacities ) VALUES ('"
 					+ project.getName() + "','" + project.getStart() + "','" + project.getEnd() + "','"
 					+ project.getResources() + "','" + project.getCapacities() + "')";
 			stmt.executeUpdate(sql);
@@ -136,7 +136,7 @@ public class ProjectsComponent {
 
 	public String deleteProjectComponent(Map<String, Object> model, @RequestParam String p_id) {
 		try (Connection connection = dataSource.getConnection()) {
-			String sql = "DELETE FROM projects WHERE id =?";
+			String sql = "DELETE FROM projects2 WHERE id =?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, Integer.parseInt(p_id));
 			ps.executeUpdate();
@@ -149,17 +149,17 @@ public class ProjectsComponent {
 
 	public String editEmployeeComponent(Map<String, Object> model, @RequestParam String p_id) throws Exception {
 		try (Connection connection = dataSource.getConnection()) {
-			String sql = "SELECT * FROM project WHERE id = ?";
+			String sql = "SELECT * FROM projects2 WHERE id = ?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, p_id);
 			ResultSet rs = pstmt.executeQuery();
-			Employee proj = new Project();
+			Project proj = new Project();
 			if (rs.next()) {
 				proj.setName(rs.getString("name"));
 				proj.setStart(rs.getDate("startdate"));
-				proj.setEnd(rs.getEnd("enddate"));
+				proj.setEnd(rs.getDate("enddate"));
 				proj.setCapacities(rs.getString("capacities"));
-				proj.setResources(rs.getSTring("resources"));
+				proj.setResources(rs.getString("resources"));
 			}
 
 			model.put("projects", proj);

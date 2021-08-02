@@ -129,11 +129,9 @@ function findweeks(first, second) {
 		week_dates.push(last_day);
 		day_diff -= 7;
 	}
-	enddate.toLocaleString("en-CA", {
-		timeZone: "Canada/Pacific",
-	});
+	
 
-	week_dates.push(enddate.toISOString().split("T")[0]);
+	
 	return week_dates;
 }
 
