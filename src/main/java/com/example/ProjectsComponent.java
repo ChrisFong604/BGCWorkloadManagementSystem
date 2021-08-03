@@ -47,7 +47,7 @@ public class ProjectsComponent {
 			Statement stmt = connection.createStatement();
 
 			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text)");
+					"CREATE TABLE IF NOT EXISTS projects (id varchar(40), name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text)");
 
 			String sql = "SELECT * FROM projects ORDER BY startdate ASC";
 			ResultSet rs = stmt.executeQuery(sql);
@@ -55,7 +55,7 @@ public class ProjectsComponent {
 			ArrayList<Project> output = new ArrayList<>();
 			while (rs.next()) {
 				Project proj = new Project();
-				proj.setId(rs.getInt("id"));
+				proj.setId(rs.getString("id"));
 				proj.setName(rs.getString("name"));
 				proj.setStart(rs.getDate("startdate"));
 				proj.setEnd(rs.getDate("enddate"));
@@ -118,13 +118,14 @@ public class ProjectsComponent {
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
 
+			final String UniqueID = UUID.randomUUID().toString().replace("-", "");
+
 			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text)");
+					"CREATE TABLE IF NOT EXISTS projects (id varchar(40), name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text)");
 			// Creates a universally unique ID for each employee (Only exists in Database)
 
-			System.out.println("Added resources list: " + project.getResources());
-			String sql = "INSERT INTO projects ( name, startdate, enddate, resources, capacities, capacities2 ) VALUES ('"
-					+ project.getName() + "','" + project.getStart() + "','" + project.getEnd() + "','"
+			String sql = "INSERT INTO projects ( id, name, startdate, enddate, resources, capacities, capacities2 ) VALUES ('"
+					+ UniqueID + "','" + project.getName() + "','" + project.getStart() + "','" + project.getEnd() + "','"
 					+ project.getResources() + "','" + project.getCapacities() + "','" +  project.getCapacities2() + "')";
 			stmt.executeUpdate(sql);
 
@@ -156,7 +157,7 @@ public class ProjectsComponent {
 			ResultSet rs = pstmt.executeQuery();
 			Project proj = new Project();
 			if (rs.next()) {
-				proj.setId(rs.getInt("id"));
+				proj.setId(rs.getString("id"));
 				proj.setName(rs.getString("name"));
 				proj.setStart(rs.getDate("startdate"));
 				proj.setEnd(rs.getDate("enddate"));
@@ -181,7 +182,7 @@ public class ProjectsComponent {
 			String sql = "UPDATE projects SET " + "name='" + project.getName() + "', " + "startdate='"
 					+ project.getStart() + "', " + "enddate= '" + project.getEnd() + "', " + "capacities='"
 					+ project.getCapacities() + "', " + "resources=" + project.getResources() + "' " + "WHERE id = "
-					+ Integer.parseInt(pid) + ";";
+					+ project.getId() + ";";
 			stmt.executeUpdate(sql);
 			return "redirect:/projects"; // Directly returns to employee homepage
 		} catch (Exception e) {
