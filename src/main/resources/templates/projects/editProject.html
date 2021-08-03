@@ -46,9 +46,8 @@
 						<input
 							type="text"
 							th:field="*{name}"
+			
 							id="name"
-							th:attr="value = ${project.name}"
-							required
 						/>
 					</li>
 					<li>
@@ -58,8 +57,6 @@
 							th:field="*{start}"
 							placeholder="yyyy-mm-dd"
 							id="start"
-							th:attr="value=${project.start}"
-							required
 						/>
 					</li>
 					<li>
@@ -69,7 +66,6 @@
 							th:field="*{end}"
 							placeholder="yyyy-mm-dd"
 							id="end"
-							th:attr="value=${project.end}"
 							required
 						/>
 					</li>

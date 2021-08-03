@@ -4,7 +4,7 @@ import java.sql.Date;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 
 public class Project {
-    private Integer id;
+    private String id;
     private String name;
     private Date start;
     private Date end;
@@ -14,7 +14,7 @@ public class Project {
     private String capacities;
     private String capacities2;
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -42,7 +42,7 @@ public class Project {
         this.capacities2 = capacities2;
     }
 
-    public Integer getId() {
+    public String getId() {
         return this.id;
     }
 
