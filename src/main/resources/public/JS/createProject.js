@@ -187,6 +187,8 @@ function submitHandler() {
 
 	//JSON for sum of work capacity for each week
 	let weekly_capacities = {};
+	let graph_capacities = {};
+	
 	for (let i = 0; i < week_periods.length; i++) {
 		let capacity_inputs = document.getElementsByClassName(
 			"week " + (i + 1).toString()
@@ -196,6 +198,7 @@ function submitHandler() {
 			capacity_sum += parseInt(capacity_inputs[j].value);
 		}
 		weekly_capacities[week_periods[i]] = capacity_sum;
+		graph_capacities["week" + (i+1).toString()] = capacity_sum; 
 	}
 
 	//Inserts values into invisible inputs that will be grabbed from form submission
@@ -203,5 +206,7 @@ function submitHandler() {
 		JSON.stringify(total_resources);
 	document.getElementById("weekly-capacities-id").value =
 		JSON.stringify(weekly_capacities);
+	document.getElementById("graph-capacities-id").value = 
+		JSON.stringify(graph_capacities);
 	document.getElementById("project-form").submit();
 }

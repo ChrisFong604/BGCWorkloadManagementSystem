@@ -6,7 +6,7 @@ let empstatus = [];
 
 for (i = 0; i < listOfEmps.length; i++){
     empstatus.push(listOfEmps[i].status);
-    console.log("listOfEmps.STATUS ---------------> " + listOfEmps[i].status)
+    //console.log("listOfEmps.STATUS ---------------> " + listOfEmps[i].status)
 }
 
 var wclist = [];
@@ -15,7 +15,7 @@ for (i = 0; i < listOfEmps.length; i++){
 
     let a = wclist.push(listOfEmps[i].rampUp);
 
-    console.log(a);
+    //console.log(a);
 }
 /*
 for (i = 0; i < wclist[1].length; i++){
@@ -80,15 +80,21 @@ for (i = 0; i < wclist.length; i++){
         if (empstatus[i] == true){
             pwc[j] += wclist[i][j];
             hwc[j] += wclist[i][j];
-            console.log("IF STATEMENT");
-            console.log(" WCLIST[I][J] --------------------------> " + wclist[i][j]);
+            //console.log("IF STATEMENT");
+            //console.log(" WCLIST[I][J] --------------------------> " + wclist[i][j]);
         }
         else{
             pwc[j] += wclist[i][j];
-            console.log("ELSE");
+            //console.log("ELSE");
         }
     }
 }
+
+//let jsoncap = project[0].capacities;
+//let cap = JSON.parse(jsoncap); 
+//console.log(cap["2021-08-02"]);
+//console.log("CAP LENGTH ----------------> " + cap.length);
+
 
 
 let workload = document.getElementById('workload').getContext('2d');

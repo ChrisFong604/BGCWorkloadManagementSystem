@@ -261,6 +261,16 @@ public class Main {
 	  return projectsComponent.deleteProjectComponent(model, p_id);
   }
 
+  @GetMapping("/projects/edit")
+  public String editProject(Map<String, Object> model, @RequestParam String pid) throws Exception {
+    return projectsComponent.editProjectComponent(model, pid);
+  }
+
+   @PostMapping(path = "/projects/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE }) 
+  public String handleProjectEditSubmit(Map<String, Object> model, Project proj, @RequestParam String pid) throws Exception {
+	  return projectsComponent.handleProjectEditSubmitComponent(model, proj, pid);
+  }
+
   @GetMapping("/record")
   public String record(){
     return "record";

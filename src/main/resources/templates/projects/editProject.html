@@ -128,5 +128,11 @@
 		</button>
 	</body>
 
-	<script type="text/javascript" th:src="@{/JS/createProject.js}"></script>
+	<script type="text/javascript" th:src="@{/JS/createProject.js}" th:inline="javascript">
+	let projects = [[${projects}]]
+	const resources = JSON.parse(projects.resources);
+	
+	console.log(projects)
+	console.log(resources);
+	</script>
 </html>

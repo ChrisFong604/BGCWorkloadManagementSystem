@@ -47,7 +47,7 @@ public class ProjectsComponent {
 			Statement stmt = connection.createStatement();
 
 			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date)");
+					"CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text)");
 
 			String sql = "SELECT * FROM projects ORDER BY startdate ASC";
 			ResultSet rs = stmt.executeQuery(sql);
@@ -60,7 +60,8 @@ public class ProjectsComponent {
 				proj.setStart(rs.getDate("startdate"));
 				proj.setEnd(rs.getDate("enddate"));
 				proj.setResources(rs.getString("resources"));
-
+				proj.setCapacities(rs.getString("capacities"));
+				proj.setCapacities2(rs.getString("capacities2"));
 				output.add(proj);
 			}
 			model.put("projects", output);
@@ -118,13 +119,13 @@ public class ProjectsComponent {
 			Statement stmt = connection.createStatement();
 
 			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date, resources text, capacities text)");
+					"CREATE TABLE IF NOT EXISTS projects (id serial, name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text)");
 			// Creates a universally unique ID for each employee (Only exists in Database)
 
 			System.out.println("Added resources list: " + project.getResources());
-			String sql = "INSERT INTO projects ( name, startdate, enddate, resources, capacities ) VALUES ('"
+			String sql = "INSERT INTO projects ( name, startdate, enddate, resources, capacities, capacities2 ) VALUES ('"
 					+ project.getName() + "','" + project.getStart() + "','" + project.getEnd() + "','"
-					+ project.getResources() + "','" + project.getCapacities() + "')";
+					+ project.getResources() + "','" + project.getCapacities() + "','" +  project.getCapacities2() + "')";
 			stmt.executeUpdate(sql);
 
 			return "redirect:/projects"; // Directly returns to project homepage
@@ -134,11 +135,11 @@ public class ProjectsComponent {
 		}
 	}
 
-	public String deleteProjectComponent(Map<String, Object> model, @RequestParam String p_id) {
+	public String deleteProjectComponent(Map<String, Object> model, @RequestParam String pid) {
 		try (Connection connection = dataSource.getConnection()) {
 			String sql = "DELETE FROM projects WHERE id =?";
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, Integer.parseInt(p_id));
+			ps.setInt(1, Integer.parseInt(pid));
 			ps.executeUpdate();
 			return "redirect:/projects";
 		} catch (Exception e) {
@@ -147,39 +148,40 @@ public class ProjectsComponent {
 		}
 	}
 
-	public String editEmployeeComponent(Map<String, Object> model, @RequestParam String p_id) throws Exception {
+	public String editProjectComponent(Map<String, Object> model, @RequestParam String pid) throws Exception {
 		try (Connection connection = dataSource.getConnection()) {
-			String sql = "SELECT * FROM project WHERE id = ?";
+			String sql = "SELECT * FROM projects WHERE id = ?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
-			pstmt.setString(1, p_id);
+			pstmt.setString(1, pid);
 			ResultSet rs = pstmt.executeQuery();
-			Employee proj = new Project();
+			Project proj = new Project();
 			if (rs.next()) {
+				proj.setId(rs.getInt("id"));
 				proj.setName(rs.getString("name"));
 				proj.setStart(rs.getDate("startdate"));
-				proj.setEnd(rs.getEnd("enddate"));
+				proj.setEnd(rs.getDate("enddate"));
 				proj.setCapacities(rs.getString("capacities"));
-				proj.setResources(rs.getSTring("resources"));
+				proj.setResources(rs.getString("resources"));
+				proj.setCapacities2(rs.getString("capacities2"));
 			}
 
 			model.put("projects", proj);
-			return "project/editProject";
+			return "projects/editProject";
 		} catch (Exception e) {
 			model.put("message", e.getMessage());
 			return "error";
 		}
 	}
 
-	public String handleEmployeeEditSubmitComponent(Map<String, Object> model, Project project,
-			@RequestParam String p_id) throws Exception {
+	public String handleProjectEditSubmitComponent(Map<String, Object> model, Project project,
+			@RequestParam String pid) throws Exception {
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
 
-			String sql = "UPDATE employees SET " + "name='" + project.getName() + "', " + "startdate='"
+			String sql = "UPDATE projects SET " + "name='" + project.getName() + "', " + "startdate='"
 					+ project.getStart() + "', " + "enddate= '" + project.getEnd() + "', " + "capacities='"
-					+ project.getCapacities() + "', " + "resources=" + project.getResources() + "' " + "WHERE id = '"
-					+ p_id + "';";
-			System.out.println(p_id);
+					+ project.getCapacities() + "', " + "resources=" + project.getResources() + "' " + "WHERE id = "
+					+ Integer.parseInt(pid) + ";";
 			stmt.executeUpdate(sql);
 			return "redirect:/projects"; // Directly returns to employee homepage
 		} catch (Exception e) {
@@ -187,5 +189,4 @@ public class ProjectsComponent {
 			return "error";
 		}
 	}
-
 }
