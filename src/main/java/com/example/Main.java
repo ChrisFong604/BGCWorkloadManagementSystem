@@ -266,10 +266,15 @@ public class Main {
     return projectsComponent.editProjectComponent(model, pid);
   }
 
-   @PostMapping(path = "/projects/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE }) 
+  @PostMapping(path = "/projects/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE }) 
   public String handleProjectEditSubmit(Map<String, Object> model, Project proj, @RequestParam String pid) throws Exception {
 	  return projectsComponent.handleProjectEditSubmitComponent(model, proj, pid);
   }
+
+  @GetMapping("/projects/view")
+  public String viewProject(Map<String, Object> model, @RequestParam String pid) throws Exception {
+		return projectsComponent.viewProjectComponent(model, pid);
+	}
 
   @GetMapping("/record")
   public String record(){

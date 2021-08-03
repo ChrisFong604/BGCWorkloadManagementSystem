@@ -71,7 +71,9 @@
 
 							<td>
 								<button class="action view">
-									<i class="bi bi-eye-fill"></i>
+									<a th:href="@{/projects/view?pid={id}(id=${project.id})}">
+										<i class="bi bi-eye-fill"></i>
+									</a>
 								</button>
 								<button class="action edit">
 									<a th:href="@{/projects/edit?pid={id}(id=${project.id})}"

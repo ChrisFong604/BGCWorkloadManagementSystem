@@ -189,4 +189,8 @@ public class ProjectsComponent {
 			return "error";
 		}
 	}
+
+	public String viewProjectComponent(Map<String, Object> model, @RequestParam String pid) throws Exception {
+		return "projects/viewProject";
+	}
 }
