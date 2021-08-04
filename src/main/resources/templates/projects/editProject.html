@@ -22,7 +22,11 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/stylesheets/projectTable.css"
+		/>
 		<title>Create New Project</title>
 	</head>
 	<header></header>
@@ -35,9 +39,8 @@
 			method="post"
 			th:action="@{/projects//edit?pid={id}(id = ${id})}"
 			th:object="${project}"
-			class="formtemplate"
 		>
-			<div class="tab">
+			<div class="tab formtemplate">
 				<h1>New Project</h1>
 				<ul>
 					<li>
@@ -76,9 +79,9 @@
 				</ul>
 			</div>
 
-			<div class="tab">
+			<div class="tab centered">
 				<h1 id="project-name"></h1>
-				<table id="work-table" class="container">
+				<table id="work-table" class="project-table">
 					<thead>
 						<tr id="weeks"></tr>
 					</thead>
@@ -90,24 +93,21 @@
 				</table>
 			</div>
 
-			<div style="overflow: auto">
-				<div style="float: right">
-					<button type="button" id="prevBtn" onclick="nextPrev(-1)">
-						Previous
-					</button>
-					<button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-				</div>
-			</div>
-
-			<div style="text-align: center; margin-top: 40px">
-				<span class="step"></span>
-				<span class="step"></span>
+			<div style="overflow: auto" class="centered">
+				<button type="button" id="prevBtn" onclick="nextPrev(-1)">
+					Previous
+				</button>
+				<button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
 			</div>
 
 			<div style="display: none">
 				<input type="text" id="resource-id" th:field="*{resources}" />
 
 				<input type="text" id="weekly-capacities-id" th:field="*{capacities}" />
+
+				<input type="text" id="graph-capacities-id" th:field="*{capacities2}" />
+
+				<input type="text" th:field="*{id}" th:attr="value=${project.id}" />
 
 				<p id="project-resources" th:text="${project.resources}"></p>
 				<p id="project-start" th:text="${project.start}"></p>

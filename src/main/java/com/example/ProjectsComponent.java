@@ -139,9 +139,9 @@ public class ProjectsComponent {
 
 	public String deleteProjectComponent(Map<String, Object> model, @RequestParam String pid) {
 		try (Connection connection = dataSource.getConnection()) {
-			String sql = "DELETE FROM projects WHERE id =?";
+			String sql = "DELETE FROM projects WHERE id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, Integer.parseInt(pid));
+			ps.setString(1, pid);
 			ps.executeUpdate();
 			return "redirect:/projects";
 		} catch (Exception e) {
@@ -182,8 +182,9 @@ public class ProjectsComponent {
 
 			String sql = "UPDATE projects SET " + "name='" + project.getName() + "', " + "startdate='"
 					+ project.getStart() + "', " + "enddate= '" + project.getEnd() + "', " + "capacities='"
-					+ project.getCapacities() + "', " + "resources=" + project.getResources() + "' " + "WHERE id = "
-					+ project.getId() + ";";
+					+ project.getCapacities() + "', " + "resources='" + project.getResources() + "' " + "WHERE id = '"
+					+ project.getId() + "';";
+
 			stmt.executeUpdate(sql);
 			return "redirect:/projects"; // Directly returns to employee homepage
 		} catch (Exception e) {
