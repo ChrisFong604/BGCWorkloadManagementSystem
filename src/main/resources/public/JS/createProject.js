@@ -119,7 +119,6 @@ function findweeks(first, second) {
 		day_diff -= 7;
 	}
 	
-	
 	return week_dates;
 }
 
