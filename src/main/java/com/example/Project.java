@@ -1,14 +1,20 @@
 package com.example;
 
 import java.sql.Date;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
 public class Project {
-    private int id;
+    private String id;
     private String name;
     private Date start;
     private Date end;
 
-    public void setId(int id) {
+    // JSON in string format
+    private String resources;
+    private String capacities;
+    private String capacities2;
+
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -24,7 +30,19 @@ public class Project {
         this.end = end;
     }
 
-    public int getId() {
+    public void setResources(String resources) {
+        this.resources = resources;
+    }
+
+    public void setCapacities(String capacities) {
+        this.capacities = capacities;
+    }
+
+    public void setCapacities2(String capacities2) {
+        this.capacities2 = capacities2;
+    }
+
+    public String getId() {
         return this.id;
     }
 
@@ -39,4 +57,17 @@ public class Project {
     public Date getEnd() {
         return this.end;
     }
+
+    public String getResources() {
+        return this.resources;
+    }
+
+    public String getCapacities() {
+        return this.capacities;
+    }
+
+    public String getCapacities2() {
+        return this.capacities2;
+    }
+
 }

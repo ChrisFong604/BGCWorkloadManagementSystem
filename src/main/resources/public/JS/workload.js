@@ -6,7 +6,7 @@ let empstatus = [];
 
 for (i = 0; i < listOfEmps.length; i++){
     empstatus.push(listOfEmps[i].status);
-    console.log("listOfEmps.STATUS ---------------> " + listOfEmps[i].status)
+    //console.log("listOfEmps.STATUS ---------------> " + listOfEmps[i].status)
 }
 
 var wclist = [];
@@ -15,7 +15,7 @@ for (i = 0; i < listOfEmps.length; i++){
 
     let a = wclist.push(listOfEmps[i].rampUp);
 
-    console.log(a);
+    //console.log(a);
 }
 /*
 for (i = 0; i < wclist[1].length; i++){
@@ -45,7 +45,7 @@ if (foralert > now){
 }
 
 let nweeks = 0;
-
+let weeklydates = [];
 var daysOfYear = [];
 for (var d = new Date(st[0], st[1]-1, st[2]); d <= now; d.setDate(d.getDate() + parseInt(7))) {
 
@@ -54,7 +54,7 @@ for (var d = new Date(st[0], st[1]-1, st[2]); d <= now; d.setDate(d.getDate() + 
     let y = d.getMonth(); // 0
     let z = d.getFullYear();
     let c = new Date(z,y,x);
-
+    weeklydates.push(c);
     let c1 = c.getDate();
     let c2 = c.getMonth();
     let c3 = c.getFullYear();
@@ -80,15 +80,21 @@ for (i = 0; i < wclist.length; i++){
         if (empstatus[i] == true){
             pwc[j] += wclist[i][j];
             hwc[j] += wclist[i][j];
-            console.log("IF STATEMENT");
-            console.log(" WCLIST[I][J] --------------------------> " + wclist[i][j]);
+            //console.log("IF STATEMENT");
+            //console.log(" WCLIST[I][J] --------------------------> " + wclist[i][j]);
         }
         else{
             pwc[j] += wclist[i][j];
-            console.log("ELSE");
+            //console.log("ELSE");
         }
     }
 }
+
+//let jsoncap = project[0].capacities;
+//let cap = JSON.parse(jsoncap); 
+//console.log(cap["2021-08-02"]);
+//console.log("CAP LENGTH ----------------> " + cap.length);
+
 
 
 let workload = document.getElementById('workload').getContext('2d');
@@ -115,28 +121,14 @@ let myChart = new Chart(workload, {
             backgroundColor:'orange',
             borderColor: 'orange',
             data: pwc,
-        },
+        }
 
-        {
-            label: 'aaaaa',
-            stack: 'Stack 0',
-            data: [1, 2, 3, 4, 5, 6, 7], //[3,3,3,4]
-            backgroundColor:'green',
-            borderColor: 'green',
-            fill: false,
-            pointRadius: 5,
-        },
-        {
-            label: 'bbbbbbbb',
-            stack: 'Stack 0',
-            data: [1, 2, 3, 4, 5, 6, 7],
-            backgroundColor:'blue',
-            borderColor: 'blue',
-            fill: false,
-            pointRadius: 5,
-        }]
+        ]
     },
     options: {
+        interaction: {
+            mode: 'nearest'
+        },
         scales:{
 
             yAxes:
@@ -182,6 +174,190 @@ let myChart = new Chart(workload, {
     }
 });
 
+let a = projects[0].id;
+//console.log("PROJECTS LENGTH ----------->" + projects.length);
+
+for (i = 0; i < projects.length; i++){
+    
+    let counter = 0; //counter to count # of weeks
+    let jsoncap = projects[i].capacities2; // json object with capacities
+
+    let cap = JSON.parse(jsoncap);
+    
+    //console.log("CAP2 ---------------> " + cap["week" + (i+1).toString()]);
+    let psd = projects[i].start.split("-"); //project start date
+    //console.log("PSD -------->" + psd);
+    let ped = projects[i].end.split("-"); //project end date
+    let dpsd = new Date(psd[0],psd[1]-1,psd[2]); //date project start
+    let dped = new Date(ped[0],ped[1]-1,ped[2]); //date project end date used for comparisons
+    //console.log("DATE PROJECT START AND END ----------------> " + dpsd + "||||||||||" + dped );
+    //console.log("PED -------->" + ped);
+    for (var d = new Date(psd[0], psd[1]-1, psd[2]); d <= dped; d.setDate(d.getDate() + parseInt(7))) {
+        counter += 1;
+    }
+    let dataarr = []; //array for saving data
+    //filling dataarr with 0
+    for (g = 0; g < weeklydates.length; g++){
+        dataarr.push(0);
+    }
+    //console.log("COUNTER ---------------> " + counter);
+    //console.log("WHY NOT GO INTO else IF?!?!?!");
+    //console.log("dpsd > weeklydates[0]" + dpsd + " > " + weeklydates[0]);
+    //console.log("dped > weeklydates[weeklydates.length-1]" + dped + " > " + weeklydates[weeklydates.length-1]);
+    //if the project starts and ends between graph dates
+    if ((dped < weeklydates[0]) && (dpsd < weeklydates[0]) ){
+        continue;
+    }
+    if (dpsd >= weeklydates[0] && dped <= weeklydates[weeklydates.length-1]){
+        //console.log("HELLLLLLLLLLLLLLLLLLLLLLLLO");
+        let k = 0;
+        while (weeklydates[k] != null){
+            //console.log("HELLO NOT NULL");
+            if (dpsd <= weeklydates[k]){
+                //console.log("INSIDE IF STATEMENT YAYAYAY")
+                if (k == 0){
+                    for (u = 0; u < counter; u++){
+                        //console.log("INSIDE FOR LOOOOOOOP")
+                        dataarr[k+u] = cap["week" + (u+1).toString()];
+                        //console.log("SUPPOSED TO PRINT TWICE ----->")
+                        //console.log(cap["week" + (u+1).toString()]);
+                        //console.log("PRINTING AT THIS INDEX: " + k+u)
+                    }
+                    break;
+
+                }
+                else if(dpsd.getTime() == weeklydates[k].getTime()){
+                    for (u = 0; u < counter; u++){
+                        //console.log("INSIDE FOR LOOOOOOOP")
+                        //console.log("GOING INSIDE ELSE ------------------------------------------> ")
+                        dataarr[(k)+u] = cap["week" + (u+1).toString()];
+                        //console.log("SUPPOSED TO PRINT TWICE ----->")
+                        //console.log(cap["week" + (u+1).toString()]);
+                        //console.log("PRINTING AT THIS INDEX: " + ((k)+u))
+                    }
+                    break;
+
+
+                }
+                else{
+                    for (u = 0; u < counter; u++){
+                        //console.log("INSIDE FOR LOOOOOOOP")
+                        //console.log("GOING INSIDE ELSE ------------------------------------------> ")
+                        dataarr[(k-1)+u] = cap["week" + (u+1).toString()];
+                        //console.log("SUPPOSED TO PRINT TWICE ----->")
+                        //console.log(cap["week" + (u+1).toString()]);
+                        //console.log("PRINTING AT THIS INDEX: " + ((k-1)+u))
+                    }
+                    break;
+                }
+            }
+            k++;
+        }        
+    }
+    
+    //if the project started after and ends after graph dates
+    else if(dpsd >= weeklydates[0] && dped > weeklydates[weeklydates.length-1]){
+        //console.log("GOING INSIDE ELSE IF");
+        let k = 0;
+        while (weeklydates[k] != null){
+            //console.log("GOING INSIDE ELSE IF WHILE")
+            if (dpsd <= weeklydates[k]){
+                if(dpsd.getTime() == weeklydates[k].getTime() || k == 0){
+                    let a = 1;
+                    for (u = k; u < weeklydates.length; u++){
+                        //console.log("GOING INSIDE ELSE IF WHILE FOR LOOP")
+                        dataarr[u] = cap["week" + a.toString()];
+                        a++;
+                        //console.log("PRINTING INSIDE ELSE IF FOR LOOP");
+                        //console.log("THIS IS CAP -------> " + cap["week" + a.toString()]);
+                        //console.log("THIS IS THE INDEX, AND THEN A " + u + " " + a);
+                    }
+                    break;
+                }
+                else{
+                    let a = 1;
+                    for (u = k-1; u < weeklydates.length; u++){
+                        //console.log("GOING INSIDE ELSE IF WHILE FOR LOOP")
+                        dataarr[u] = cap["week" + a.toString()];
+                        a++;
+                        //console.log("PRINTING INSIDE ELSE IF FOR LOOP");
+                        //console.log("THIS IS CAP -------> " + cap["week" + a.toString()]);
+                        //console.log("THIS IS THE INDEX, AND THEN A " + u + " " + a);
+                    }
+                    break;
+    
+                }
+            }
+            
+
+            k++;
+        }
+    }
+    //if project start date is before graph and end date is within graph 
+    else if((dpsd < weeklydates[0] && dped < weeklydates[weeklydates.length-1]) && (dped > weeklydates[0]) ){
+
+        let counter2 = 1;
+        for (var d = new Date(psd[0], psd[1]-1, psd[2]); d < weeklydates[0]; d.setDate(d.getDate() + parseInt(7))) {
+            counter2 += 1;
+        }
+        let a = 0;
+        console.log("BEFORE FOR LOOP")
+        console.log("THIS IS COUNTER2 -------------> " + counter2);
+        console.log("THIS IS COUNTER ------------> " + counter);
+        /*for (u = counter2; u < counter; u++){
+            console.log("INSIDE FOR LOOP")
+            dataarr[a] = cap["week" + (u).toString()];
+            console.log("THIS IS A --------------------> " + a)
+            console.log("THIS IS U --------------------> " + u)
+            console.log("WEEK --------------------> " + cap["week" + (u).toString()])
+            a++;
+        }
+        */
+        let u = counter2;
+        while(cap["week" + (u).toString()] != null){
+            dataarr[a] = cap["week" + (u).toString()];
+            u++;
+            a++;
+        }
+
+        console.log("THIS IS COUNTER2 -------------> " + counter2);
+
+    }
+
+    else if (dpsd < weeklydates[0] && dped > weeklydates[weeklydates.length-1]){
+        let counter2 = 1;
+        for (var d = new Date(psd[0], psd[1]-1, psd[2]); d < weeklydates[0]; d.setDate(d.getDate() + parseInt(7))) {
+            counter2 += 1;
+        }
+        let a = 0;
+        let u = counter2;
+        while (a < weeklydates.length){
+            dataarr[a] = cap["week" + (u).toString()];
+            u++;
+            a++;
+        }
+    }
+
+
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+
+    var newDataset = {
+        label: projects[i].name,
+        type: 'bar',
+        backgroundColor: "rgb(" + r + "," + g + "," + b + ")",
+        borderColor: "rgb(" + r + "," + g + "," + b + ")",
+        borderWidth: 1,
+        data: dataarr,
+        stack: 'Stack 0',
+    }
+    myChart.data.datasets.push(newDataset);
+    myChart.update();
+
+}
+
+/*
 for (i = 0; i < 3; i++){
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
@@ -200,4 +376,5 @@ for (i = 0; i < 3; i++){
     myChart.data.datasets.push(newDataset);
     myChart.update();
 }
+*/
 }

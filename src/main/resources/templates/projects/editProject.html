@@ -29,7 +29,6 @@
 		/>
 		<title>Create New Project</title>
 	</head>
-
 	<header></header>
 	<body>
 		<div class="text">Projects</div>
@@ -38,7 +37,7 @@
 			id="project-form"
 			action="#"
 			method="post"
-			th:action="@{/projects/create}"
+			th:action="@{/projects//edit?pid={id}(id = ${id})}"
 			th:object="${project}"
 		>
 			<div class="tab formtemplate">
@@ -46,29 +45,37 @@
 				<ul>
 					<li>
 						<label for="name">Project Name</label>
-						<input type="text" th:field="*{name}" id="name" required />
+						<input
+							type="text"
+							th:field="*{name}"
+							th:attr="value=${project.name}"
+							id="name"
+						/>
 					</li>
 					<li>
 						<label>Start Date</label>
 						<input
 							type="date"
-							th:field="*{start}"
 							placeholder="yyyy-mm-dd"
+							th:field="*{start}"
+							th:attr="value=${project.start}"
 							id="start"
-							required
 						/>
 					</li>
 					<li>
 						<label>End Date</label>
 						<input
 							type="date"
-							th:field="*{end}"
 							placeholder="yyyy-mm-dd"
+							th:field="*{end}"
+							th:attr="value=${project.end}"
 							id="end"
-							required
 						/>
 					</li>
+					<p th:text="${resources}"></p>
+
 					<p style="opacity: 0.4">*Can be changed later</p>
+					<p id="error"></p>
 				</ul>
 			</div>
 
@@ -94,21 +101,17 @@
 			</div>
 
 			<div style="display: none">
-				<input type="text" id="resource-id" value="" th:field="*{resources}" />
+				<input type="text" id="resource-id" th:field="*{resources}" />
 
-				<input
-					type="text"
-					id="weekly-capacities-id"
-					value=""
-					th:field="*{capacities}"
-				/>
+				<input type="text" id="weekly-capacities-id" th:field="*{capacities}" />
 
-				<input
-					type="text"
-					id="graph-capacities-id"
-					value=""
-					th:field="*{capacities2}"
-				/>
+				<input type="text" id="graph-capacities-id" th:field="*{capacities2}" />
+
+				<input type="text" th:field="*{id}" th:attr="value=${project.id}" />
+
+				<p id="project-resources" th:text="${project.resources}"></p>
+				<p id="project-start" th:text="${project.start}"></p>
+				<p id="project-end" th:text="${project.end}"></p>
 			</div>
 		</form>
 
@@ -116,6 +119,5 @@
 			<a th:href="@{/projects}">Cancel</a>
 		</button>
 	</body>
-
-	<script type="text/javascript" th:src="@{/JS/createProject.js}"></script>
+	<script type="text/javascript" th:src="@{/JS/editProject.js}"></script>
 </html>
