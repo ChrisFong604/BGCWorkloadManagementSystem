@@ -185,7 +185,7 @@ function insertExistingResources() {
 			for (var week in existing_resources[resource]) {
 				weekly_input = document.createElement("TD");
 				weekly_input.innerHTML =
-					"<input type='number' name='resource-capacity' class='week " +
+					"<input type='number' name='resource-capacity' min='0' max='1' step='0.005' class='week " +
 					i.toString() +
 					"' value=" +
 					existing_resources[resource][week].toString() +
@@ -223,7 +223,7 @@ function submitHandler() {
 		);
 		let capacity_sum = 0;
 		for (let j = 0; j < capacity_inputs.length; j++) {
-			capacity_sum += parseInt(capacity_inputs[j].value);
+			capacity_sum += parseFloat(capacity_inputs[j].value);
 		}
 		weekly_capacities[week_periods[i]] = capacity_sum;
 		graph_capacities["week" + (i + 1).toString()] = capacity_sum;
