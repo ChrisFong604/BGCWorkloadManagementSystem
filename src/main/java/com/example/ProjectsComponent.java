@@ -165,8 +165,9 @@ public class ProjectsComponent {
 				proj.setResources(rs.getString("resources"));
 				proj.setCapacities2(rs.getString("capacities2"));
 			}
-
 			model.put("projects", proj);
+
+			
 			return "projects/editProject";
 		} catch (Exception e) {
 			model.put("message", e.getMessage());
@@ -192,6 +193,29 @@ public class ProjectsComponent {
 	}
 
 	public String viewProjectComponent(Map<String, Object> model, @RequestParam String pid) throws Exception {
-		return "projects/viewProject";
+		try (Connection connection = dataSource.getConnection()) {
+			String sql = "SELECT * FROM projects WHERE id =?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, pid);
+			ResultSet rs = ps.executeQuery();
+			
+			Project proj = new Project();
+			if (rs.next()) {
+				proj.setId(rs.getString("id"));
+				proj.setName(rs.getString("name"));
+				proj.setStart(rs.getDate("startdate"));
+				proj.setEnd(rs.getDate("enddate"));
+				proj.setCapacities(rs.getString("capacities"));
+				proj.setResources(rs.getString("resources"));
+				proj.setCapacities2(rs.getString("capacities2"));
+			}
+			model.put("project", proj);
+	  
+			return "projects/viewProject";
+		} catch (Exception e) {
+			model.put("message", e.getMessage());
+			return "error";
+		}
+
 	}
 }

@@ -195,6 +195,12 @@ a {
     background-color: rgb(245, 171, 184);
 }
 
+/** view projects ***/
+.project-overview {
+    padding-top: 25px;
+    padding-bottom: 20px;
+}
+
 
 /*** delete modal ***/
 .modal {
