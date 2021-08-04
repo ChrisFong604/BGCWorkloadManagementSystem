@@ -20,12 +20,18 @@
         <div class="form-credentials">
             <div class="form-header">Login to your account</div>
 
-            <input type="text" class="form-input" name="uName" th:field="*{username}" placeholder="Username" required > <br>
+            <div class="form-div">
+                <input type="text" class="form-input" name="uName" th:field="*{username}" placeholder=" " required >
+                <label for="" class="form-label">Username</label>
+            </div>
 
-            <input type="password" class="form-input" name="pwd" th:field="*{password}" placeholder="password" required > <br>
+
+            <div class="form-div">
+                <input type="password" class="form-input" name="pwd" th:field="*{password}" placeholder=" " required >
+                <label for="" class="form-label">Password</label>
+            </div>
 
             <input type="submit" class="form-button" value="Login">
-
         </div>
     </form>
 

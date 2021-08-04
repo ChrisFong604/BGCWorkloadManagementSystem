@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 
-<html
-	xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{fragments/layout :: layout (~{::header})}"
-></html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -19,13 +16,7 @@
 		<section class="home-section">
 			<div class="text">Employees</div>
 
-			<form
-				action="#"
-				method="post"
-				th:action="@{/employees/create}"
-				th:object="${employee}"
-				class="formtemplate"
-			>
+			<form action="#" method="post" th:action="@{/employees/create}" th:object="${employee}" class="formtemplate">
 				<h1>Add Employee</h1>
 				<br></br>
 				<ul>
@@ -61,23 +52,12 @@
 					<br></br>
 					<li>
 						<label>Start Date</label>
-						<input
-							type="date"
-							th:field="*{start}"
-							placeholder="yyyy-mm-dd"
-							required
-						/>
+						<input type="date" th:field="*{start}" placeholder="yyyy-mm-dd" required />
 					</li>
 					<br></br>
 					<li>
 						<label>End Date (Co-op/Intern)</label>
-						<input
-							type="date"
-							th:field="*{end}"
-							placeholder="yyyy-mm-dd"
-							id="end"
-							required
-						/>
+						<input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end" required />
 					</li>
 					<br></br>
 					<li>
