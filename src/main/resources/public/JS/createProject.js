@@ -25,7 +25,6 @@ function showTab(Tab) {
 		document.getElementById("nextBtn").innerHTML = "Next";
 	}
 	// ... and run a function that displays the correct step indicator:
-	fixStepIndicator(Tab);
 }
 
 function nextPrev(n) {
@@ -118,7 +117,7 @@ function findweeks(first, second) {
 		week_dates.push(last_day);
 		day_diff -= 7;
 	}
-	
+
 	return week_dates;
 }
 
