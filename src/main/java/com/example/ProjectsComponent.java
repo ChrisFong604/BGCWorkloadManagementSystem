@@ -125,8 +125,9 @@ public class ProjectsComponent {
 			// Creates a universally unique ID for each employee (Only exists in Database)
 
 			String sql = "INSERT INTO projects ( id, name, startdate, enddate, resources, capacities, capacities2 ) VALUES ('"
-					+ UniqueID + "','" + project.getName() + "','" + project.getStart() + "','" + project.getEnd() + "','"
-					+ project.getResources() + "','" + project.getCapacities() + "','" +  project.getCapacities2() + "')";
+					+ UniqueID + "','" + project.getName() + "','" + project.getStart() + "','" + project.getEnd()
+					+ "','" + project.getResources() + "','" + project.getCapacities() + "','"
+					+ project.getCapacities2() + "')";
 			stmt.executeUpdate(sql);
 
 			return "redirect:/projects"; // Directly returns to project homepage
@@ -174,8 +175,8 @@ public class ProjectsComponent {
 		}
 	}
 
-	public String handleProjectEditSubmitComponent(Map<String, Object> model, Project project,
-			@RequestParam String pid) throws Exception {
+	public String handleProjectEditSubmitComponent(Map<String, Object> model, Project project, @RequestParam String pid)
+			throws Exception {
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
 
@@ -189,5 +190,32 @@ public class ProjectsComponent {
 			model.put("message", e.getMessage());
 			return "error";
 		}
+	}
+
+	public String viewProjectComponent(Map<String, Object> model, @RequestParam String pid) throws Exception {
+		try (Connection connection = dataSource.getConnection()) {
+			String sql = "SELECT * FROM projects WHERE id =?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, pid);
+			ResultSet rs = ps.executeQuery();
+
+			Project proj = new Project();
+			if (rs.next()) {
+				proj.setId(rs.getString("id"));
+				proj.setName(rs.getString("name"));
+				proj.setStart(rs.getDate("startdate"));
+				proj.setEnd(rs.getDate("enddate"));
+				proj.setCapacities(rs.getString("capacities"));
+				proj.setResources(rs.getString("resources"));
+				proj.setCapacities2(rs.getString("capacities2"));
+			}
+			model.put("project", proj);
+
+			return "projects/viewProject";
+		} catch (Exception e) {
+			model.put("message", e.getMessage());
+			return "error";
+		}
+
 	}
 }
