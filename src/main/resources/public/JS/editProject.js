@@ -1,8 +1,7 @@
-var flag = true;
 var currentTab = 0;
 
-var week_periods = [];
 var num_resources = 0;
+var week_periods = [];
 var project_name = "";
 
 var total_resources = {};
@@ -15,9 +14,7 @@ var existing_resources = JSON.parse(
 var original_dates = {
 	start: document.getElementById("project-start").innerHTML,
 	end: document.getElementById("project-end").innerHTML,
-};
-
-insertExistingResources(); //inserts existing resources once at startup
+}; //inserts existing resources once at startup
 
 showTab(currentTab);
 
@@ -38,7 +35,6 @@ function showTab(Tab) {
 		document.getElementById("nextBtn").innerHTML = "Next";
 	}
 	// ... and run a function that displays the correct step indicator:
-	fixStepIndicator(Tab);
 }
 
 function nextPrev(n) {
@@ -57,20 +53,14 @@ function nextPrev(n) {
 			document.getElementById("start").value,
 			document.getElementById("end").value
 		);
-
 		project_name = document.getElementById("name").value;
 		document.getElementById("project-name").innerHTML = project_name;
-
 		create_weekly_distribution();
+		insertExistingResources();
 	}
-	if (currentTab == 1 && flag) {
-		flag = false;
-		if (
-			original_dates["start"] == document.getElementById("start") &&
-			original_dates["end"] == document.getElementById("end")
-		) {
-			insertExistingResources();
-		}
+
+	if (currentTab == 0) {
+		num_resources = 0;
 	}
 	showTab(currentTab);
 }
@@ -125,7 +115,7 @@ function findweeks(first, second) {
 		week_dates.push(last_day);
 		day_diff -= 7;
 	}
-	
+
 	return week_dates;
 }
 
@@ -164,32 +154,65 @@ function addResource() {
 }
 
 function insertExistingResources() {
-	for (var resource in existing_resources) {
-		if (existing_resources.hasOwnProperty(resource)) {
+	let resource_table = document.getElementById("resources");
+	resource_table.innerHTML = "";
+	if (
+		original_dates["start"] == document.getElementById("start").value &&
+		original_dates["end"] == document.getElementById("end").value
+	) {
+		for (var resource in existing_resources) {
 			num_resources++;
-			let resource_table = document.getElementById("resources");
-			let new_resource = resource_table.insertRow(-1);
+			console.log(num_resources);
+			if (existing_resources.hasOwnProperty(resource)) {
+				let resource_table = document.getElementById("resources");
+				let new_resource = resource_table.insertRow(-1);
 
-			let name_input = document.createElement("TH");
+				let name_input = document.createElement("TH");
 
-			name_input.innerHTML =
-				'<input name="resource-name" placeholder="resource name" value=' +
-				resource +
-				"/>";
-			new_resource.appendChild(name_input);
-			let i = 1;
-			for (var week in existing_resources[resource]) {
-				weekly_input = document.createElement("TD");
-				weekly_input.innerHTML =
-					"<input type='number' name='resource-capacity' min='0' max='1' step='0.005' class='week " +
-					i.toString() +
-					"' value=" +
-					existing_resources[resource][week].toString() +
-					" />";
+				name_input.innerHTML =
+					'<input name="resource-name" placeholder="resource name" value=' +
+					resource +
+					"/>";
+				new_resource.appendChild(name_input);
+				let i = 1;
+				for (var week in existing_resources[resource]) {
+					weekly_input = document.createElement("TD");
+					weekly_input.innerHTML =
+						"<input type='number' name='resource-capacity' min='0' max='1' step='0.005' class='week " +
+						i.toString() +
+						"' value=" +
+						existing_resources[resource][week].toString() +
+						" />";
 
-				console.log(existing_resources[resource][week]);
-				new_resource.appendChild(weekly_input);
-				i++;
+					new_resource.appendChild(weekly_input);
+					i++;
+				}
+			}
+		}
+	} else {
+		for (var resource in existing_resources) {
+			num_resources++;
+			console.log(num_resources);
+			if (existing_resources.hasOwnProperty(resource)) {
+				let resource_table = document.getElementById("resources");
+				let new_resource = resource_table.insertRow(-1);
+
+				let name_input = document.createElement("TH");
+				name_input.innerHTML =
+					'<input name="resource-name" placeholder="resource name" value=' +
+					resource +
+					"/>";
+				new_resource.appendChild(name_input);
+
+				let weeks = week_periods.length;
+				for (let i = 1; i <= weeks; i++) {
+					weekly_input = document.createElement("TD");
+					weekly_input.innerHTML =
+						"<input type='number' name='resource-capacity' min='0' max='1' step='0.005' class='week " +
+						i.toString() +
+						"' />";
+					new_resource.appendChild(weekly_input);
+				}
 			}
 		}
 	}
@@ -201,7 +224,7 @@ function submitHandler() {
 
 	var weeks = week_periods.length;
 	//we create a JSON object with a key for each resources name and assigned work capacity
-	for (var i = 0; i < resource_names.length; i++) {
+	for (var i = 0; i < num_resources; i++) {
 		let work_capacities = {};
 		for (var j = 0; j < weeks; j++) {
 			work_capacities[week_periods[j]] = resources[i * weeks + j].value;
@@ -221,6 +244,7 @@ function submitHandler() {
 		for (let j = 0; j < capacity_inputs.length; j++) {
 			capacity_sum += parseFloat(capacity_inputs[j].value);
 		}
+		console.log("Week " + (i + 1).toString() + ": " + capacity_sum);
 		weekly_capacities[week_periods[i]] = capacity_sum;
 		graph_capacities["week" + (i + 1).toString()] = capacity_sum;
 	}

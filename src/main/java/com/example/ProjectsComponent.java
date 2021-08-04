@@ -182,8 +182,8 @@ public class ProjectsComponent {
 
 			String sql = "UPDATE projects SET " + "name='" + project.getName() + "', " + "startdate='"
 					+ project.getStart() + "', " + "enddate= '" + project.getEnd() + "', " + "capacities='"
-					+ project.getCapacities() + "', " + "resources='" + project.getResources() + "' " + "WHERE id = '"
-					+ project.getId() + "';";
+					+ project.getCapacities() + "', " + "capacities2='" + project.getCapacities2() + "', "
+					+ "resources='" + project.getResources() + "' " + "WHERE id = '" + project.getId() + "';";
 
 			stmt.executeUpdate(sql);
 			return "redirect:/projects"; // Directly returns to employee homepage
