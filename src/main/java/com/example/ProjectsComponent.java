@@ -166,7 +166,7 @@ public class ProjectsComponent {
 				proj.setCapacities2(rs.getString("capacities2"));
 			}
 
-			model.put("projects", proj);
+			model.put("project", proj);
 			return "projects/editProject";
 		} catch (Exception e) {
 			model.put("message", e.getMessage());

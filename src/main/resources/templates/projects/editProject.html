@@ -25,7 +25,6 @@
 		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
 		<title>Create New Project</title>
 	</head>
-
 	<header></header>
 	<body>
 		<div class="text">Projects</div>
@@ -46,7 +45,7 @@
 						<input
 							type="text"
 							th:field="*{name}"
-			
+							th:attr="value=${project.name}"
 							id="name"
 						/>
 					</li>
@@ -54,8 +53,9 @@
 						<label>Start Date</label>
 						<input
 							type="date"
-							th:field="*{start}"
 							placeholder="yyyy-mm-dd"
+							th:field="*{start}"
+							th:attr="value=${project.start}"
 							id="start"
 						/>
 					</li>
@@ -63,12 +63,14 @@
 						<label>End Date</label>
 						<input
 							type="date"
-							th:field="*{end}"
 							placeholder="yyyy-mm-dd"
+							th:field="*{end}"
+							th:attr="value=${project.end}"
 							id="end"
-							required
 						/>
 					</li>
+					<p th:text="${resources}"></p>
+
 					<p style="opacity: 0.4">*Can be changed later</p>
 					<p id="error"></p>
 				</ul>
@@ -86,22 +88,6 @@
 					<button type="button" onclick="addResource()">Add Resource</button>
 					<button type="button" onclick="submitHandler()">Submit</button>
 				</table>
-
-				<input
-					type="text"
-					id="resource-id"
-					style="display: none"
-					value=""
-					th:field="*{resources}"
-				/>
-
-				<input
-					type="text"
-					id="weekly-capacities-id"
-					style="display: none"
-					value=""
-					th:field="*{capacities}"
-				/>
 			</div>
 
 			<div style="overflow: auto">
@@ -117,18 +103,21 @@
 				<span class="step"></span>
 				<span class="step"></span>
 			</div>
+
+			<div style="display: none">
+				<input type="text" id="resource-id" th:field="*{resources}" />
+
+				<input type="text" id="weekly-capacities-id" th:field="*{capacities}" />
+
+				<p id="project-resources" th:text="${project.resources}"></p>
+				<p id="project-start" th:text="${project.start}"></p>
+				<p id="project-end" th:text="${project.end}"></p>
+			</div>
 		</form>
 
 		<button class="cancel">
 			<a th:href="@{/projects}">Cancel</a>
 		</button>
 	</body>
-
-	<script type="text/javascript" th:src="@{/JS/createProject.js}" th:inline="javascript">
-	let projects = [[${projects}]]
-	const resources = JSON.parse(projects.resources);
-	
-	console.log(projects)
-	console.log(resources);
-	</script>
+	<script type="text/javascript" th:src="@{/JS/editProject.js}"></script>
 </html>
