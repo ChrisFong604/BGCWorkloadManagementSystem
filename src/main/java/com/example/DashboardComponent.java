@@ -424,12 +424,35 @@ public class DashboardComponent {
 	          }
 	          employee.setRampUp(empRampUp);
 	        }
+			
 	        // System.out.println(empRampUp.size());
 	        /*
 	         * for (double r : empRampUp) { System.out.println(r); }
 	         */
 	      }
 	      model.put("empInRange", empInRange);
+
+		  // for workload graph
+	      stmt.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS projects (id varchar(40), name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text)");
+
+            String sql8 = "SELECT * FROM projects ORDER BY startdate ASC";
+            ResultSet rs8 = stmt.executeQuery(sql8);
+
+            ArrayList<Project> output8 = new ArrayList<>();
+            while (rs8.next()) {
+                Project proj = new Project();
+                proj.setId(rs8.getString("id"));
+                proj.setName(rs8.getString("name"));
+                proj.setStart(rs8.getDate("startdate"));
+                proj.setEnd(rs8.getDate("enddate"));
+                proj.setResources(rs8.getString("resources"));
+                proj.setCapacities(rs8.getString("capacities"));
+                proj.setCapacities2(rs8.getString("capacities2"));
+                output8.add(proj);
+            }
+            model.put("projects", output8);
+			
 	      
 	      /*
 	       * for (Employee emp : empInRange) { System.out.println(emp.getName()); }
