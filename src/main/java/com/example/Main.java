@@ -54,7 +54,7 @@ public class Main {
   boolean edit = false;
 
   @Value("${spring.datasource.url}")
-  private String dbUrl; 
+  private String dbUrl;
 
   @Autowired
   private DataSource dataSource;
@@ -69,9 +69,9 @@ public class Main {
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
-    //SpringApplication.run(createManager.class, args);
+    // SpringApplication.run(createManager.class, args);
   }
-  
+
   /************ LOGIN ************/
 
   @RequestMapping("/")
@@ -139,7 +139,7 @@ public class Main {
       return "error";
     }
   }
-  
+
   /************ DASHBOARD ************/
 
   @GetMapping("/dashboard/workload")
@@ -149,7 +149,7 @@ public class Main {
 
   @GetMapping("/dashboard")
   String dashboard(Map<String, Object> model) {
-	  return dashboardComponent.dashboardComponent(model, flag, edit);
+    return dashboardComponent.dashboardComponent(model, flag, edit);
   }
 
   @PostMapping(path = "/dashboard", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
@@ -161,31 +161,31 @@ public class Main {
   public String deletetabledata(Map<String, Object> model) throws Exception {
     return dashboardComponent.deletetabledataComponent(model);
   }
-  
+
   /************ MANAGER ************/
 
   @GetMapping("/manager/create")
   public String createManager(Map<String, Object> model) {
-	  System.out.println("-- pre create --");
-	  return managerComponent.createManagerComponent(model, flag, edit);
+    System.out.println("-- pre create --");
+    return managerComponent.createManagerComponent(model, flag, edit);
   }
 
   // adding users
   @PostMapping(path = "/manager/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String addManagerToDatabase(Map<String, Object> model, UserLogin user) throws Exception {
-	  System.out.println("-- post --");
-	  //createManagerComponent.setDatasource(dataSource);
-	  return managerComponent.addManagerToDatabaseComponent(model, user);
+    System.out.println("-- post --");
+    // createManagerComponent.setDatasource(dataSource);
+    return managerComponent.addManagerToDatabaseComponent(model, user);
   }
 
   // deleting managers
   @GetMapping("/manager/deleted")
   public String deleteManager(Map<String, Object> model, @RequestParam String m_id) {
-	  return managerComponent.deleteManagerComponent(model, m_id);
+    return managerComponent.deleteManagerComponent(model, m_id);
   }
 
   /************ EMPLOYEES ************/
-  
+
   // filter by attributes
   @GetMapping("/employees")
   String returnEmployeeHomepage(Map<String, Object> model) {
@@ -198,10 +198,12 @@ public class Main {
   }
 
   // filtered results
-  /*@PostMapping(path = "/employees", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String filterByProperty(Map<String, Object> model, Property prop) {
-    return employeesComponent.filterByPropertyComponent(model, prop, flag, edit);
-  }*/
+  /*
+   * @PostMapping(path = "/employees", consumes = {
+   * MediaType.APPLICATION_FORM_URLENCODED_VALUE }) public String
+   * filterByProperty(Map<String, Object> model, Property prop) { return
+   * employeesComponent.filterByPropertyComponent(model, prop, flag, edit); }
+   */
 
   // deleting employees
   @GetMapping("/employees/deleted")
@@ -229,9 +231,10 @@ public class Main {
     return employeesComponent.editEmployeeComponent(model, rid);
   }
 
-  @PostMapping(path = "/employees/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE }) 
-  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid) throws Exception {
-	  return employeesComponent.handleEmployeeEditSubmitComponent(model, employee, rid);
+  @PostMapping(path = "/employees/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String handleEmployeeEditSubmit(Map<String, Object> model, Employee employee, @RequestParam String rid)
+      throws Exception {
+    return employeesComponent.handleEmployeeEditSubmitComponent(model, employee, rid);
   }
 
   /************ PROJECTS ************/
@@ -240,25 +243,27 @@ public class Main {
   String returnProjectHomepage(Map<String, Object> model) {
     return projectsComponent.returnProjectHomepageComponent(model, flag, edit);
   }
-  
-  /*@PostMapping(path = "/projects", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String filterByPropertyProj(Map<String, Object> model, Property prop) {
-    return projectsComponent.filterByPropertyProjComponent(model, prop, flag, edit);
-  }*/
+
+  /*
+   * @PostMapping(path = "/projects", consumes = {
+   * MediaType.APPLICATION_FORM_URLENCODED_VALUE }) public String
+   * filterByPropertyProj(Map<String, Object> model, Property prop) { return
+   * projectsComponent.filterByPropertyProjComponent(model, prop, flag, edit); }
+   */
 
   @GetMapping("/projects/create")
   public String returnProjectCreate(Map<String, Object> model) throws Exception {
     return projectsComponent.returnProjectCreateComponent(model, flag, edit);
   }
-  
+
   @PostMapping(path = "/projects/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-  public String handleProjectSubmit(Map<String, Object> model,Project project) throws Exception {
+  public String handleProjectSubmit(Map<String, Object> model, Project project) throws Exception {
     return projectsComponent.handleProjectSubmitComponent(model, project);
   }
 
   @GetMapping("/projects/deleted")
-  public String deleteProject(Map<String, Object> model, @RequestParam String p_id) {
-	  return projectsComponent.deleteProjectComponent(model, p_id);
+  public String deleteProject(Map<String, Object> model, @RequestParam String pid) {
+    return projectsComponent.deleteProjectComponent(model, pid);
   }
 
   @GetMapping("/projects/edit")
@@ -266,18 +271,19 @@ public class Main {
     return projectsComponent.editProjectComponent(model, pid);
   }
 
-  @PostMapping(path = "/projects/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE }) 
-  public String handleProjectEditSubmit(Map<String, Object> model, Project proj, @RequestParam String pid) throws Exception {
-	  return projectsComponent.handleProjectEditSubmitComponent(model, proj, pid);
+  @PostMapping(path = "/projects/edit", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String handleProjectEditSubmit(Map<String, Object> model, Project project, @RequestParam String pid)
+      throws Exception {
+    return projectsComponent.handleProjectEditSubmitComponent(model, project, pid);
   }
 
   @GetMapping("/projects/view")
   public String viewProject(Map<String, Object> model, @RequestParam String pid) throws Exception {
-		return projectsComponent.viewProjectComponent(model, pid);
-	}
+    return projectsComponent.viewProjectComponent(model, pid);
+  }
 
   @GetMapping("/record")
-  public String record(){
+  public String record() {
     return "record";
   }
 

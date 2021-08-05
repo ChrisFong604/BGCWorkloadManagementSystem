@@ -324,7 +324,6 @@ for (i = 0; i < projects.length; i++){
 
     }
 
-    //last condition where project start and end date outrange the graph
     else if (dpsd < weeklydates[0] && dped > weeklydates[weeklydates.length-1]){
         let counter2 = 1;
         for (var d = new Date(psd[0], psd[1]-1, psd[2]); d < weeklydates[0]; d.setDate(d.getDate() + parseInt(7))) {
@@ -340,11 +339,6 @@ for (i = 0; i < projects.length; i++){
     }
 
 
-
-
-
-
-
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
@@ -352,7 +346,7 @@ for (i = 0; i < projects.length; i++){
     var newDataset = {
         label: projects[i].name,
         type: 'bar',
-        backgroundColor: "rgb(" + r + "," + g + "," + b + ")",
+        backgroundColor: projects[i].color,
         borderColor: "rgb(" + r + "," + g + "," + b + ")",
         borderWidth: 1,
         data: dataarr,
@@ -360,9 +354,6 @@ for (i = 0; i < projects.length; i++){
     }
     myChart.data.datasets.push(newDataset);
     myChart.update();
-
-    
-
 
 }
 

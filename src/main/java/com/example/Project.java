@@ -8,6 +8,7 @@ public class Project {
     private String name;
     private Date start;
     private Date end;
+    private String color;
 
     // JSON in string format
     private String resources;
@@ -42,6 +43,10 @@ public class Project {
         this.capacities2 = capacities2;
     }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public String getId() {
         return this.id;
     }
@@ -68,6 +73,10 @@ public class Project {
 
     public String getCapacities2() {
         return this.capacities2;
+    }
+
+    public String getColor() {
+        return this.color;
     }
 
 }

@@ -25,7 +25,6 @@ function showTab(Tab) {
 		document.getElementById("nextBtn").innerHTML = "Next";
 	}
 	// ... and run a function that displays the correct step indicator:
-	fixStepIndicator(Tab);
 }
 
 function nextPrev(n) {
@@ -89,17 +88,6 @@ function validateForm() {
 	return valid; // return the valid status
 }
 
-function fixStepIndicator(n) {
-	// This function removes the "active" class of all steps...
-	var i,
-		x = document.getElementsByClassName("step");
-	for (i = 0; i < x.length; i++) {
-		x[i].className = x[i].className.replace(" active", "");
-	}
-	//... and adds the "active" class to the current step:
-	x[n].className += " active";
-}
-
 /*
 	Manipulation with dates functions
 */
@@ -129,11 +117,7 @@ function findweeks(first, second) {
 		week_dates.push(last_day);
 		day_diff -= 7;
 	}
-	enddate.toLocaleString("en-CA", {
-		timeZone: "Canada/Pacific",
-	});
 
-	week_dates.push(enddate.toISOString().split("T")[0]);
 	return week_dates;
 }
 
@@ -163,7 +147,7 @@ function addResource() {
 	for (let i = 0; i < week_periods.length; i++) {
 		weekly_input = document.createElement("TD");
 		weekly_input.innerHTML =
-			"<input type='number' name='resource-capacity' class='week" +
+			"<input type='number' name='resource-capacity' value='0' min='0' max='1' step='0.005' class='week" +
 			" " +
 			(i + 1).toString() +
 			"'/>";
@@ -188,17 +172,17 @@ function submitHandler() {
 	//JSON for sum of work capacity for each week
 	let weekly_capacities = {};
 	let graph_capacities = {};
-	
+
 	for (let i = 0; i < week_periods.length; i++) {
 		let capacity_inputs = document.getElementsByClassName(
 			"week " + (i + 1).toString()
 		);
 		let capacity_sum = 0;
 		for (let j = 0; j < capacity_inputs.length; j++) {
-			capacity_sum += parseInt(capacity_inputs[j].value);
+			capacity_sum += parseFloat(capacity_inputs[j].value);
 		}
 		weekly_capacities[week_periods[i]] = capacity_sum;
-		graph_capacities["week" + (i+1).toString()] = capacity_sum; 
+		graph_capacities["week" + (i + 1).toString()] = capacity_sum;
 	}
 
 	//Inserts values into invisible inputs that will be grabbed from form submission
@@ -206,7 +190,7 @@ function submitHandler() {
 		JSON.stringify(total_resources);
 	document.getElementById("weekly-capacities-id").value =
 		JSON.stringify(weekly_capacities);
-	document.getElementById("graph-capacities-id").value = 
+	document.getElementById("graph-capacities-id").value =
 		JSON.stringify(graph_capacities);
 	document.getElementById("project-form").submit();
 }

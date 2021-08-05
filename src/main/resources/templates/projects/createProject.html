@@ -22,7 +22,11 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/stylesheets/projectTable.css"
+		/>
 		<title>Create New Project</title>
 	</head>
 
@@ -36,9 +40,8 @@
 			method="post"
 			th:action="@{/projects/create}"
 			th:object="${project}"
-			class="formtemplate"
 		>
-			<div class="tab">
+			<div class="tab formtemplate">
 				<h1>New Project</h1>
 				<ul>
 					<li>
@@ -66,13 +69,16 @@
 						/>
 					</li>
 					<p style="opacity: 0.4">*Can be changed later</p>
-					<p id="error"></p>
 				</ul>
+				<label>Color</label>
+				<input type = "color" th:field = "*{color}" value="#ff0000">
+				
+				
 			</div>
 
-			<div class="tab">
+			<div class="tab centered">
 				<h1 id="project-name"></h1>
-				<table id="work-table" class="container">
+				<table id="work-table" class="project-table">
 					<thead>
 						<tr id="weeks"></tr>
 					</thead>
@@ -82,46 +88,34 @@
 					<button type="button" onclick="addResource()">Add Resource</button>
 					<button type="button" onclick="submitHandler()">Submit</button>
 				</table>
+			</div>
 
-				<input
-					type="text"
-					id="resource-id"
-					style="display: none"
-					value=""
-					th:field="*{resources}"
-				/>
+			<div style="overflow: auto" class="centered">
+				<button type="button" id="prevBtn" onclick="nextPrev(-1)">
+					Previous
+				</button>
+				<button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+			</div>
+
+			<div style="display: none">
+				<input type="text" id="resource-id" value="" th:field="*{resources}" />
 
 				<input
 					type="text"
 					id="weekly-capacities-id"
-					style="display: none"
 					value=""
 					th:field="*{capacities}"
 				/>
-				
+
 				<input
 					type="text"
 					id="graph-capacities-id"
-					style="display: none"
 					value=""
 					th:field="*{capacities2}"
 				/>
-
 			</div>
-
-			<div style="overflow: auto">
-				<div style="float: right">
-					<button type="button" id="prevBtn" onclick="nextPrev(-1)">
-						Previous
-					</button>
-					<button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-				</div>
-			</div>
-
-			<div style="text-align: center; margin-top: 40px">
-				<span class="step"></span>
-				<span class="step"></span>
-			</div>
+			
+			
 		</form>
 
 		<button class="cancel">
