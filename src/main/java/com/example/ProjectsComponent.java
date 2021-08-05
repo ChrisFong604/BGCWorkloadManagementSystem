@@ -47,7 +47,7 @@ public class ProjectsComponent {
 			Statement stmt = connection.createStatement();
 
 			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS projects (id varchar(40), name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text)");
+					"CREATE TABLE IF NOT EXISTS projects (id varchar(40), name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text, color varchar(40))");
 
 			String sql = "SELECT * FROM projects ORDER BY startdate ASC";
 			ResultSet rs = stmt.executeQuery(sql);
@@ -62,6 +62,7 @@ public class ProjectsComponent {
 				proj.setResources(rs.getString("resources"));
 				proj.setCapacities(rs.getString("capacities"));
 				proj.setCapacities2(rs.getString("capacities2"));
+				proj.setColor(rs.getString("color"));
 				output.add(proj);
 			}
 			model.put("projects", output);
@@ -124,10 +125,10 @@ public class ProjectsComponent {
 					"CREATE TABLE IF NOT EXISTS projects (id varchar(40), name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text)");
 			// Creates a universally unique ID for each employee (Only exists in Database)
 
-			String sql = "INSERT INTO projects ( id, name, startdate, enddate, resources, capacities, capacities2 ) VALUES ('"
+			String sql = "INSERT INTO projects ( id, name, startdate, enddate, resources, capacities, capacities2, color ) VALUES ('"
 					+ UniqueID + "','" + project.getName() + "','" + project.getStart() + "','" + project.getEnd()
 					+ "','" + project.getResources() + "','" + project.getCapacities() + "','"
-					+ project.getCapacities2() + "')";
+					+ project.getCapacities2() + "','" + project.getColor() + "')";
 			stmt.executeUpdate(sql);
 
 			return "redirect:/projects"; // Directly returns to project homepage
@@ -165,6 +166,7 @@ public class ProjectsComponent {
 				proj.setCapacities(rs.getString("capacities"));
 				proj.setResources(rs.getString("resources"));
 				proj.setCapacities2(rs.getString("capacities2"));
+				proj.setColor(rs.getString("color"));
 			}
 
 			model.put("project", proj);

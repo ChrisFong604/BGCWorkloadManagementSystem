@@ -434,7 +434,7 @@ public class DashboardComponent {
 
 		  // for workload graph
 	      stmt.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS projects (id varchar(40), name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text)");
+                    "CREATE TABLE IF NOT EXISTS projects (id varchar(40), name varchar(40), startdate date, enddate date, resources text, capacities text, capacities2 text, color varchar(40))");
 
             String sql8 = "SELECT * FROM projects ORDER BY startdate ASC";
             ResultSet rs8 = stmt.executeQuery(sql8);
@@ -449,6 +449,7 @@ public class DashboardComponent {
                 proj.setResources(rs8.getString("resources"));
                 proj.setCapacities(rs8.getString("capacities"));
                 proj.setCapacities2(rs8.getString("capacities2"));
+				proj.setColor(rs8.getString("color"));
                 output8.add(proj);
             }
             model.put("projects", output8);
@@ -457,6 +458,7 @@ public class DashboardComponent {
 	      /*
 	       * for (Employee emp : empInRange) { System.out.println(emp.getName()); }
 	       */
+		  
 	      
 	      if (flag && edit) {
 	        return "index";

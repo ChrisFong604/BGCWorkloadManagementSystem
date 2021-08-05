@@ -138,7 +138,7 @@ let myChart = new Chart(workload, {
                 //stacked: true,
                 title: {
                     display: true,
-                    text: "# of people?",
+                    text: "Work Capacity",
                     font: {
                         size: 25
                     },
@@ -346,7 +346,7 @@ for (i = 0; i < projects.length; i++){
     var newDataset = {
         label: projects[i].name,
         type: 'bar',
-        backgroundColor: "rgb(" + r + "," + g + "," + b + ")",
+        backgroundColor: projects[i].color,
         borderColor: "rgb(" + r + "," + g + "," + b + ")",
         borderWidth: 1,
         data: dataarr,
@@ -358,12 +358,12 @@ for (i = 0; i < projects.length; i++){
 }
 
 /*
-for (i = 0; i < 3; i++){
+for (i = 0; i < 40; i++){
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
     var newDataset = {
-        label: "HI" + i,
+        label: "Project " + i,
         type: 'bar',
         backgroundColor: "rgb(" + r + "," + g + "," + b + ")",
         borderColor: "rgb(" + r + "," + g + "," + b + ")",
