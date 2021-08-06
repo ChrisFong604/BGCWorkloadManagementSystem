@@ -135,11 +135,16 @@ function addResource() {
 	num_resources++;
 	let resource_table = document.getElementById("resources");
 	let new_resource = resource_table.insertRow(-1);
+	var id = Math.random().toString();
+	new_resource.setAttribute("id", id);
 
-	let name_input = document.createElement("TH");
+	let name_input = document.createElement("TD");
 
 	name_input.innerHTML =
-		'<input name="resource-name" placeholder="resource name"/>';
+		'<button type="button" onclick=deleteResource(' +
+		id +
+		")>Delete</button>" +
+		'<input name="resource-name" placeholder="resource name" />';
 	new_resource.appendChild(name_input);
 
 	for (let i = 0; i < week_periods.length; i++) {
@@ -153,6 +158,10 @@ function addResource() {
 	}
 }
 
+function deleteResource(id) {
+	document.getElementById(id).remove();
+}
+
 function insertExistingResources() {
 	let resource_table = document.getElementById("resources");
 	resource_table.innerHTML = "";
@@ -162,17 +171,21 @@ function insertExistingResources() {
 	) {
 		for (var resource in existing_resources) {
 			num_resources++;
-			console.log(num_resources);
 			if (existing_resources.hasOwnProperty(resource)) {
 				let resource_table = document.getElementById("resources");
 				let new_resource = resource_table.insertRow(-1);
+				var id = Math.random().toString();
+				new_resource.setAttribute("id", id);
 
-				let name_input = document.createElement("TH");
+				let name_input = document.createElement("TD");
 
 				name_input.innerHTML =
-					'<input name="resource-name" placeholder="resource name" value=' +
+					'<button type="button" onclick=deleteResource(' +
+					id +
+					")>Delete</button>" +
+					'<input name="resource-name" placeholder="resource name" value="' +
 					resource +
-					"/>";
+					'" />';
 				new_resource.appendChild(name_input);
 				let i = 1;
 				for (var week in existing_resources[resource]) {
@@ -192,16 +205,21 @@ function insertExistingResources() {
 	} else {
 		for (var resource in existing_resources) {
 			num_resources++;
-			console.log(num_resources);
 			if (existing_resources.hasOwnProperty(resource)) {
 				let resource_table = document.getElementById("resources");
 				let new_resource = resource_table.insertRow(-1);
+				var id = Math.random().toString();
+				new_resource.setAttribute("id", id);
 
-				let name_input = document.createElement("TH");
+				let name_input = document.createElement("TD");
+
 				name_input.innerHTML =
-					'<input name="resource-name" placeholder="resource name" value=' +
+					'<button type="button" onclick=deleteResource(' +
+					id +
+					")>Delete</button>" +
+					'<input name="resource-name" placeholder="resource name" value="' +
 					resource +
-					"/>";
+					'" />';
 				new_resource.appendChild(name_input);
 
 				let weeks = week_periods.length;

@@ -137,10 +137,15 @@ function addResource() {
 	num_resources++;
 	let resource_table = document.getElementById("resources");
 	let new_resource = resource_table.insertRow(-1);
+	var id = Math.random().toString();
+	new_resource.setAttribute("id", id);
 
-	let name_input = document.createElement("TH");
+	let name_input = document.createElement("TD");
 
 	name_input.innerHTML =
+		'<button type="button" onclick=deleteResource(' +
+		id +
+		")>Delete</button>" +
 		'<input name="resource-name" placeholder="resource name"/>';
 	new_resource.appendChild(name_input);
 
@@ -153,6 +158,10 @@ function addResource() {
 			"'/>";
 		new_resource.appendChild(weekly_input);
 	}
+}
+
+function deleteResource(id) {
+	document.getElementById(id).remove();
 }
 
 function submitHandler() {

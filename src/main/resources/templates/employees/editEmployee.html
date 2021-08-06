@@ -135,27 +135,20 @@
 					</li>
 
 					<br />
-
-					<li>
-						<label>ID (debug)</label><br />
-						<input
-							type="text"
-							th:field="*{id}"
-							th:attr="value = ${employee.id}"
-							readonly
-						/>
-						<br />
-					</li>
-					<br />
+					<input
+						type="text"
+						style="display: none"
+						th:field="*{id}"
+						th:attr="value = ${employee.id}"
+						readonly
+					/>
 				</ul>
 				<div class="buttons">
 					<input type="submit" value="Save" />
 					<button class="cancel"><a th:href="@{/employees}">Cancel</a></button>
 				</div>
 			</form>
-			
 		</section>
-
 
 		<script>
 			let status = document.getElementById("position");
