@@ -25,8 +25,10 @@ function showTab(Tab) {
 	// ... and fix the Previous/Next buttons:
 	if (Tab == 0) {
 		document.getElementById("prevBtn").style.display = "none";
+		document.getElementById("submitBtn").style.display = "none";
 	} else {
 		document.getElementById("prevBtn").style.display = "inline";
+		document.getElementById("submitBtn").style.display = "inline";
 	}
 	if (Tab == x.length - 1) {
 		document.getElementById("nextBtn").style.display = "none";
@@ -150,7 +152,7 @@ function addResource() {
 	for (let i = 0; i < week_periods.length; i++) {
 		weekly_input = document.createElement("TD");
 		weekly_input.innerHTML =
-			"<input type='number' name='resource-capacity' required class='week" +
+			"<input type='number' name='resource-capacity' value='0' min='0' max='1' step='0.005' required class='week" +
 			" " +
 			(i + 1).toString() +
 			"'/>";
@@ -180,7 +182,7 @@ function insertExistingResources() {
 				let name_input = document.createElement("TD");
 
 				name_input.innerHTML =
-					'<button type="button" onclick=deleteResource(' +
+					'<button type="button" class="delete" onclick=deleteResource(' +
 					id +
 					")>Delete</button>" +
 					'<input name="resource-name" placeholder="resource name" value="' +
@@ -214,7 +216,7 @@ function insertExistingResources() {
 				let name_input = document.createElement("TD");
 
 				name_input.innerHTML =
-					'<button type="button" onclick=deleteResource(' +
+					'<button type="button" class="delete" onclick=deleteResource(' +
 					id +
 					")>Delete</button>" +
 					'<input name="resource-name" placeholder="resource name" value="' +

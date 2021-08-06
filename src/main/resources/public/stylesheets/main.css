@@ -148,18 +148,30 @@
 	color: #fff;
 }*/
 
-input[type="submit"],
-.cancel {
+input[type="submit"] {
 	background: #0f2269;
 	border: none;
-	padding: 10px 20px 10px 20px;
+	padding: 8px 20px;
+	border-radius: 3px;
+	color: white;
+	cursor: pointer;
+}
+
+input[type="submit"]:hover {
+	background: #0b1a4e;
+	color: #fff;
+}
+
+.cancel {
+	background: #b6b6b6;
+	border: none;
+	padding: 8px 20px;
 	border-radius: 3px;
 	color: white;
 }
 
-input[type="submit"]:hover,
 .cancel:hover {
-	background: #0b1a4e;
+	background: #949494;
 	color: #fff;
 }
 
