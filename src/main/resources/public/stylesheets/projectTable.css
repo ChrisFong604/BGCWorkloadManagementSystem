@@ -117,7 +117,7 @@
 
 input[type="submit"],
 .cancel {
-	background: #2471ff;
+	background: #0f2269;
 	border: none;
 	padding: 10px 20px 10px 20px;
 	border-radius: 3px;
@@ -126,7 +126,7 @@ input[type="submit"],
 
 input[type="submit"]:hover,
 .cancel:hover {
-	background: #6b9fff;
+	background: #0b1a4e;
 	color: #fff;
 }
 

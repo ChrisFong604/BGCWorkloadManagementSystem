@@ -338,16 +338,10 @@ for (i = 0; i < projects.length; i++){
         }
     }
 
-
-    var r = Math.floor(Math.random() * 255);
-    var g = Math.floor(Math.random() * 255);
-    var b = Math.floor(Math.random() * 255);
-
     var newDataset = {
         label: projects[i].name,
         type: 'bar',
         backgroundColor: projects[i].color,
-        borderColor: "rgb(" + r + "," + g + "," + b + ")",
         borderWidth: 1,
         data: dataarr,
         stack: 'Stack 0',
