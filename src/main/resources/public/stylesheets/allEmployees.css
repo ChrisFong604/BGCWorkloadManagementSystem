@@ -156,6 +156,7 @@ a {
 
 .add {
     background-color: rgb(116, 216, 116);
+    padding: 3px 20px 5px 20px;
 }
 
 .add:hover {
@@ -164,6 +165,11 @@ a {
 
 
 /* icons */
+.bi-person-plus,
+.bi-clipboard-plus {
+    padding-right: 5px;
+}
+
 .bi-pencil-fill,
 .bi-trash,
 .bi-eye-fill {
@@ -197,6 +203,11 @@ a {
 
 .view:hover {
     background-color: rgb(245, 171, 184);
+}
+
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  vertical-align: middle;
 }
 
 /** view projects ***/

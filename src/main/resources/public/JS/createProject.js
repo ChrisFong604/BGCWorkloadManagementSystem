@@ -15,8 +15,10 @@ function showTab(Tab) {
 	// ... and fix the Previous/Next buttons:
 	if (Tab == 0) {
 		document.getElementById("prevBtn").style.display = "none";
+		document.getElementById("submitBtn").style.display = "none";
 	} else {
 		document.getElementById("prevBtn").style.display = "inline";
+		document.getElementById("submitBtn").style.display = "inline";
 	}
 	if (Tab == x.length - 1) {
 		document.getElementById("nextBtn").style.display = "none";
@@ -143,7 +145,7 @@ function addResource() {
 	let name_input = document.createElement("TD");
 
 	name_input.innerHTML =
-		'<button type="button" onclick=deleteResource(' +
+		'<button type="button" class="delete" onclick=deleteResource(' +
 		id +
 		")>Delete</button>" +
 		'<input name="resource-name" placeholder="resource name"/>';

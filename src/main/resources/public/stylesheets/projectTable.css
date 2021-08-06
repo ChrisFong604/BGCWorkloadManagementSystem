@@ -31,11 +31,11 @@
 	margin-bottom: 30px;
 	border-radius: 3px;
 }
-.formtemplate li:last-child {
+/*.formtemplate li:last-child {
 	border: none;
 	margin-bottom: 0px;
 	text-align: center;
-}
+}*/
 .formtemplate li > label {
 	display: block;
 	float: left;
@@ -115,25 +115,90 @@
 	color: #fff;
 }*/
 
+::placeholder {
+	text-align: center;
+}
+
+/*** buttons ***/
 input[type="submit"],
-.cancel {
-	background: #2471ff;
+.next,
+#submitBtn {
+	background: #0f2269;
 	border: none;
-	padding: 10px 20px 10px 20px;
-	border-radius: 3px;
+	padding: 8px 20px;
+    border-radius: 4px;
 	color: white;
+	cursor: pointer;
 }
 
 input[type="submit"]:hover,
-.cancel:hover {
-	background: #6b9fff;
+.next:hover,
+#submitBtn:hover {
+	background: #0b1a4e;
 	color: #fff;
+}
+
+.cancel {
+	background: #b6b6b6;
+	border: none;
+	padding: 8px 20px;
+	border-radius: 4px;
+	color: white;
+}
+
+.cancel:hover {
+	background: #949494;
+	color: #fff;
+}
+
+.delete {
+    background-color: #ff4f4f;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	padding: 5px 8px;
+	margin-right: 8px;
+}
+
+.delete:hover {
+    background-color: red;
 }
 
 a {
 	text-decoration: none;
 	color: white;
 }
+
+button {
+	cursor: pointer;
+	margin: 0 2px;
+}
+
+.addResource {
+	background: rgb(116, 216, 116);
+	border: none;
+	padding: 3px 20px 5px 20px;
+    border-radius: 4px;
+	color: white;
+}
+
+.addResource:hover {
+	background:  rgb(89, 189, 89);
+	color: #fff;
+	cursor: pointer;
+}
+
+/* icons */
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  vertical-align: middle;
+}
+
+.bi-person-plus {
+    padding-right: 5px;
+}
+
+/*** tab ***/
 
 /* Hide all steps by default: */
 .tab {
@@ -198,3 +263,7 @@ a {
 	margin: 50px auto;
 	text-align: center;
 }
+
+
+
+
