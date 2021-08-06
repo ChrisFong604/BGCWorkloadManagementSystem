@@ -14,111 +14,121 @@
 	project(name, startdate, enddate, array of workers per week)
 -->
 <html
-  xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{fragments/layout :: layout (~{::header})}"
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::header})}"
 ></html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/stylesheets/projectTable.css"
-    />
-    <title>Edit Project</title>
-  </head>
-  <header></header>
-  <body>
-    <div class="text">Projects</div>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/stylesheets/projectTable.css"
+		/>
+		<title>Edit Project</title>
+	</head>
+	<header></header>
+	<body>
+		<div class="text">Projects</div>
 
-    <form
-      id="project-form"
-      action="#"
-      method="post"
-      th:action="@{/projects//edit?pid={id}(id = ${id})}"
-      th:object="${project}"
-    >
-      <div class="tab formtemplate">
-        <h1>Edit Project</h1>
-        <ul>
-          <li>
-            <label for="name">Project Name</label>
-            <input
-              type="text"
-              th:field="*{name}"
-              th:attr="value=${project.name}"
-              id="name"
-            />
-          </li>
-          <li>
-            <label>Start Date</label>
-            <input
-              type="date"
-              placeholder="yyyy-mm-dd"
-              th:field="*{start}"
-              th:attr="value=${project.start}"
-              id="start"
-            />
-          </li>
-          <li>
-            <label>End Date</label>
-            <input
-              type="date"
-              placeholder="yyyy-mm-dd"
-              th:field="*{end}"
-              th:attr="value=${project.end}"
-              id="end"
-            />
-          </li>
-          <p th:text="${resources}"></p>
-          <p id="error"></p>
-        </ul>
-		<br>
-		<label>Color</label>
-		<input type = "color" th:field = "*{color}"/>
-      </div>
+		<form
+			id="project-form"
+			action="#"
+			method="post"
+			th:action="@{/projects//edit?pid={id}(id = ${id})}"
+			th:object="${project}"
+		>
+			<div class="tab formtemplate">
+				<h1>Edit Project</h1>
+				<ul>
+					<li>
+						<label for="name">Project Name</label>
+						<input
+							type="text"
+							th:field="*{name}"
+							th:attr="value=${project.name}"
+							id="name"
+						/>
+					</li>
+					<li>
+						<label>Start Date</label>
+						<input
+							type="date"
+							placeholder="yyyy-mm-dd"
+							th:field="*{start}"
+							th:attr="value=${project.start}"
+							id="start"
+						/>
+					</li>
+					<li>
+						<label>End Date</label>
+						<input
+							type="date"
+							placeholder="yyyy-mm-dd"
+							th:field="*{end}"
+							th:attr="value=${project.end}"
+							id="end"
+						/>
+					</li>
+					<p th:text="${resources}"></p>
+					<p id="error"></p>
+				</ul>
+				<br />
+				<label>Color</label>
+				<input type="color" th:field="*{color}" />
+			</div>
 
-      <div class="tab centered">
-        <h1 id="project-name"></h1>
-        <table id="work-table" class="project-table">
-          <thead>
-            <tr id="weeks"></tr>
-          </thead>
+			<div class="tab centered">
+				<h1 id="project-name"></h1>
+				<table id="work-table" class="project-table">
+					<thead>
+						<tr id="weeks"></tr>
+					</thead>
 
-          <tbody id="resources"></tbody>
+					<tbody id="resources"></tbody>
 
-          <button type="button" onclick="addResource()">Add Resource</button>
-          <button type="button" onclick="submitHandler()">Submit</button>
-        </table>
-      </div>
+					<button class="cancel" type="button" onclick="addResource()">
+						Add Resource
+					</button>
+					<button class="cancel" type="button" onclick="submitHandler()">
+						Submit
+					</button>
+				</table>
+			</div>
 
-      <div style="overflow: auto" class="centered">
-        <button type="button" id="prevBtn" onclick="nextPrev(-1)">
-          Previous
-        </button>
-        <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-      </div>
+			<div class="centered">
+				<button class="cancel">
+					<a th:href="@{/projects}">Cancel</a>
+				</button>
+				<button
+					class="cancel"
+					type="button"
+					id="prevBtn"
+					onclick="nextPrev(-1)"
+				>
+					Previous
+				</button>
+				<button class="cancel" type="button" id="nextBtn" onclick="nextPrev(1)">
+					Next
+				</button>
+			</div>
 
-      <div style="display: none">
-        <input type="text" id="resource-id" th:field="*{resources}" />
+			<div style="display: none">
+				<input type="text" id="resource-id" th:field="*{resources}" />
 
-        <input type="text" id="weekly-capacities-id" th:field="*{capacities}" />
+				<input type="text" id="weekly-capacities-id" th:field="*{capacities}" />
 
-        <input type="text" id="graph-capacities-id" th:field="*{capacities2}" />
+				<input type="text" id="graph-capacities-id" th:field="*{capacities2}" />
 
-        <input type="text" th:field="*{id}" th:attr="value=${project.id}" />
+				<input type="text" th:field="*{id}" th:attr="value=${project.id}" />
 
-        <p id="project-resources" th:text="${project.resources}"></p>
-        <p id="project-start" th:text="${project.start}"></p>
-        <p id="project-end" th:text="${project.end}"></p>
-      </div>
-    </form>
-
-    <button class="cancel">
-      <a th:href="@{/projects}">Cancel</a>
-    </button>
-  </body>
-  <script type="text/javascript" th:src="@{/JS/editProject.js}"></script>
+				<p id="project-resources" th:text="${project.resources}"></p>
+				<p id="project-start" th:text="${project.start}"></p>
+				<p id="project-end" th:text="${project.end}"></p>
+			</div>
+		</form>
+	</body>
+	<script type="text/javascript" th:src="@{/JS/editProject.js}"></script>
 </html>

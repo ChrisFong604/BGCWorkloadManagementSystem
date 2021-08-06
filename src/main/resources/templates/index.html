@@ -1,75 +1,80 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::header})}"></html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::header})}"
+></html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.min.js"></script>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.min.js"></script>
 
-    <script type="text/javascript" th:src="@{/JS/headcount.js} "></script>
-    <script type="text/javascript" th:src="@{/JS/workload.js}" ></script>
-    <title>Dashboard</title>
-</head>
-<header></header>
-  
-<body>
-    <section class="home-section">
-        <div class="text">Dashboard</div>
-        
-        <div class="input">
-            <form action="#" method="post" th:action="@{/dashboard}" th:object="${range}">
-                <div class="range-start">
-                    <label>Start Date</label> <br/>
-                    <input type="date" th:field="*{start}" th:attr="value = ${range.start}"> 
-                </div>
-                        
-                <div class="range-end">
-                    <label>End Date</label> <br/>
-                    <input type="date" th:field="*{end}" th:attr="value = ${range.end}">
-                </div>
-                            
-                <input type="submit" value="Apply">
-            </form>
-        </div>
-          
-        <div class = "container"> 
-            <canvas id = "headcount"></canvas>
-        </div>
+		<script type="text/javascript" th:src="@{/JS/headcount.js} "></script>
+		<script type="text/javascript" th:src="@{/JS/workload.js}"></script>
+		<title>Dashboard</title>
+	</head>
+	<header></header>
 
-        <div class = "container"> 
-            <canvas id = "workload"></canvas>
-        </div>
-        
-    </section>
- 
+	<body>
+		<section class="home-section">
+			<div class="text">Dashboard</div>
 
-    <script th:inline="javascript">  
+			<div class="input">
+				<form
+					action="#"
+					method="post"
+					th:action="@{/dashboard}"
+					th:object="${range}"
+				>
+					<div class="range-start">
+						<label>Start Date</label> <br />
+						<input
+							type="date"
+							th:field="*{start}"
+							th:attr="value = ${range.start}"
+						/>
+					</div>
 
-        // headcount
-        var str = [[${range}]];
-        var theList = [[${employees}]];
-        var theList2 = [[${employees2}]];
+					<div class="range-end">
+						<label>End Date</label> <br />
+						<input
+							type="date"
+							th:field="*{end}"
+							th:attr="value = ${range.end}"
+						/>
+					</div>
 
-        // workload
-        var listOfEmps = [[${empInRange}]];
-        var range = [[${range}]];
-        var projects = [[${projects}]];
+					<input type="submit" value="Apply" />
+				</form>
+			</div>
 
-        window.onload = function () {
-            headcount();
-            workload();
-        }
+			<div class="container">
+				<canvas id="headcount"></canvas>
+			</div>
 
-    </script>
+			<div class="container">
+				<canvas id="workload"></canvas>
+			</div>
+		</section>
 
+		<script th:inline="javascript">
 
-    <form action="#" method="post" th:action="@{/deletetabledata}">   
-        <input type="submit" value="Delete all data">
-    </form>
-    
-</body>
+			// headcount
+			var str = [[${range}]];
+			var theList = [[${employees}]];
+			var theList2 = [[${employees2}]];
 
+			// workload
+			var listOfEmps = [[${empInRange}]];
+			var range = [[${range}]];
+			var projects = [[${projects}]];
 
+			window.onload = function () {
+			    headcount();
+			    workload();
+			}
+		</script>
+	</body>
 </html>

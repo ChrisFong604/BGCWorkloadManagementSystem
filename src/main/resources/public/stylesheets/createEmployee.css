@@ -9,15 +9,10 @@ h1 {
 	margin-bottom: 25px;
 }
 
-.container {
-	/*text-align: center;*/
-	border-radius: 5px;
-	background-color: #f2f2f2;
-	padding: 20px 100px 120px 100px;
-	margin: 5% 20%;
+input[type="text"] {
+	display: inline-block;
 }
 
-input[type="text"],
 input[type="date"],
 select {
 	width: 100%;
@@ -31,6 +26,18 @@ select {
 
 input[type=text]:hover, /*input[type=radio]:hover,*/ input[type=date]:hover, select:hover {
 	box-shadow: 0 0 5pt 0.5pt #d3d3d3;
+}
+
+li {
+	display: inline-block;
+}
+
+.container {
+	/*text-align: center;*/
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px 100px 120px 100px;
+	margin: 5% 20%;
 }
 
 .status {

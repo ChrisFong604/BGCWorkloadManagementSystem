@@ -21,8 +21,8 @@
 				<br></br>
 				<ul>
 					<li>
-						<label for="name">Name/Resource</label> <br />
-						<input type="text" th:field="*{name}" id="name" required /> <br />
+						<label for="name">Name/Resource</label>
+						<input type="text" th:field="*{name}" id="name" required />
 					</li>
 					<li>
 						<label>Select employee type</label>
@@ -32,14 +32,13 @@
 							<option value="intern">Co-op/Intern</option>
 						</select>
 					</li>
-					<br>
 					<li>
 						<label for="role">Role</label>
-						<input type="text" th:field="*{role}" id="role" required /> <br />
+						<input type="text" th:field="*{role}" id="role" required />
 					</li>
 					<li>
 						<label for="team">Team</label> 
-						<input type="text" th:field="*{team}" id="team" required /> <br />
+						<input type="text" th:field="*{team}" id="team" required />
 					</li>
 					<li>
 						<label for="status">Employee status</label>
@@ -49,17 +48,14 @@
 							<option value="FALSE">Projected</option>
 						</select>
 					</li>
-					<br></br>
 					<li>
 						<label>Start Date</label>
 						<input type="date" th:field="*{start}" placeholder="yyyy-mm-dd" required />
 					</li>
-					<br></br>
 					<li>
 						<label>End Date (Co-op/Intern)</label>
 						<input type="date" th:field="*{end}" placeholder="yyyy-mm-dd" id="end" required />
 					</li>
-					<br></br>
 					<li>
 						<span>
 							<input type="submit" value="Save" />
