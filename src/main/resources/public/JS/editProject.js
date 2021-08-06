@@ -145,7 +145,7 @@ function addResource() {
 	for (let i = 0; i < week_periods.length; i++) {
 		weekly_input = document.createElement("TD");
 		weekly_input.innerHTML =
-			"<input type='number' name='resource-capacity' class='week" +
+			"<input type='number' name='resource-capacity' required class='week" +
 			" " +
 			(i + 1).toString() +
 			"'/>";
@@ -178,7 +178,7 @@ function insertExistingResources() {
 				for (var week in existing_resources[resource]) {
 					weekly_input = document.createElement("TD");
 					weekly_input.innerHTML =
-						"<input type='number' name='resource-capacity' min='0' max='1' step='0.005' class='week " +
+						"<input required type='number' name='resource-capacity' min='0' max='1' step='0.005' class='week " +
 						i.toString() +
 						"' value=" +
 						existing_resources[resource][week].toString() +
