@@ -68,10 +68,8 @@
 							</optgroup>
 						</select>
 					</li>
-
-					<br />
 					<li>
-						<label for="role">Role</label> <br />
+						<label for="role">Role</label>
 						<input
 							type="text"
 							th:field="*{role}"
@@ -79,12 +77,10 @@
 							id="role"
 							required
 						/>
-						<br />
 					</li>
-					<br />
 
 					<li>
-						<label for="team">Team</label> <br />
+						<label for="team">Team</label>
 						<input
 							type="text"
 							th:field="*{team}"
@@ -92,9 +88,7 @@
 							id="team"
 							required
 						/>
-						<br />
 					</li>
-					<br />
 					<li>
 						<label for="status">Employee Status</label>
 						<select name="status" id="status" required>
@@ -111,7 +105,6 @@
 							</optgroup>
 						</select>
 					</li>
-					<br />
 					<li>
 						<label>Start Date</label>
 						<input
@@ -120,21 +113,17 @@
 							th:attr="value = ${employee.start}"
 							required
 						/>
-						<br />
 					</li>
 
 					<li>
-						<label>End Date (Co-op/Intern)</label><br />
+						<label>End Date (Co-op/Intern)</label>
 						<input
 							type="date"
 							th:field="*{end}"
 							th:attr="value = ${employee.end}"
 							required
 						/>
-						<br />
 					</li>
-
-					<br />
 					<input
 						type="text"
 						style="display: none"
