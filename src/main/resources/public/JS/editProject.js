@@ -9,250 +9,266 @@ var total_resources = {};
 //DATABASE values
 
 var existing_resources = JSON.parse(
-  document.getElementById("project-resources").innerHTML
+	document.getElementById("project-resources").innerHTML
 );
 var original_dates = {
-  start: document.getElementById("project-start").innerHTML,
-  end: document.getElementById("project-end").innerHTML,
+	start: document.getElementById("project-start").innerHTML,
+	end: document.getElementById("project-end").innerHTML,
 }; //inserts existing resources once at startup
 
 showTab(currentTab);
 
 function showTab(Tab) {
-  // This function will display the specified tab of the form ...
-  var x = document.getElementsByClassName("tab");
-  x[Tab].style.display = "block";
-  // ... and fix the Previous/Next buttons:
-  if (Tab == 0) {
-    document.getElementById("prevBtn").style.display = "none";
-  } else {
-    document.getElementById("prevBtn").style.display = "inline";
-  }
-  if (Tab == x.length - 1) {
-    document.getElementById("nextBtn").style.display = "none";
-  } else {
-    document.getElementById("nextBtn").style.display = "inline";
-    document.getElementById("nextBtn").innerHTML = "Next";
-  }
-  // ... and run a function that displays the correct step indicator:
+	// This function will display the specified tab of the form ...
+	var x = document.getElementsByClassName("tab");
+	x[Tab].style.display = "block";
+	// ... and fix the Previous/Next buttons:
+	if (Tab == 0) {
+		document.getElementById("prevBtn").style.display = "none";
+	} else {
+		document.getElementById("prevBtn").style.display = "inline";
+	}
+	if (Tab == x.length - 1) {
+		document.getElementById("nextBtn").style.display = "none";
+	} else {
+		document.getElementById("nextBtn").style.display = "inline";
+		document.getElementById("nextBtn").innerHTML = "Next";
+	}
+	// ... and run a function that displays the correct step indicator:
 }
 
 function nextPrev(n) {
-  //n is the incrementor (either 1 or -1)
-  // This function will figure out which tab to display
-  var x = document.getElementsByClassName("tab");
-  // Exit the function if any field in the current tab is invalid:
-  if (n == 1 && !validateForm()) return false;
-  // Hide the current tab:
-  x[currentTab].style.display = "none";
-  // Increase or decrease the current tab by 1:
-  currentTab += n;
+	//n is the incrementor (either 1 or -1)
+	// This function will figure out which tab to display
+	var x = document.getElementsByClassName("tab");
+	// Exit the function if any field in the current tab is invalid:
+	if (n == 1 && !validateForm()) return false;
+	// Hide the current tab:
+	x[currentTab].style.display = "none";
+	// Increase or decrease the current tab by 1:
+	currentTab += n;
 
-  if (currentTab == 1) {
-    week_periods = findweeks(
-      document.getElementById("start").value,
-      document.getElementById("end").value
-    );
-    project_name = document.getElementById("name").value;
-    document.getElementById("project-name").innerHTML = project_name;
-    create_weekly_distribution();
-    insertExistingResources();
-  }
+	if (currentTab == 1) {
+		week_periods = findweeks(
+			document.getElementById("start").value,
+			document.getElementById("end").value
+		);
+		project_name = document.getElementById("name").value;
+		document.getElementById("project-name").innerHTML = project_name;
+		create_weekly_distribution();
+		insertExistingResources();
+	}
 
-  if (currentTab == 0) {
-    num_resources = 0;
-  }
-  showTab(currentTab);
+	if (currentTab == 0) {
+		num_resources = 0;
+	}
+	showTab(currentTab);
 }
 
 function validateForm() {
-  // This function deals with validation of the form fields
-  let valid = true;
-  let tabs = document.getElementsByClassName("tab");
-  let inputs = tabs[currentTab];
+	// This function deals with validation of the form fields
+	let valid = true;
+	let tabs = document.getElementsByClassName("tab");
+	let inputs = tabs[currentTab];
 
-  if (currentTab == 0) {
-    let start = new Date(document.getElementById("start"));
-    let end = new Date(document.getElementById("end"));
-    if (end < start) {
-      valid = false;
-    }
-  }
+	if (currentTab == 0) {
+		let start = new Date(document.getElementById("start"));
+		let end = new Date(document.getElementById("end"));
+		if (end < start) {
+			valid = false;
+		}
+	}
 
-  if (valid) {
-  } else {
-    document.getElementById("error").innerHTML("Invalid Input!");
-  }
-  return valid; // return the valid status
+	if (valid) {
+	} else {
+		document.getElementById("error").innerHTML("Invalid Input!");
+	}
+	return valid; // return the valid status
 }
 /*
 	Manipulation with dates functions
 */
 
 function findweeks(first, second) {
-  //Receives two date strings, and performs arithmetic to find difference. The second date must ALWAYS be later
-  //Is assigned to week_periods global variable
-  startdate = new Date(first);
-  enddate = new Date(second);
+	//Receives two date strings, and performs arithmetic to find difference. The second date must ALWAYS be later
+	//Is assigned to week_periods global variable
+	startdate = new Date(first);
+	enddate = new Date(second);
 
-  offset_date = new Date();
-  const offset = offset_date.getTimezoneOffset();
-  startdate = new Date(startdate.getTime() + offset * 60 * 1000);
-  enddate = new Date(enddate.getTime() + offset * 60 * 1000);
+	offset_date = new Date();
+	const offset = offset_date.getTimezoneOffset();
+	startdate = new Date(startdate.getTime() + offset * 60 * 1000);
+	enddate = new Date(enddate.getTime() + offset * 60 * 1000);
 
-  let day_diff =
-    Math.round(enddate.getTime() - startdate.getTime()) / (1000 * 60 * 60 * 24);
+	let day_diff =
+		Math.round(enddate.getTime() - startdate.getTime()) / (1000 * 60 * 60 * 24);
 
-  let week_dates = [];
+	let week_dates = [];
 
-  while (day_diff > 0) {
-    let last_day = new Date(enddate);
-    last_day.toLocaleString("en-CA", {
-      timeZone: "Canada/Pacific",
-    });
-    last_day.setDate(last_day.getDate() - day_diff);
-    last_day = last_day.toISOString().split("T")[0];
-    week_dates.push(last_day);
-    day_diff -= 7;
-  }
+	while (day_diff > 0) {
+		let last_day = new Date(enddate);
+		last_day.toLocaleString("en-CA", {
+			timeZone: "Canada/Pacific",
+		});
+		last_day.setDate(last_day.getDate() - day_diff);
+		last_day = last_day.toISOString().split("T")[0];
+		week_dates.push(last_day);
+		day_diff -= 7;
+	}
 
-  return week_dates;
+	return week_dates;
 }
 
 //Creates a table with all the weeks specified as well as inputs for each employee resource
 function create_weekly_distribution() {
-  let table = document.getElementById("weeks");
-  table.innerHTML = "<th><h1>Resource Name</h1></th>";
-  for (let i = 0; i < week_periods.length; i++) {
-    const week = document.createElement("TH");
-    week.innerHTML = "<h1>" + week_periods[i] + "</h1>";
+	let table = document.getElementById("weeks");
+	table.innerHTML = "<th><h1>Resource Name</h1></th>";
+	for (let i = 0; i < week_periods.length; i++) {
+		const week = document.createElement("TH");
+		week.innerHTML = "<h1>" + week_periods[i] + "</h1>";
 
-    table.appendChild(week);
-  }
+		table.appendChild(week);
+	}
 }
 
 function addResource() {
-  num_resources++;
-  let resource_table = document.getElementById("resources");
-  let new_resource = resource_table.insertRow(-1);
+	num_resources++;
+	let resource_table = document.getElementById("resources");
+	let new_resource = resource_table.insertRow(-1);
+	var id = Math.random().toString();
+	new_resource.setAttribute("id", id);
 
-  let name_input = document.createElement("TH");
+	let name_input = document.createElement("TD");
 
-  name_input.innerHTML =
-    '<input name="resource-name" placeholder="resource name"/>';
-  new_resource.appendChild(name_input);
+	name_input.innerHTML =
+		'<button type="button" onclick=deleteResource(' +
+		id +
+		")>Delete</button>" +
+		'<input name="resource-name" placeholder="resource name"/>';
+	new_resource.appendChild(name_input);
 
-  for (let i = 0; i < week_periods.length; i++) {
-    weekly_input = document.createElement("TD");
-    weekly_input.innerHTML =
-      "<input type='number' name='resource-capacity' class='week" +
-      " " +
-      (i + 1).toString() +
-      "'/>";
-    new_resource.appendChild(weekly_input);
-  }
+	for (let i = 0; i < week_periods.length; i++) {
+		weekly_input = document.createElement("TD");
+		weekly_input.innerHTML =
+			"<input type='number' name='resource-capacity' class='week" +
+			" " +
+			(i + 1).toString() +
+			"'/>";
+		new_resource.appendChild(weekly_input);
+	}
+}
+
+function deleteResource(id) {
+	document.getElementById(id).remove();
 }
 
 function insertExistingResources() {
-  let resource_table = document.getElementById("resources");
-  resource_table.innerHTML = "";
-  if (
-    original_dates["start"] == document.getElementById("start").value &&
-    original_dates["end"] == document.getElementById("end").value
-  ) {
-    for (var resource in existing_resources) {
-      num_resources++;
-      if (existing_resources.hasOwnProperty(resource)) {
-        let resource_table = document.getElementById("resources");
-        let new_resource = resource_table.insertRow(-1);
+	let resource_table = document.getElementById("resources");
+	resource_table.innerHTML = "";
+	if (
+		original_dates["start"] == document.getElementById("start").value &&
+		original_dates["end"] == document.getElementById("end").value
+	) {
+		for (var resource in existing_resources) {
+			num_resources++;
+			if (existing_resources.hasOwnProperty(resource)) {
+				let resource_table = document.getElementById("resources");
+				let new_resource = resource_table.insertRow(-1);
+				var id = Math.random().toString();
+				new_resource.setAttribute("id", id);
 
-        let name_input = document.createElement("TH");
-        name_input.innerHTML =
-          '<input name="resource-name" placeholder="resource name" value="' +
-          resource +
-          '" />';
-        new_resource.appendChild(name_input);
-        let i = 1;
-        for (var week in existing_resources[resource]) {
-          weekly_input = document.createElement("TD");
-          weekly_input.innerHTML =
-            "<input type='number' name='resource-capacity' min='0' max='1' step='0.005' class='week " +
-            i.toString() +
-            "' value=" +
-            existing_resources[resource][week].toString() +
-            " />";
+				let name_input = document.createElement("TD");
 
-          new_resource.appendChild(weekly_input);
-          i++;
-        }
-      }
-    }
-  } else {
-    for (var resource in existing_resources) {
-      num_resources++;
-      console.log(num_resources);
-      if (existing_resources.hasOwnProperty(resource)) {
-        let resource_table = document.getElementById("resources");
-        let new_resource = resource_table.insertRow(-1);
+				name_input.innerHTML =
+					'<button type="button" onclick=deleteResource(' +
+					id +
+					")>Delete</button>" +
+					'<input name="resource-name" placeholder="resource name"/>';
+				new_resource.appendChild(name_input);
+				let i = 1;
+				for (var week in existing_resources[resource]) {
+					weekly_input = document.createElement("TD");
+					weekly_input.innerHTML =
+						"<input type='number' name='resource-capacity' min='0' max='1' step='0.005' class='week " +
+						i.toString() +
+						"' value=" +
+						existing_resources[resource][week].toString() +
+						" />";
 
-        let name_input = document.createElement("TH");
-        name_input.innerHTML =
-          '<input name="resource-name" placeholder="resource name" value=' +
-          resource +
-          "/>";
-        new_resource.appendChild(name_input);
+					new_resource.appendChild(weekly_input);
+					i++;
+				}
+			}
+		}
+	} else {
+		for (var resource in existing_resources) {
+			num_resources++;
+			if (existing_resources.hasOwnProperty(resource)) {
+				let resource_table = document.getElementById("resources");
+				let new_resource = resource_table.insertRow(-1);
+				var id = Math.random().toString();
+				new_resource.setAttribute("id", id);
 
-        let weeks = week_periods.length;
-        for (let i = 1; i <= weeks; i++) {
-          weekly_input = document.createElement("TD");
-          weekly_input.innerHTML =
-            "<input type='number' name='resource-capacity' min='0' max='1' step='0.005' class='week " +
-            i.toString() +
-            "' />";
-          new_resource.appendChild(weekly_input);
-        }
-      }
-    }
-  }
+				let name_input = document.createElement("TD");
+
+				name_input.innerHTML =
+					'<button type="button" onclick=deleteResource(' +
+					id +
+					")>Delete</button>" +
+					'<input name="resource-name" placeholder="resource name"/>';
+				new_resource.appendChild(name_input);
+
+				let weeks = week_periods.length;
+				for (let i = 1; i <= weeks; i++) {
+					weekly_input = document.createElement("TD");
+					weekly_input.innerHTML =
+						"<input type='number' name='resource-capacity' min='0' max='1' step='0.005' class='week " +
+						i.toString() +
+						"' />";
+					new_resource.appendChild(weekly_input);
+				}
+			}
+		}
+	}
 }
 
 function submitHandler() {
-  var resources = document.getElementsByName("resource-capacity");
-  var resource_names = document.getElementsByName("resource-name");
+	var resources = document.getElementsByName("resource-capacity");
+	var resource_names = document.getElementsByName("resource-name");
 
-  var weeks = week_periods.length;
-  //we create a JSON object with a key for each resources name and assigned work capacity
-  for (var i = 0; i < num_resources; i++) {
-    let work_capacities = {};
-    for (var j = 0; j < weeks; j++) {
-      work_capacities[week_periods[j]] = resources[i * weeks + j].value;
-    }
-    total_resources[resource_names[i].value] = work_capacities;
-  }
+	var weeks = week_periods.length;
+	//we create a JSON object with a key for each resources name and assigned work capacity
+	for (var i = 0; i < num_resources; i++) {
+		let work_capacities = {};
+		for (var j = 0; j < weeks; j++) {
+			work_capacities[week_periods[j]] = resources[i * weeks + j].value;
+		}
+		total_resources[resource_names[i].value] = work_capacities;
+	}
 
-  //JSON for sum of work capacity for each week
-  let weekly_capacities = {};
-  let graph_capacities = {};
+	//JSON for sum of work capacity for each week
+	let weekly_capacities = {};
+	let graph_capacities = {};
 
-  for (let i = 0; i < week_periods.length; i++) {
-    let capacity_inputs = document.getElementsByClassName(
-      "week " + (i + 1).toString()
-    );
-    let capacity_sum = 0;
-    for (let j = 0; j < capacity_inputs.length; j++) {
-      capacity_sum += parseFloat(capacity_inputs[j].value);
-    }
-    console.log("Week " + (i + 1).toString() + ": " + capacity_sum);
-    weekly_capacities[week_periods[i]] = capacity_sum;
-    graph_capacities["week" + (i + 1).toString()] = capacity_sum;
-  }
+	for (let i = 0; i < week_periods.length; i++) {
+		let capacity_inputs = document.getElementsByClassName(
+			"week " + (i + 1).toString()
+		);
+		let capacity_sum = 0;
+		for (let j = 0; j < capacity_inputs.length; j++) {
+			capacity_sum += parseFloat(capacity_inputs[j].value);
+		}
+		console.log("Week " + (i + 1).toString() + ": " + capacity_sum);
+		weekly_capacities[week_periods[i]] = capacity_sum;
+		graph_capacities["week" + (i + 1).toString()] = capacity_sum;
+	}
 
-  //Inserts values into invisible inputs that will be grabbed from form submission
-  document.getElementById("resource-id").value =
-    JSON.stringify(total_resources);
-  document.getElementById("weekly-capacities-id").value =
-    JSON.stringify(weekly_capacities);
-  document.getElementById("graph-capacities-id").value =
-    JSON.stringify(graph_capacities);
-  document.getElementById("project-form").submit();
+	//Inserts values into invisible inputs that will be grabbed from form submission
+	document.getElementById("resource-id").value =
+		JSON.stringify(total_resources);
+	document.getElementById("weekly-capacities-id").value =
+		JSON.stringify(weekly_capacities);
+	document.getElementById("graph-capacities-id").value =
+		JSON.stringify(graph_capacities);
+	document.getElementById("project-form").submit();
 }

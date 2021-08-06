@@ -137,22 +137,31 @@ function addResource() {
 	num_resources++;
 	let resource_table = document.getElementById("resources");
 	let new_resource = resource_table.insertRow(-1);
+	var id = Math.random().toString();
+	new_resource.setAttribute("id", id);
 
-	let name_input = document.createElement("TH");
+	let name_input = document.createElement("TD");
 
 	name_input.innerHTML =
+		'<button type="button" onclick=deleteResource(' +
+		id +
+		")>Delete</button>" +
 		'<input name="resource-name" placeholder="resource name"/>';
 	new_resource.appendChild(name_input);
 
 	for (let i = 0; i < week_periods.length; i++) {
 		weekly_input = document.createElement("TD");
 		weekly_input.innerHTML =
-			"<input type='number' name='resource-capacity' value='0' min='0' max='1' step='0.005' class='week" +
+			"<input type='number' name='resource-capacity' class='week" +
 			" " +
 			(i + 1).toString() +
 			"'/>";
 		new_resource.appendChild(weekly_input);
 	}
+}
+
+function deleteResource(id) {
+	document.getElementById(id).remove();
 }
 
 function submitHandler() {
