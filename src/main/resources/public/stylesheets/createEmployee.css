@@ -23,7 +23,7 @@ select {
 	width: 100%;
 	padding: 12px 20px;
 	margin: 8px 0 25px 0;
-	display: inline-block;
+	display: auto;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-sizing: border-box;
@@ -31,6 +31,10 @@ select {
 
 input[type=text]:hover, /*input[type=radio]:hover,*/ input[type=date]:hover, select:hover {
 	box-shadow: 0 0 5pt 0.5pt #d3d3d3;
+}
+
+li {
+	display: inline-block;
 }
 
 .status {

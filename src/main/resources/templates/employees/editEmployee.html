@@ -55,11 +55,12 @@
 							th:field="*{name}"
 							th:attr="value = ${employee.name}"
 							id="name"
+							required
 						/>
 					</li>
 					<li>
 						<label>Select Employee Type</label>
-						<select name="position" id="position" label="Position">
+						<select name="position" id="position" required label="Position">
 							<optgroup
 								th:field="*{position}"
 								th:attr="value = ${employee.position}"
@@ -81,6 +82,7 @@
 							th:field="*{role}"
 							th:attr="value = ${employee.role}"
 							id="role"
+							required
 						/>
 						<br />
 					</li>
@@ -93,13 +95,14 @@
 							th:field="*{team}"
 							th:attr="value = ${employee.team}"
 							id="team"
+							required
 						/>
 						<br />
 					</li>
 					<br />
 					<li>
 						<label for="status">Employee Status</label>
-						<select name="status" id="status">
+						<select name="status" id="status" required>
 							<optgroup
 								th:field="*{status}"
 								label="status"
@@ -120,6 +123,7 @@
 							type="date"
 							th:field="*{start}"
 							th:attr="value = ${employee.start}"
+							required
 						/>
 						<br />
 					</li>
@@ -130,6 +134,7 @@
 							type="date"
 							th:field="*{end}"
 							th:attr="value = ${employee.end}"
+							required
 						/>
 						<br />
 					</li>
