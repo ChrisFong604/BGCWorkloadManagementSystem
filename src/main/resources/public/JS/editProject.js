@@ -144,7 +144,7 @@ function addResource() {
 		'<button type="button" onclick=deleteResource(' +
 		id +
 		")>Delete</button>" +
-		'<input name="resource-name" placeholder="resource name"/>';
+		'<input name="resource-name" placeholder="resource name" />';
 	new_resource.appendChild(name_input);
 
 	for (let i = 0; i < week_periods.length; i++) {
@@ -183,7 +183,9 @@ function insertExistingResources() {
 					'<button type="button" onclick=deleteResource(' +
 					id +
 					")>Delete</button>" +
-					'<input name="resource-name" placeholder="resource name"/>';
+					'<input name="resource-name" placeholder="resource name" value="' +
+					resource +
+					'" />';
 				new_resource.appendChild(name_input);
 				let i = 1;
 				for (var week in existing_resources[resource]) {
@@ -215,7 +217,9 @@ function insertExistingResources() {
 					'<button type="button" onclick=deleteResource(' +
 					id +
 					")>Delete</button>" +
-					'<input name="resource-name" placeholder="resource name"/>';
+					'<input name="resource-name" placeholder="resource name" value="' +
+					resource +
+					'" />';
 				new_resource.appendChild(name_input);
 
 				let weeks = week_periods.length;
