@@ -54,17 +54,14 @@
 						/>
 					</li>
 					<li>
-						<label>Select Employee Type</label>
+						<label for="position">Select Employee Type</label>
 						<select name="position" id="position" required label="Position">
 							<optgroup
 								th:field="*{position}"
 								th:attr="value = ${employee.position}"
 							>
-								<option th:attr="value = ${employee.position}">
-									<text th:utext="${employee.position}" />
-								</option>
-								<option value="permanent">Permanent Hire</option>
-								<option value="intern">Co-op/Intern</option>
+								<option value="permanent" th:selected="${employee.position}==permanent">Permanent Hire</option>
+								<option value="intern" th:selected="${employee.position}==intern">Co-op/Intern</option>
 							</optgroup>
 						</select>
 					</li>
@@ -97,11 +94,11 @@
 								label="status"
 								th:attr="value = ${employee.status}"
 							>
-								<option th:attr="value = ${employee.status}">
+								<!-- <option th:attr="value = ${employee.status}">
 									<text th:utext="${employee.status}"></text>
-								</option>
-								<option value="TRUE">Hired</option>
-								<option value="FALSE">Projected</option>
+								</option> -->
+								<option value="TRUE" th:selected="${employee.status}==TRUE">Hired</option>
+								<option value="FALSE" th:selected="${employee.status}==FALSE">Projected</option>
 							</optgroup>
 						</select>
 					</li>
