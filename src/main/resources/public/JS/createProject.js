@@ -75,17 +75,20 @@ function validateForm() {
 	let tabs = document.getElementsByClassName("tab");
 	let inputs = tabs[currentTab];
 
+	let name = document.getElementById("name").value;
+
 	if (currentTab == 0) {
-		let start = new Date(document.getElementById("start"));
-		let end = new Date(document.getElementById("end"));
-		if (end < start) {
+		console.log("first if");
+		let start = new Date(document.getElementById("start").value);
+		let end = new Date(document.getElementById("end").value);
+
+		if (end < start || name == "" || isNaN(start.getTime()) || isNaN(end.getTime())) {
 			valid = false;
 		}
 	}
 
-	if (valid) {
-	} else {
-		document.getElementById("error").innerHTML("Invalid Input!");
+	if (!valid) {
+		document.getElementById("error").innerHTML = "There are invalid input(s)!";
 	}
 	return valid; // return the valid status
 }
