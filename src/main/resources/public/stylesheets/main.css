@@ -213,6 +213,10 @@ a {
 	border-collapse: collapse;
 }
 
+.project-table thead {
+	background-color: #0f2269;
+	color: white;
+}
 .project-table h1 {
 	font-family: "Montserrat", sans-serif;
 	text-align: center;

@@ -126,7 +126,7 @@ input[type="submit"],
 	background: #0f2269;
 	border: none;
 	padding: 8px 20px;
-    border-radius: 4px;
+	border-radius: 4px;
 	color: white;
 	cursor: pointer;
 }
@@ -152,7 +152,7 @@ input[type="submit"]:hover,
 }
 
 .delete {
-    background-color: #ff4f4f;
+	background-color: #ff4f4f;
 	color: white;
 	border: none;
 	border-radius: 4px;
@@ -161,7 +161,7 @@ input[type="submit"]:hover,
 }
 
 .delete:hover {
-    background-color: red;
+	background-color: red;
 }
 
 a {
@@ -178,12 +178,12 @@ button {
 	background: rgb(116, 216, 116);
 	border: none;
 	padding: 3px 20px 5px 20px;
-    border-radius: 4px;
+	border-radius: 4px;
 	color: white;
 }
 
 .addResource:hover {
-	background:  rgb(89, 189, 89);
+	background: rgb(89, 189, 89);
 	color: #fff;
 	cursor: pointer;
 }
@@ -191,11 +191,11 @@ button {
 /* icons */
 [class^="bi-"]::before,
 [class*=" bi-"]::before {
-  vertical-align: middle;
+	vertical-align: middle;
 }
 
 .bi-person-plus {
-    padding-right: 5px;
+	padding-right: 5px;
 }
 
 /*** tab ***/
@@ -227,20 +227,40 @@ button {
 	background-color: #04aa6d;
 }
 
+.overflow-container {
+	overflow-x: auto;
+}
 .project-table {
-	background-color: #b6b6b6;
-	border: 1px solid whitesmoke;
-	border-collapse: collapse;
-	margin: 10px auto;
-	font-size: 0.9em;
-	min-width: 600px;
+	white-space: nowrap;
+	background-color: #e4e9f7;
 	border-radius: 5px 5px 0 0;
-	overflow: hidden;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	border-collapse: collapse;
+	margin: 10px auto 10px 100px;
+	min-width: 600px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+}
+
+.project-table thead {
+	background-color: #0f2269;
+	color: white;
 }
 
 .project-table h1 {
 	font-family: "Montserrat", sans-serif;
+	font-size: 1em;
+	text-align: center;
+}
+
+.project-table th,
+.project-table td {
+	padding: 12px 15px;
+}
+.project-table tbody tr:nth-of-type(even) {
+	background-color: #dce4ff;
+}
+
+.centered {
+	margin: 50px auto;
 	text-align: center;
 }
 
@@ -249,21 +269,3 @@ button {
 	color: #ffffff;
 	text-align: left;
 }
-
-.project-table th,
-.project-table td {
-	padding: 12px 15px;
-}
-
-.project-table tbody tr:nth-of-type(even) {
-	background-color: #f7f7f7;
-}
-
-.centered {
-	margin: 50px auto;
-	text-align: center;
-}
-
-
-
-
