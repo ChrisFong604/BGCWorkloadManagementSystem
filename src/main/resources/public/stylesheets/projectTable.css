@@ -265,5 +265,7 @@ button {
 }
 
 
-
+#error {
+	color: rgb(216, 15, 15);
+}
 
