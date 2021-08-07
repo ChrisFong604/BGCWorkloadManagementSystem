@@ -269,3 +269,7 @@ button {
 	color: #ffffff;
 	text-align: left;
 }
+
+#error {
+	color: rgb(216, 15, 15);
+}
