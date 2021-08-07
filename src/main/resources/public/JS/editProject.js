@@ -236,7 +236,7 @@ function insertExistingResources() {
 				for (let i = 1; i <= weeks; i++) {
 					weekly_input = document.createElement("TD");
 					weekly_input.innerHTML =
-						"<input type='number' name='resource-capacity' min='0' max='1' step='0.005' class='week " +
+						"<input type='number' name='resource-capacity' min='0' max='1' step='0.005' value='0' class='week " +
 						i.toString() +
 						"' />";
 					new_resource.appendChild(weekly_input);
