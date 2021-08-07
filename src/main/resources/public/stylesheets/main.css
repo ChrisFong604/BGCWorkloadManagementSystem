@@ -121,7 +121,7 @@
 .formtemplate select:focus {
 }
 .formtemplate li > span {
-	background: #f3f3f3;
+	/*background: #f3f3f3;*/
 	display: block;
 	padding: 3px;
 	margin: 0 -9px -9px -9px;
@@ -148,18 +148,30 @@
 	color: #fff;
 }*/
 
-input[type="submit"],
-.cancel {
-	background: #2471ff;
+input[type="submit"] {
+	background: #0f2269;
 	border: none;
-	padding: 10px 20px 10px 20px;
+	padding: 8px 20px;
+	border-radius: 3px;
+	color: white;
+	cursor: pointer;
+}
+
+input[type="submit"]:hover {
+	background: #0b1a4e;
+	color: #fff;
+}
+
+.cancel {
+	background: #b6b6b6;
+	border: none;
+	padding: 8px 20px;
 	border-radius: 3px;
 	color: white;
 }
 
-input[type="submit"]:hover,
 .cancel:hover {
-	background: #6b9fff;
+	background: #949494;
 	color: #fff;
 }
 
@@ -201,6 +213,10 @@ a {
 	border-collapse: collapse;
 }
 
+.project-table thead {
+	background-color: #0f2269;
+	color: white;
+}
 .project-table h1 {
 	font-family: "Montserrat", sans-serif;
 	text-align: center;

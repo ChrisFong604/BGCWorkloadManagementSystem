@@ -6,7 +6,7 @@
 	Number of Workers: 5
 
 	Weeks Shown:
-	Week July 3, 5 
+	Week July 3, 5
 	Week July 10, 4
 	Week July 17, 7
 	Week July 24, 2
@@ -69,23 +69,35 @@
 						/>
 					</li>
 				</ul>
-				<br />
+
 				<label>Color</label>
 				<input type="color" th:field="*{color}" />
+
+				<br />
+				<br />
+				<div id="error"></div>
 			</div>
 
-			<div class="tab centered">
-				<h1 id="project-name"></h1>
-				<table id="work-table" class="project-table">
-					<thead>
-						<tr id="weeks"></tr>
-					</thead>
+			<div class="tab">
+				<div class="centered">
+					<h1 id="project-name"></h1>
+					<p style="opacity: 0.3">Resource names MUST be unique</p>
+					<button type="button" class="addResource" onclick="addResource()">
+						<i class="bi bi-person-plus"></i>Add Resource
+					</button>
+				</div>
 
-					<tbody id="resources"></tbody>
+				<div class="overflow-container">
+					<table id="work-table" class="project-table">
+						<thead>
+							<tr id="weeks"></tr>
+						</thead>
 
-					<button type="button" onclick="addResource()">Add Resource</button>
-					<button type="button" onclick="submitHandler()">Submit</button>
-				</table>
+						<tbody id="resources"></tbody>
+
+						<!--<button type="button" onclick="submitHandler()">Submit</button>-->
+					</table>
+				</div>
 			</div>
 
 			<div class="centered">
@@ -100,8 +112,11 @@
 				>
 					Previous
 				</button>
-				<button class="cancel" type="button" id="nextBtn" onclick="nextPrev(1)">
+				<button class="next" type="button" id="nextBtn" onclick="nextPrev(1)">
 					Next
+				</button>
+				<button type="button" id="submitBtn" onclick="submitHandler()">
+					Submit
 				</button>
 			</div>
 

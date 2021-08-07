@@ -6,7 +6,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" /> -->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/allEmployees.css" /> 
+    <link rel="stylesheet" type="text/css" href="/stylesheets/manager.css" />
     <title>New Managers</title>
 </head>
 
@@ -18,59 +20,127 @@
     <div class="text">Users</div>
 
       <form action="#" method="post" th:action="@{/manager/create}" th:object="${user}" class="formtemplate">
-        <h1>Create a user</h1>
-        <ul>
-        <li>
-          <label for="uName">Create Username</label> <br>
-          <input type="text" id="uName" required th:field="*{username}"> <br>
-        </li>
+        <h1>Create New user</h1>
 
-        <li>
-          <label for="pwd">Create Password</label> <br>
-          <input type="password" id="pwd" required th:field="*{password}"> <br>
-        </li>
-        <li>
-          <label>Type of Access</label> 
-          <select name="access" id="access">
-              <optgroup th:field=*{access}>
-                <option value="">Select...</option>
-                  <option value="read">Read only</option>
-                  <option value="edit">Edit</option>
-              </optgroup>
-          </select>
-        </li>
+        <fieldset>
+          <legend>Create Username</legend>
+          <input type="text" th:field="*{username}" id="uName" required>
+        </fieldset>          
 
-        <li>
+        <fieldset>
+          <legend>Create Password</legend>
+          <input type="password" th:field="*{password}" id="password" required>
+        </fieldset>  
+
+        <fieldset>
+          <legend>Type of Access</legend>
+          <select name="access" th:field="*{access}" id="access" required>
+              <option value="">Select...</option>
+              <option value="read">Read only</option>
+              <option value="edit">Edit</option>
+          </select>        
+        </fieldset>
+
+        <div class="submit-btn">
           <input type="submit" value="Submit">
-          <button><a th:href="@{/manager/create}">Cancel</a></button>
-        </li>
-        </ul>
+        </div>
+
       </form>
 
-      <table>
 
-          <thead>
-            <tr>
-              <th>Name</th>
+      <div class="search-content">
+				<div class="search-form">
+					<span class="form">
+						<div class="search">
+							<label>Search by</label>
+							<select name="filterBy" id="filterBy" required>
+								<option selected disabled value="">Select...</option>
+								<option value="name">Name</option>
+								<option value="typeOfAccess">Type of Access</option>
+							</select>
+						</div>
+
+						<div class="value">
+							<label>Search value</label> <br />
+							<input type="text" id="value" />
+							<button class="clear" id="clearbtn">Clear</button>
+						</div>
+					</span>
+				</div>
+			</div>
+
+			<div class="data-table">
+				<table id="myTable">
+					<thead>
+						<tr>
+							<th>Name</th>
               <th>Type of Access</th>
-            </tr>
-          </thead>
-    
-          <tr th:each="manager : ${managers}">
+              <th>Action</th>
+						</tr>
+					</thead>
+
+					<tbody>
+            <tr th:each="manager : ${managers}">
               <td th:text="${manager.username}"></td>
               <td th:text="${manager.access}"></td>
-    
-              <!-- <td>
-                <button><a>Edit</a></button>
-              </td> -->
 
               <td>
-                <button><a th:href="@{/manager/deleted?m_id={id}(id=${manager.getID()})}"><i class="bi bi-trash"></i>Delete</a></button>
+                <button class="trigger action delete"><a th:href="@{/manager/deleted?m_id={id}(id=${manager.getID()})}"><i class="bi bi-trash"></i></a></button>
               </td> 
-          </tr>
-      </table>
+            </tr>
+					</tbody>
+				</table>
+			</div>
       
   </section>
+
+  <script>
+    let attr;
+    let filterBy = document.getElementById("filterBy");
+    filterBy.addEventListener("click", getAttribute);
+
+    let value = document.getElementById("value");
+    value.addEventListener("keyup", getFilter);
+
+    let clearButton = document.getElementById("clearbtn");
+    clearButton.addEventListener("click", clear);
+
+    function getAttribute() {
+      let val = filterBy.value;
+      //console.log(val);
+      if (val == "name") {
+        attr = 0;
+      } else if (val == "typeOfAccess") {
+        attr = 1;
+      } else {
+        attr = 2;
+      }
+      //console.log(attr);
+      filterBy.addEventListener("click", getFilter);
+    }
+
+    function getFilter() {
+      if (attr == 2) {
+        return;
+      }
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("value");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[attr];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  </script>
 
 </body>
 </html>

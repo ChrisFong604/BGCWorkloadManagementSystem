@@ -128,11 +128,15 @@
 						th:attr="value = ${employee.id}"
 						readonly
 					/>
+				
+					<li>
+						<span class="buttons">
+							<button class="cancel"><a th:href="@{/employees}">Cancel</a></button>
+							<input type="submit" value="Save" />
+						</span>
+					</li>
 				</ul>
-				<div class="buttons">
-					<input type="submit" value="Save" />
-					<button class="cancel"><a th:href="@{/employees}">Cancel</a></button>
-				</div>
+				
 			</form>
 		</section>
 

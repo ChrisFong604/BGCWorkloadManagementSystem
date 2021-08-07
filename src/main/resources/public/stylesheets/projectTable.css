@@ -31,11 +31,11 @@
 	margin-bottom: 30px;
 	border-radius: 3px;
 }
-.formtemplate li:last-child {
+/*.formtemplate li:last-child {
 	border: none;
 	margin-bottom: 0px;
 	text-align: center;
-}
+}*/
 .formtemplate li > label {
 	display: block;
 	float: left;
@@ -115,25 +115,90 @@
 	color: #fff;
 }*/
 
+::placeholder {
+	text-align: center;
+}
+
+/*** buttons ***/
 input[type="submit"],
-.cancel {
-	background: #2471ff;
+.next,
+#submitBtn {
+	background: #0f2269;
 	border: none;
-	padding: 10px 20px 10px 20px;
-	border-radius: 3px;
+	padding: 8px 20px;
+	border-radius: 4px;
 	color: white;
+	cursor: pointer;
 }
 
 input[type="submit"]:hover,
-.cancel:hover {
-	background: #6b9fff;
+.next:hover,
+#submitBtn:hover {
+	background: #0b1a4e;
 	color: #fff;
+}
+
+.cancel {
+	background: #b6b6b6;
+	border: none;
+	padding: 8px 20px;
+	border-radius: 4px;
+	color: white;
+}
+
+.cancel:hover {
+	background: #949494;
+	color: #fff;
+}
+
+.delete {
+	background-color: #ff4f4f;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	padding: 5px 8px;
+	margin-right: 8px;
+}
+
+.delete:hover {
+	background-color: red;
 }
 
 a {
 	text-decoration: none;
 	color: white;
 }
+
+button {
+	cursor: pointer;
+	margin: 0 2px;
+}
+
+.addResource {
+	background: rgb(116, 216, 116);
+	border: none;
+	padding: 3px 20px 5px 20px;
+	border-radius: 4px;
+	color: white;
+}
+
+.addResource:hover {
+	background: rgb(89, 189, 89);
+	color: #fff;
+	cursor: pointer;
+}
+
+/* icons */
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+	vertical-align: middle;
+}
+
+.bi-person-plus {
+	padding-right: 5px;
+}
+
+/*** tab ***/
 
 /* Hide all steps by default: */
 .tab {
@@ -162,20 +227,44 @@ a {
 	background-color: #04aa6d;
 }
 
+.overflow-container {
+	overflow-x: auto;
+	width: 1200px;
+	margin: auto;
+	margin-top: 50px;
+	max-width: 100%;
+}
 .project-table {
-	background-color: #b6b6b6;
-	border: 1px solid whitesmoke;
-	border-collapse: collapse;
-	margin: 10px auto;
-	font-size: 0.9em;
-	min-width: 600px;
+	white-space: nowrap;
+	background-color: #e4e9f7;
 	border-radius: 5px 5px 0 0;
-	overflow: hidden;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	border-collapse: collapse;
+	margin: auto;
+	min-width: 600px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+}
+
+.project-table thead {
+	background-color: #0f2269;
+	color: white;
 }
 
 .project-table h1 {
 	font-family: "Montserrat", sans-serif;
+	font-size: 1em;
+	text-align: center;
+}
+
+.project-table th,
+.project-table td {
+	padding: 12px 15px;
+}
+.project-table tbody tr:nth-of-type(even) {
+	background-color: #dce4ff;
+}
+
+.centered {
+	margin: 50px auto;
 	text-align: center;
 }
 
@@ -185,16 +274,6 @@ a {
 	text-align: left;
 }
 
-.project-table th,
-.project-table td {
-	padding: 12px 15px;
-}
-
-.project-table tbody tr:nth-of-type(even) {
-	background-color: #f7f7f7;
-}
-
-.centered {
-	margin: 50px auto;
-	text-align: center;
+#error {
+	color: rgb(216, 15, 15);
 }
