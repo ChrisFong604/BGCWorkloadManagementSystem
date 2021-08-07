@@ -78,9 +78,15 @@
 				<div id="error"></div>
 			</div>
 
-			<div class="tab centered">
-				<h1 id="project-name"></h1>
-				<p style="opacity: 0.3">Resource names MUST be unique</p>
+			<div class="tab">
+				<div class="centered">
+					<h1 id="project-name"></h1>
+					<p style="opacity: 0.3">Resource names MUST be unique</p>
+					<button type="button" class="addResource" onclick="addResource()">
+						<i class="bi bi-person-plus"></i>Add Resource
+					</button>
+				</div>
+
 				<div class="overflow-container">
 					<table id="work-table" class="project-table">
 						<thead>
@@ -89,9 +95,6 @@
 
 						<tbody id="resources"></tbody>
 
-						<button type="button" class="addResource" onclick="addResource()">
-							<i class="bi bi-person-plus"></i>Add Resource
-						</button>
 						<!--<button type="button" onclick="submitHandler()">Submit</button>-->
 					</table>
 				</div>
