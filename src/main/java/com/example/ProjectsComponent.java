@@ -184,7 +184,7 @@ public class ProjectsComponent {
 
 			String sql = "UPDATE projects SET " + "name='" + project.getName() + "', " + "startdate='"
 					+ project.getStart() + "', " + "enddate= '" + project.getEnd() + "', " + "capacities='"
-					+ project.getCapacities() + "', " + "capacities2='" + project.getCapacities2() + "', "
+					+ project.getCapacities() + "', " + "color='" +project.getColor() + "', " + "capacities2='" + project.getCapacities2() + "', "
 					+ "resources='" + project.getResources() + "' " + "WHERE id = '" + project.getId() + "';";
 
 			stmt.executeUpdate(sql);

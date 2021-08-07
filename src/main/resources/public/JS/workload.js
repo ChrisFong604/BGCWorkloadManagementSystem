@@ -200,7 +200,7 @@ for (i = 0; i < projects.length; i++){
     for (g = 0; g < weeklydates.length; g++){
         dataarr.push(0);
     }
-    //console.log("COUNTER ---------------> " + counter);
+    console.log("COUNTER ---------------> " + counter);
     //console.log("WHY NOT GO INTO else IF?!?!?!");
     //console.log("dpsd > weeklydates[0]" + dpsd + " > " + weeklydates[0]);
     //console.log("dped > weeklydates[weeklydates.length-1]" + dped + " > " + weeklydates[weeklydates.length-1]);
