@@ -296,14 +296,14 @@ for (i = 0; i < projects.length; i++){
     //if project start date is before graph and end date is within graph 
     else if((dpsd < weeklydates[0] && dped < weeklydates[weeklydates.length-1]) && (dped > weeklydates[0]) ){
 
-        let counter2 = 1;
+        let counter2 = 0;
         for (var d = new Date(psd[0], psd[1]-1, psd[2]); d < weeklydates[0]; d.setDate(d.getDate() + parseInt(7))) {
             counter2 += 1;
         }
         let a = 0;
-        console.log("BEFORE FOR LOOP")
+        //console.log("BEFORE FOR LOOP")
         console.log("THIS IS COUNTER2 -------------> " + counter2);
-        console.log("THIS IS COUNTER ------------> " + counter);
+        //console.log("THIS IS COUNTER ------------> " + counter);
         /*for (u = counter2; u < counter; u++){
             console.log("INSIDE FOR LOOP")
             dataarr[a] = cap["week" + (u).toString()];
@@ -314,7 +314,11 @@ for (i = 0; i < projects.length; i++){
         }
         */
         let u = counter2;
-        while(cap["week" + (u).toString()] != null){
+        console.log("THIS IS U -------------> " + u);
+        console.log("THIS IS COUNTER INSIDE ELSE IF  -------------> " + counter);
+        while(u < counter){
+            console.log("INSIDE WHILE AND T HIS IS CAP ======>  " + cap["week" + (u).toString()])
+            console.log("AND THIS IS A ======>  " + a)
             dataarr[a] = cap["week" + (u).toString()];
             u++;
             a++;

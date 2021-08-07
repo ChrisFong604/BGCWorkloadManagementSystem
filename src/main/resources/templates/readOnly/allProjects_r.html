@@ -55,7 +55,11 @@
 					<td th:text="${project.end}"></td>
 					
 					<td>
-						<button class="action view"><i class="bi bi-eye-fill"></i></button>
+						<button class="action view">
+							<a th:href="@{/projects/view?pid={id}(id=${project.id})}">
+								<i class="bi bi-eye-fill"></i>
+							</a>
+						</button>
 					</td>
 					</tr>
 				</tbody>
