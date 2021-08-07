@@ -138,7 +138,7 @@ let myChart = new Chart(workload, {
                 //stacked: true,
                 title: {
                     display: true,
-                    text: "Work Capacity",
+                    text: "Project and Employee Work Capacities",
                     font: {
                         size: 25
                     },
@@ -149,7 +149,7 @@ let myChart = new Chart(workload, {
                 stacked: true,
                 title: {
                     display: true,
-                    text: "Projects",
+                    text: "Date",
                     font: {
                         size: 25
                     }
